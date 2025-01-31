@@ -2,6 +2,8 @@ package ConectionFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ConnectionDatabase {
@@ -34,7 +36,32 @@ public static void closeConnection(Connection con) {
 		e.printStackTrace();
 	}
 		System.out.println("Conexao fechada!");
+}
+		public static void closeConnection(Connection con, PreparedStatement stmt) {
+			closeConnection(con);
+				try {
+					if (stmt != null) {
+					stmt.close();
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+
+	
+public static void closeConnection(Connection con, PreparedStatement stmt, ResultSet rs ) {
 	
 	
+	try {
+		if (rs !=null);
+		rs.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 }
 }
+
+
+
