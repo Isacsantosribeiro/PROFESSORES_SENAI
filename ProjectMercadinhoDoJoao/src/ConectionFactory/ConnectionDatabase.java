@@ -8,9 +8,14 @@ import java.sql.SQLException;
 
 public class ConnectionDatabase {
 private static final  String  Driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-private static final String URL = "jdbc:sqlserver://localhost:50054;encrypt=false;databaseName=MERCADO;user=sa;password=Senailab05";
+private static final String URL = "jdbc:sqlserver://localhost:50054;encrypt=false;databaseName=Mercadinho;user=sa;password=Senailab05";
 private static final String user = "sa";
 private static final String password = "Senailab05";
+/**
+ * metodo responsavel por conectar ao banco de dados 
+ * @return
+ * Sem retorno
+ */
 	
 public static Connection getConnection(){
 	try {
@@ -23,7 +28,10 @@ throw new RuntimeException("Ero ao conectar!",e);
 	}
 		
 }
-
+/**
+ * metodo responsavel por fechar a conexão com banco de dados 
+ * @param con - objeto do tipo Connection que sera fechado 
+ */
 
 public static void closeConnection(Connection con) {
 
@@ -37,6 +45,11 @@ public static void closeConnection(Connection con) {
 	}
 		System.out.println("Conexao fechada!");
 }
+/**
+ * Sobrecarga do metodo responsavel por fechar a conexão com bamco de dados 
+ * @param con - con objeto do tipo connection que sera fechado 
+ * @param stmt - objeto do tipo preparedstation que sera fechado.
+ */
 		public static void closeConnection(Connection con, PreparedStatement stmt) {
 			closeConnection(con);
 				try {
@@ -48,10 +61,16 @@ public static void closeConnection(Connection con) {
 					e.printStackTrace();
 				}
 		}
+		/**
+		 * Sobrecarga do metodo responsavel por fechar a conexão com bamco de dados 
+		 * @param con - con objeto do tipo connection que sera fechado
+		 * @param stmt - objeto do tipo preparedstation que sera fechado.
+		 * @param rs - objeto do topo resultset que sera fechado.
+		 */
 
 	
 public static void closeConnection(Connection con, PreparedStatement stmt, ResultSet rs ) {
-	
+	closeConnection(con,stmt);
 	
 	try {
 		if (rs !=null);
