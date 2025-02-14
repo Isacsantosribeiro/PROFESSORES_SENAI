@@ -11,8 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="666.0" prefWidth="731.0" style="-fx-background-color: LightSlateGray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="666.0" prefWidth="731.0" style="-fx-background-color: LightSlateGray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.controllerLogin">
    <children>
       <ImageView fitHeight="690.0" fitWidth="740.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -22,15 +21,15 @@
             <Rectangle2D height="666.0" width="720.0" />
          </viewport>
       </ImageView>
-      <Pane layoutX="164.0" layoutY="121.0" prefHeight="438.0" prefWidth="390.0" style="-fx-background-color: DimGray; -fx-background-radius: 15;">
+      <Pane layoutX="175.0" layoutY="121.0" prefHeight="438.0" prefWidth="390.0" style="-fx-background-color: DimGray; -fx-background-radius: 15;">
          <children>
-            <Button layoutX="165.0" layoutY="323.0" mnemonicParsing="false" text="ENTRAR" textOverrun="LEADING_ELLIPSIS">
+            <Button fx:id="btLogin" layoutX="165.0" layoutY="323.0" mnemonicParsing="false" onAction="#actionLogin" text="ENTRAR" textOverrun="LEADING_ELLIPSIS">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <TextField layoutX="120.0" layoutY="134.0" promptText="LOGIN" />
-            <PasswordField layoutX="120.0" layoutY="219.0" promptText="*************" />
+            <TextField fx:id="txtUser" layoutX="120.0" layoutY="134.0" promptText="LOGIN" />
+            <PasswordField fx:id="txtPassword" layoutX="120.0" layoutY="219.0" promptText="*************" />
             <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="179.0" layoutY="104.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Icons/fa6-solid_user.png" />

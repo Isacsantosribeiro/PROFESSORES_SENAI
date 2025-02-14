@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import ConectionFactory.ConnectionDatabase;
 import Model.Funcionario;
+import Util.Alerts;
+import javafx.scene.control.Alert.AlertType;
 
 public class FuncionarioDAO {
 
@@ -117,6 +119,47 @@ public class FuncionarioDAO {
             throw new RuntimeException("Erro ao excluir o funcionário!", e);
         } finally {
             ConnectionDatabase.closeConnection(con, stmt);
+        
         }
     }
+    
+	
+	public Funcionario autenticarUser(String cpf, String senha) {
+		Connection con = ConnectionDatabase.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		Funcionario funcionario = new Funcionario ();
+		
+		try {
+			stmt = con.prepareStatement("select * from Funcionario where cpfFuncionario = ? and senha = ?");
+			stmt.setString(1, cpf);
+			stmt.setString(2, senha);
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+			funcionario.setId(rs.getString(1));						
+			funcionario.setNome(rs.getString(2));
+			funcionario.setCpf(rs.getString(3));
+			funcionario.setDataDeNascimento(rs.getString(4));
+			funcionario.setEmail(rs.getString(5));
+			funcionario.setGenero(rs.getString(6));
+			funcionario.setEndereco(rs.getString(7));
+			funcionario.setTelefone(rs.getString(8));
+			funcionario.setCargo(rs.getString(9));
+			funcionario.setSalario(rs.getString(10));
+			funcionario.setDataDeAdimissao(rs.getString(11));
+			funcionario.setSenha(rs.getString(12));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			Alerts.showAlert("Erro", "Erro de conexao", "Falha ao consultar informações no banco de dados", AlertType.ERROR);
+			throw new RuntimeException("Erro de autenticação", e);
+		}finally {
+			ConnectionDatabase.closeConnection(con, stmt, rs);
+		}
+		
+		return funcionario;
+	}
 }
+

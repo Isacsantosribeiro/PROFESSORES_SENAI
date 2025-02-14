@@ -15,31 +15,56 @@ import Model.Produto;
 import Model.ProdutoVenda;
 import Model.Venda;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
+	private static Stage stage;
+	private static Scene Login;
+	private static Scene main;
+	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
+			stage = primaryStage;
+			primaryStage.setTitle("Mercadinho - Login");
+			
+			Parent fxmlLogin = FXMLLoader.load(getClass().getResource("/View/viewLogin.fxml"));
+			Login = new Scene(fxmlLogin);
+			
+			
+			Parent fxmlMain = FXMLLoader.load(getClass().getResource("/View/viewMain.fxml"));
+			main = new Scene(fxmlMain);
+			
+			
+			
+			
+			primaryStage.setScene(Login);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public static void changeScreen(String tela) {
+		if(tela.equals("main")) {
+			stage.setScene(main);
+			stage.centerOnScreen();
+			stage.setTitle("Menu pricipal");
+		}
+	}
+
+	
 	public static void main(String[] args) {
 		Connection con = ConnectionDatabase.getConnection();
 		ConnectionDatabase.closeConnection(con);
 		
 		
-//   metodode pesquisa 
+//   metodo de pesquisa 
 		
 	Cliente cliente = new Cliente();
 	ClienteDAO clienteDAO = new ClienteDAO();
