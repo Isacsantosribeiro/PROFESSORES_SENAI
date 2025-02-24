@@ -161,5 +161,30 @@ public class FuncionarioDAO {
 		
 		return funcionario;
 	}
+	
+	public String getTotalVendido(String id) {
+		Connection con = ConnectionDatabase.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String TotalVendido = null;
+		
+		
+		try { 
+			stmt = con.prepareStatement("select SUM(precoTotal) as TotalVendido from Venda where FK_idFuncionario = ?");
+			stmt.setString(1, id);
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				TotalVendido = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			Alerts.showAlert("Erro!", "Erro de conexão!", "Falha ao consultar informações no banco de dados", AlertType.ERROR);
+			throw new RuntimeException("Erro!",e);
+		}finally {
+			ConnectionDatabase.closeConnection(con,stmt,rs);
+
+		}
+		return TotalVendido;
+	}
 }
 

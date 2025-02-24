@@ -1,5 +1,6 @@
 package application;
 	
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 
 
@@ -33,14 +35,15 @@ public class Main extends Application {
 			stage = primaryStage;
 			primaryStage.setTitle("Mercadinho - Login");
 			
-			Parent fxmlLogin = FXMLLoader.load(getClass().getResource("/View/viewLogin.fxml"));
-			Login = new Scene(fxmlLogin);
-			
-			
-			Parent fxmlMain = FXMLLoader.load(getClass().getResource("/View/viewMain.fxml"));
-			main = new Scene(fxmlMain);
-			
-			
+		Parent fxmlLogin = FXMLLoader.load(getClass().getResource("/View/viewLogin.fxml"));
+		Login = new Scene(fxmlLogin);
+////			
+//		Parent fxmlMain = FXMLLoader.load(getClass().getResource("/View/viewMain.fxml"));
+//    	main = new Scene(fxmlMain);
+		
+		stage.getIcons().add(new Image (getClass().getResourceAsStream("/Icons/images.png")));
+//			
+//			
 			
 			
 			primaryStage.setScene(Login);
@@ -55,7 +58,24 @@ public class Main extends Application {
 			stage.setScene(main);
 			stage.centerOnScreen();
 			stage.setTitle("Menu pricipal");
+		}else if (tela.equals("Login")) {
+			stage.setScene(Login);
+			stage.centerOnScreen();
+			stage.setTitle("Mercadinho - Login");
 		}
+	}
+	
+	public static void TelaHome() throws IOException {
+		FXMLLoader fxmlHome = new FXMLLoader();
+		fxmlHome.setLocation(Main.class.getResource("/View/viewMain.fxml"));
+		Parent TelaHome = fxmlHome.load();
+		main = new Scene(TelaHome);
+		
+		
+		stage.setScene(main);
+		stage.setResizable(false);
+		stage.centerOnScreen();
+		stage.show();
 	}
 
 	

@@ -120,6 +120,94 @@ public class ProdutoDAO {
             throw new RuntimeException("Erro ao excluir o produto!", e);
         } finally {
             ConnectionDatabase.closeConnection(con, stmt);
+        
         }
     }
+
+
+    
+
+
+
+public ArrayList<Produto> getByEstoque() {
+    Connection con = ConnectionDatabase.getConnection();
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    ArrayList<Produto> produtos = new ArrayList<>();
+    
+    try {
+        stmt = con.prepareStatement("select * from  Produto where estoque <15;");
+        rs = stmt.executeQuery();
+        
+        int i = 1;
+        
+        while (rs.next()) {
+            Produto produto = new Produto();
+            produto.setIdProduto(""+1);
+            produto.setCodBarra(rs.getString(4));
+            produto.setIdfornecedor(rs.getString(2));
+            produto.setNome(rs.getString(3));
+            produto.setLote(rs.getString(5));
+            produto.setDataFab(rs.getString(6));
+            produto.setDataVal(rs.getString(7));
+            produto.setMarca(rs.getString(8));
+            produto.setCategoria(rs.getString(9));
+            produto.setUnidadeDeMedida(rs.getString(10));
+            produto.setPrecoUnitario(rs.getString(11));
+            produto.setEstoque(rs.getString(12));
+            i++;
+            
+            produtos.add(produto);
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException("Erro ao ler os produtos!", e);
+    } finally {
+        ConnectionDatabase.closeConnection(con, stmt, rs);
+    }
+    
+    return produtos;
+    
+}
+        
+
+
+public ArrayList<Produto> getByDataVal() {
+    Connection con = ConnectionDatabase.getConnection();
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    ArrayList<Produto> produtos = new ArrayList<>();
+    
+    try {
+        stmt = con.prepareStatement("select * from Produto where DATEDIFF (DD, GETDATE(), dataVal) <60 order by dataVal");
+        rs = stmt.executeQuery();
+        
+        int i = 1;
+        
+        while (rs.next()) {
+            Produto produto = new Produto();
+            produto.setIdProduto(""+1);
+            produto.setCodBarra(rs.getString(4));
+            produto.setIdfornecedor(rs.getString(2));
+            produto.setNome(rs.getString(3));
+            produto.setLote(rs.getString(5));
+            produto.setDataFab(rs.getString(6));
+            produto.setDataVal(rs.getString(7));
+            produto.setMarca(rs.getString(8));
+            produto.setCategoria(rs.getString(9));
+            produto.setUnidadeDeMedida(rs.getString(10));
+            produto.setPrecoUnitario(rs.getString(11));
+            produto.setEstoque(rs.getString(12));
+            i++;
+            
+            produtos.add(produto);
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException("Erro ao ler os produtos!", e);
+    } finally {
+        ConnectionDatabase.closeConnection(con, stmt, rs);
+    }
+    
+    return produtos;
+    
+}
 }
