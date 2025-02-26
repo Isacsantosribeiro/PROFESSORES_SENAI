@@ -8,12 +8,12 @@ import ConectionFactory.ConnectionDatabase;
 import DAO.ClienteDAO;
 import DAO.FornecedorDAO;
 import DAO.ProdutoDAO;
-import DAO.ProdutoVendaDAO;
+
 import DAO.VendaDAO;
 import Model.Cliente;
 import Model.Fornecedor;
 import Model.Produto;
-import Model.ProdutoVenda;
+
 import Model.Venda;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -35,15 +35,15 @@ public class Main extends Application {
 			stage = primaryStage;
 			primaryStage.setTitle("Mercadinho - Login");
 			
-		Parent fxmlLogin = FXMLLoader.load(getClass().getResource("/View/viewLogin.fxml"));
-		Login = new Scene(fxmlLogin);
-////			
-//		Parent fxmlMain = FXMLLoader.load(getClass().getResource("/View/viewMain.fxml"));
-//    	main = new Scene(fxmlMain);
-		
-		stage.getIcons().add(new Image (getClass().getResourceAsStream("/Icons/images.png")));
-//			
-//			
+			Parent fxmlLogin = FXMLLoader.load(getClass().getResource("/View/viewLogin.fxml"));
+			Login = new Scene(fxmlLogin);
+			
+			
+			//Parent fxmlMain = FXMLLoader.load(getClass().getResource("/View/viewMain.fxml"));
+			//main = new Scene(fxmlMain);
+			
+			stage.getIcons().add(new Image (getClass().getResourceAsStream("/Icons/images.png")));
+			
 			
 			
 			primaryStage.setScene(Login);
@@ -58,7 +58,7 @@ public class Main extends Application {
 			stage.setScene(main);
 			stage.centerOnScreen();
 			stage.setTitle("Menu pricipal");
-		}else if (tela.equals("Login")) {
+		}else if(tela.equals("login")) {
 			stage.setScene(Login);
 			stage.centerOnScreen();
 			stage.setTitle("Mercadinho - Login");
@@ -77,7 +77,19 @@ public class Main extends Application {
 		stage.centerOnScreen();
 		stage.show();
 	}
-
+	
+	public static void TelaCliente() throws IOException {
+		FXMLLoader fxmlCliente = new FXMLLoader();
+		fxmlCliente.setLocation(Main.class.getResource("/View/viewCliente.fxml"));
+		Parent TelaCliente = fxmlCliente.load();
+		main = new Scene(TelaCliente);
+		
+		
+		stage.setScene(main);
+		stage.setResizable(false);
+		stage.centerOnScreen();
+		stage.show();
+		}
 	
 	public static void main(String[] args) {
 		Connection con = ConnectionDatabase.getConnection();
