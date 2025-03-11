@@ -17,6 +17,7 @@ import Model.Produto;
 import Model.Venda;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -90,6 +91,41 @@ public class Main extends Application {
 		stage.centerOnScreen();
 		stage.show();
 		}
+	
+	private static Stage cadCliente;
+	public static void TelaCadastroCliente() throws IOException{
+		FXMLLoader fxmlCadastroCliente = new FXMLLoader();
+		fxmlCadastroCliente.setLocation(Main.class.getResource("/View/viewCadastroCliente.fxml"));
+		Parent cadastroCliente = fxmlCadastroCliente.load();
+		Scene  scene2 = new Scene(cadastroCliente);
+		
+		
+		cadCliente = new Stage();
+		cadCliente.setTitle("Cadastro/Edição de Cliente-Mercadinho");
+		cadCliente.initModality(Modality.WINDOW_MODAL);
+		cadCliente.setScene(scene2);
+		cadCliente.centerOnScreen();
+		cadCliente.showAndWait();
+		
+		
+	}
+	
+	private static Stage venda;
+	public static void TelaRegistroVenda() throws IOException{
+		FXMLLoader fxmlRegistarVenda = new FXMLLoader();
+		fxmlRegistarVenda.setLocation(Main.class.getResource("/View/viewRegistrarVenda.fxml"));
+		Parent registrarVenda = fxmlRegistarVenda.load();
+		Scene  scene2 = new Scene(registrarVenda);
+		
+		
+		venda = new Stage();
+		venda.setTitle("Cadastro/Edição de Cliente-Mercadinho");
+		venda.initModality(Modality.WINDOW_MODAL);
+		venda.setScene(scene2);
+		venda.centerOnScreen();
+		venda.showAndWait();
+	}
+	
 	
 	public static void main(String[] args) {
 		Connection con = ConnectionDatabase.getConnection();

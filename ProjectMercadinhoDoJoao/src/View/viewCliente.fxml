@@ -41,7 +41,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="-38.0" layoutY="155.0" mnemonicParsing="false" onAction="#telaVenda" prefHeight="103.0" prefWidth="208.0">
+      <Button fx:id="btVenda" layoutX="-38.0" layoutY="155.0" mnemonicParsing="false" onAction="#telaVenda" prefHeight="103.0" prefWidth="208.0">
          <graphic>
             <ImageView fx:id="btVenda" fitHeight="95.0" fitWidth="194.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -86,7 +86,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <TableView fx:id="TableClientes" layoutX="187.0" layoutY="276.0" prefHeight="332.0" prefWidth="646.0" style="-fx-border-color: BLACK;">
+      <TableView fx:id="TableClientes" layoutX="189.0" layoutY="281.0" prefHeight="332.0" prefWidth="646.0" style="-fx-border-color: BLACK;">
         <columns>
           <TableColumn fx:id="columnIndice" prefWidth="47.20001220703125" text="ID" />
           <TableColumn fx:id="columnNome" prefWidth="73.59999084472656" text="NOME" />
@@ -108,13 +108,13 @@
             <Font name="Arial Black" size="12.0" />
          </font>
       </Text>
-      <TextField layoutX="189.0" layoutY="194.0" prefHeight="26.0" prefWidth="362.0" promptText="DIGITE UM NOME OU CPF" style="-fx-border-color: BLACK;" />
-      <Button fx:id="btPesquisar" layoutX="571.0" layoutY="194.0" mnemonicParsing="false" style="-fx-background-color: MediumSeaGreen;" text="PESQUISAR">
+      <TextField fx:id="txtPesquisar" layoutX="189.0" layoutY="194.0" prefHeight="26.0" prefWidth="362.0" promptText="DIGITE UM NOME OU CPF" style="-fx-border-color: BLACK;" />
+      <Button fx:id="btPesquisar" layoutX="571.0" layoutY="194.0" mnemonicParsing="false" onAction="#actionPesquisar" style="-fx-background-color: MediumSeaGreen;" text="PESQUISAR">
          <font>
             <Font name="Arial Black" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="btEditar" layoutX="319.0" layoutY="232.0" mnemonicParsing="false" style="-fx-background-color: Yellow;" text="EDITAR">
+      <Button fx:id="btEditar" layoutX="325.0" layoutY="232.0" mnemonicParsing="false" onAction="#actionEditar" style="-fx-background-color: Yellow;" text="EDITAR">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -124,7 +124,7 @@
             <Font name="Arial Black" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="btEditar" layoutX="187.0" layoutY="232.0" mnemonicParsing="false" style="-fx-background-color: MediumSeaGreen;" text="CADASTRAR">
+      <Button fx:id="btEditar" layoutX="187.0" layoutY="232.0" mnemonicParsing="false" onAction="#actionCadastrar" style="-fx-background-color: MediumSeaGreen;" text="CADASTRAR">
          <font>
             <Font name="Arial Black" size="12.0" />
          </font>

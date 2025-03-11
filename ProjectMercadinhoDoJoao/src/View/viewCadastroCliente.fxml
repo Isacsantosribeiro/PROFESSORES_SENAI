@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane layoutX="-1.0" layoutY="2.0" prefHeight="480.0" prefWidth="720.0" style="-fx-background-color: DimGray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.controllerCadastroCliente">
+   <children>
+      <Line endX="462.79998779296875" layoutX="236.0" layoutY="89.0" startX="-180.3999786376953" strokeMiterLimit="20.0" strokeWidth="3.0" />
+      <Text layoutX="52.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="NOME*">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtNome" layoutX="52.0" layoutY="122.0" prefHeight="27.0" prefWidth="253.0" promptText="############" style="-fx-border-color: BLACK;" />
+      <Button fx:id="btCancelar" layoutX="375.0" layoutY="406.0" mnemonicParsing="false" onAction="#actionCancelar" style="-fx-background-color: Red;" text="CANCELAR">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="btCadastrar" layoutX="179.0" layoutY="406.0" mnemonicParsing="false" onAction="#actionCadastrar" style="-fx-background-color: MediumSeaGreen;" text="CADASTRAR">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Button>
+      <Text layoutX="300.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CADASTRO DE CLIENTES ">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtCpf" layoutX="415.0" layoutY="122.0" prefHeight="27.0" prefWidth="253.0" promptText="##########" style="-fx-border-color: BLACK;" />
+      <Text layoutX="415.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CPF*">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <DatePicker fx:id="dpDataNasc" layoutX="51.0" layoutY="258.0" />
+      <Text layoutX="51.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DATA DE NASCIMENTO*">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtEmail" layoutX="415.0" layoutY="183.0" prefHeight="27.0" prefWidth="253.0" promptText="\@----@" style="-fx-border-color: BLACK;" />
+      <Text layoutX="415.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-MAIL">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtTelefone" layoutX="54.0" layoutY="183.0" prefHeight="27.0" prefWidth="253.0" promptText="000-00000-000" style="-fx-border-color: BLACK;" />
+      <Text layoutX="54.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TELEFONE*">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <ChoiceBox fx:id="choiceGenero" layoutX="415.0" layoutY="254.0" prefWidth="150.0" />
+      <Text layoutX="413.0" layoutY="245.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GENERO*">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtEndereco" layoutX="54.0" layoutY="325.0" prefHeight="27.0" prefWidth="366.0" promptText="############" style="-fx-border-color: BLACK;" />
+      <Text layoutX="54.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ENDERECO*">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>

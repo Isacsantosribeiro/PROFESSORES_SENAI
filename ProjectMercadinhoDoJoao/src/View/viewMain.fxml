@@ -40,9 +40,9 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button layoutX="-43.0" layoutY="155.0" mnemonicParsing="false" prefHeight="103.0" prefWidth="208.0">
+      <Button layoutX="-43.0" layoutY="155.0" mnemonicParsing="false" onAction="#telaVenda" prefHeight="103.0" prefWidth="208.0">
          <graphic>
-            <ImageView fx:id="btVenda" fitHeight="95.0" fitWidth="238.0" onDragDetected="#telaVenda" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="btVenda" fitHeight="95.0" fitWidth="238.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../Images/image%206.png" />
                </image>

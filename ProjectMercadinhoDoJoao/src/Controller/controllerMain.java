@@ -120,7 +120,7 @@ public class controllerMain implements Initializable{
 
 	    @FXML
 	    void telaMain(ActionEvent event) {
-	   
+	    	
 	    }
 
 	    @FXML
@@ -139,8 +139,8 @@ public class controllerMain implements Initializable{
 	    }
 
 	    @FXML
-	    void telaVenda(MouseEvent event) {
-
+	    void telaVenda(ActionEvent event) throws IOException {
+	    	Main.TelaRegistroVenda();
 	    }
 
 	

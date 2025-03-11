@@ -1,5 +1,6 @@
 package Controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -8,6 +9,7 @@ import DAO.ClienteDAO;
 import Model.Cliente;
 import Model.Produto;
 import Util.Alerts;
+import application.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -113,7 +115,12 @@ public class controllerCliente implements Initializable{
     	
     }
     
-    
+    @FXML
+    void actionCadastrar(ActionEvent event) throws IOException {
+    	clienteEditar = null;
+    	Main.TelaCadastroCliente();
+    	
+    }
     
     
     @FXML
@@ -136,8 +143,24 @@ public class controllerCliente implements Initializable{
 
     }
     
+    public static Cliente clienteEditar = new Cliente();
+    @FXML
+    void actionEditar(ActionEvent event) throws IOException {
+    	int i = TableClientes.getSelectionModel().getSelectedIndex();
+    
+    	if(i == -1) {
+    		Alerts.showAlert("Erro!", "Falha ao editar!", "Erro! Selecione um cliente pra editar! Seu desprovido de inteligência.", AlertType.ERROR);
+    	}else {    		
+    		clienteEditar = TableClientes.getItems().get(i);
+    		Main.TelaCadastroCliente();
+    		}
+    }
+    
+    
     @FXML
     void actionExcluir(ActionEvent event) {
+    	 
+    	
     	
     int i =  TableClientes.getSelectionModel().getSelectedIndex();
     if(i == -1) {
@@ -160,6 +183,13 @@ public class controllerCliente implements Initializable{
     }
 
     }
+    
+    }
+
+    @FXML
+    void actionPesquisar(ActionEvent event) {
+    	 pesquisarTableClientes();
+    	
     }
     
     private ObservableList<Cliente> ArrayClientes;
@@ -181,12 +211,35 @@ public class controllerCliente implements Initializable{
 	TableClientes.setItems(ArrayClientes);
     }
 
+    
+   
+public void pesquisarTableClientes() {
+	  
+        ClienteDAO clienteDAO = new ClienteDAO();
+        Cliente cliente = new Cliente();
+        cliente.setCpf(txtPesquisar.getText());
+        cliente.setNome(txtPesquisar.getText());
+    	
+    	ArrayClientes = FXCollections.observableList(clienteDAO.search(cliente));
+    	
+    	columnIndice.setCellValueFactory(new PropertyValueFactory<>("id"));
+    	columnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+    	columnCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+    	columnDataNasc.setCellValueFactory(new PropertyValueFactory<>("dataNasc"));
+    	columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+    	columnGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
+    	columnEndereco.setCellValueFactory(new PropertyValueFactory<>("endereco"));
+    	columnTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
+    	TableClientes.setItems(ArrayClientes);
+        }
+    
+    
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		carregarTableClientes();
-		
+		clienteEditar = null;
 	}
-
-
 }
+

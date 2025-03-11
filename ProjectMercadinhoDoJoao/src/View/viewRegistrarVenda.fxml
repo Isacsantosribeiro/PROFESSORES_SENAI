@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: DimGray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.controllerRegistrarVenda">
+   <children>
+      <TextField fx:id="txtCliente" layoutX="32.0" layoutY="66.0" prefHeight="26.0" prefWidth="460.0" />
+      <TextField fx:id="txtCpf" layoutX="639.0" layoutY="66.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextField fx:id="txtVendedor" layoutX="32.0" layoutY="122.0" prefHeight="26.0" prefWidth="460.0" />
+      <TextField fx:id="txtQuantidade" layoutX="32.0" layoutY="242.0" />
+      <TextField fx:id="txtTipoUn" layoutX="226.0" layoutY="242.0" />
+      <TextField fx:id="txtPrecoUn" layoutX="417.0" layoutY="242.0" />
+      <Text layoutX="32.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CLIENTE">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="642.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CPF">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="32.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PRODUTO">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="32.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUANTIDADE">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="226.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TIPO UN.">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="417.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PREÇO UN.">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="664.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FORMA DE PGTO">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="665.0" layoutY="434.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL DA COMPRA">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <Text layoutX="529.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CODIGO">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtDesconto" layoutX="655.0" layoutY="242.0" />
+      <TextField fx:id="txtTotalDaCompra" layoutX="665.0" layoutY="438.0" />
+      <ChoiceBox fx:id="choiceFormaPgto" layoutX="664.0" layoutY="340.0" prefWidth="150.0" />
+      <Button fx:id="btAdicionar" layoutX="729.0" layoutY="190.0" mnemonicParsing="false" onAction="#actionAdicionar" style="-fx-background-color: Yellow;" text="ADICIONAR">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="btCancelar" layoutX="529.0" layoutY="583.0" mnemonicParsing="false" onAction="#actionCancelar" style="-fx-background-color: RED;" text="CANCELAR">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Button>
+      <Button fx:id="btRegistrar" layoutX="397.0" layoutY="583.0" mnemonicParsing="false" onAction="#actionRegistrar" style="-fx-background-color: MediumSeaGreen;" text="REGISTRAR ">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Button>
+      <TableView fx:id="tableProdutos" layoutX="32.0" layoutY="292.0" prefHeight="274.0" prefWidth="608.0">
+        <columns>
+          <TableColumn fx:id="columnIndice" prefWidth="27.20001220703125" />
+          <TableColumn fx:id="columnProduto" prefWidth="141.5999984741211" text="PRODUTO" />
+            <TableColumn fx:id="columnQuantidade" prefWidth="126.4000244140625" text="QUANTIDADE" />
+            <TableColumn fx:id="columnPrecoUn" prefWidth="175.199951171875" text="PRECO UN." />
+            <TableColumn fx:id="columnPrecoTotal" prefWidth="133.60000610351562" text="PRECO TOTAL" />
+        </columns>
+      </TableView>
+      <Text layoutX="32.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VENDEDOR">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <Line endX="650.800048828125" layoutX="214.0" layoutY="166.0" startX="-180.3999786376953" strokeMiterLimit="20.0" strokeWidth="3.0" />
+      <Line endX="650.800048828125" layoutX="214.0" layoutY="104.0" startX="-180.3999786376953" strokeMiterLimit="20.0" strokeWidth="3.0" />
+      <Line endX="650.800048828125" layoutX="214.0" layoutY="48.0" startX="-180.3999786376953" strokeMiterLimit="20.0" strokeWidth="3.0" />
+      <Text layoutX="292.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BEM VINDO A SUA TELA DE VENDA ">
+         <font>
+            <Font name="Arial Black" size="16.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtCodigo" layoutX="529.0" layoutY="190.0" />
+      <Text layoutX="655.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="DESCONTO">
+         <font>
+            <Font name="Arial Black" size="12.0" />
+         </font>
+      </Text>
+      <TextField fx:id="txtProduto" layoutX="32.0" layoutY="190.0" prefHeight="26.0" prefWidth="460.0" />
+   </children>
+</AnchorPane>
