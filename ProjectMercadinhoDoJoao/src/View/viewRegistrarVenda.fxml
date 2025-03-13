@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: DimGray;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.controllerRegistrarVenda">
    <children>
-      <TextField fx:id="txtCliente" layoutX="32.0" layoutY="66.0" prefHeight="26.0" prefWidth="460.0" />
+      <TextField fx:id="txtCliente" layoutX="32.0" layoutY="66.0" onInputMethodTextChanged="#actionCPFtype" onKeyTyped="#actionCPFtype" onMouseClicked="#actionCPFclick" onMouseEntered="#actionCPFclick" prefHeight="26.0" prefWidth="460.0" />
       <TextField fx:id="txtCpf" layoutX="639.0" layoutY="66.0" prefHeight="26.0" prefWidth="200.0" />
       <TextField fx:id="txtVendedor" layoutX="32.0" layoutY="122.0" prefHeight="26.0" prefWidth="460.0" />
       <TextField fx:id="txtQuantidade" layoutX="32.0" layoutY="242.0" />
@@ -109,6 +109,6 @@
             <Font name="Arial Black" size="12.0" />
          </font>
       </Text>
-      <TextField fx:id="txtProduto" layoutX="32.0" layoutY="190.0" prefHeight="26.0" prefWidth="460.0" />
+      <TextField fx:id="txtProduto" layoutX="32.0" layoutY="190.0" onInputMethodTextChanged="#actionProdutotype" onKeyTyped="#actionProdutotype" onMouseClicked="#actionProdutoclick" onMouseEntered="#actionProdutoclick" prefHeight="26.0" prefWidth="460.0" />
    </children>
 </AnchorPane>

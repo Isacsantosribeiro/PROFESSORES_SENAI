@@ -6,6 +6,7 @@ module ProjectMercadinhoDoJoao {
 	requires javafx.base;
 	requires org.controlsfx.controls;
 	
+	
 	opens application to javafx.graphics, javafx.fxml;
 	opens Controller to javafx.graphics, javafx.fxml;
 	opens Model to javafx.graphics, javafx.fxml, javafx.base;

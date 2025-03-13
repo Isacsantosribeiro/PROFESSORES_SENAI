@@ -186,5 +186,6 @@ public class FuncionarioDAO {
 		}
 		return TotalVendido;
 	}
+	
 }
 

@@ -149,13 +149,52 @@ public class ProdutoDAO {
         
         }
     }
-
-
     
+    
+    public ArrayList<Produto> search(Produto produto1){
+		Connection con = ConnectionDatabase.getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		ArrayList<Produto> produtos = new ArrayList<>();
+		
+		try {
+			stmt = con.prepareStatement("select * from Produto where idProduto like ? or nome like ?");
+			stmt.setString(1, "%"+produto1.getIdProduto()+"%");
+			stmt.setString(2, "%"+produto1.getNome()+"%");
+			
+			rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				Produto produto = new Produto();
+				
+				produto.setIdProduto(rs.getString(1));
+				produto.setIdfornecedor(rs.getString(2));
+				produto.setNome(rs.getString(3));
+				produto.setCodBarra(rs.getString(4));
+				produto.setLote(rs.getString(5));
+				produto.setDataFab(rs.getString(6));
+				produto.setDataVal(rs.getString(7));
+				produto.setMarca(rs.getString(8));
+				produto.setCategoria(rs.getString(9));
+				produto.setUnidadeDeMedida(rs.getString(10));
+				produto.setPrecoUnitario(rs.getString(11));
+				produto.setEstoque(rs.getString(12));
+				
+				
+				
+				produtos.add(produto);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException("Erro ao ler informações!", e);
+		}finally {
+			ConnectionDatabase.closeConnection(con, stmt, rs);
+		}
+		return produtos;
+	}
 
-
-
-public ArrayList<Produto> getByEstoque() {
+    public ArrayList<Produto> getByEstoque() {
     Connection con = ConnectionDatabase.getConnection();
     PreparedStatement stmt = null;
     ResultSet rs = null;
