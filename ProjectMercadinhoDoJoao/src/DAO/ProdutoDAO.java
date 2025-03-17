@@ -148,7 +148,9 @@ public class ProdutoDAO {
             ConnectionDatabase.closeConnection(con, stmt);
         
         }
+        
     }
+    
     
     
     public ArrayList<Produto> search(Produto produto1){
@@ -179,11 +181,12 @@ public class ProdutoDAO {
 				produto.setUnidadeDeMedida(rs.getString(10));
 				produto.setPrecoUnitario(rs.getString(11));
 				produto.setEstoque(rs.getString(12));
-				
-				
-				
+			
 				produtos.add(produto);
+			
 			}
+			
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -233,6 +236,7 @@ public class ProdutoDAO {
     return produtos;
     
 }
+    
         
 
 

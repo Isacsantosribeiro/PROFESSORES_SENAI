@@ -13,11 +13,14 @@ public class Produto {
 	private String unidadeDeMedida;
 	private String precoUnitario;
 	private String estoque;
+	private String precoTotal;
 	
-	
-	
-	
-	
+	public String getPrecoTotal() {
+		return precoTotal;
+	}
+	public void setPrecoTotal(String precoTotal) {
+		this.precoTotal = precoTotal;
+	}
 	public Produto() {
 		super();
 	}

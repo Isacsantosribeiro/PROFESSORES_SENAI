@@ -15,7 +15,7 @@
       <TextField fx:id="txtCliente" layoutX="32.0" layoutY="66.0" onInputMethodTextChanged="#actionCPFtype" onKeyTyped="#actionCPFtype" onMouseClicked="#actionCPFclick" onMouseEntered="#actionCPFclick" prefHeight="26.0" prefWidth="460.0" />
       <TextField fx:id="txtCpf" layoutX="639.0" layoutY="66.0" prefHeight="26.0" prefWidth="200.0" />
       <TextField fx:id="txtVendedor" layoutX="32.0" layoutY="122.0" prefHeight="26.0" prefWidth="460.0" />
-      <TextField fx:id="txtQuantidade" layoutX="32.0" layoutY="242.0" />
+      <TextField fx:id="txtQuantidade" layoutX="32.0" layoutY="242.0" onKeyTyped="#actionDesconto" />
       <TextField fx:id="txtTipoUn" layoutX="226.0" layoutY="242.0" />
       <TextField fx:id="txtPrecoUn" layoutX="417.0" layoutY="242.0" />
       <Text layoutX="32.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CLIENTE">
@@ -64,7 +64,7 @@
          </font>
       </Text>
       <TextField fx:id="txtDesconto" layoutX="655.0" layoutY="242.0" />
-      <TextField fx:id="txtTotalDaCompra" layoutX="665.0" layoutY="438.0" />
+      <TextField fx:id="txtPrecoTotal" layoutX="665.0" layoutY="438.0" />
       <ChoiceBox fx:id="choiceFormaPgto" layoutX="664.0" layoutY="340.0" prefWidth="150.0" />
       <Button fx:id="btAdicionar" layoutX="729.0" layoutY="190.0" mnemonicParsing="false" onAction="#actionAdicionar" style="-fx-background-color: Yellow;" text="ADICIONAR">
          <font>
