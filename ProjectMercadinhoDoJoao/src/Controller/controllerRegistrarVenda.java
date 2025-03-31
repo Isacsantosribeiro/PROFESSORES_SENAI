@@ -208,25 +208,32 @@ public class controllerRegistrarVenda implements Initializable{
     
     @FXML
     void actionProdutoclick(MouseEvent event) {
-    	if(txtProduto.getText().length()> 3) {
-        	ProdutoDAO produtoDAO = new ProdutoDAO();
-        	Produto produto = new Produto();
-        	produto.setNome(txtCliente.getText());
-        	ArrayList<Produto> produtos = new ArrayList<>();
-        	produtos = produtoDAO.search(produto);
-        	produto = produtos.get(0);
-        	txtCodigo.setText(produto.getCodBarra());
-        	
-        	String precoUn;
-        	precoUn = produto.getPrecoUnitario();
-        	double valorUn = Double.parseDouble(precoUn);
-        	precoUn = String.format("%.2f", valorUn);
-        	txtPrecoUn.setText(precoUn);
-    	}else {
-    		txtCodigo.setText(null);
-    		txtPrecoUn.setText(null);
+        if (txtProduto.getText().length() > 3) {
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+            Produto produto = new Produto();
+            produto.setNome(txtProduto.getText()); // Corrigido para buscar o nome correto
+
+            ArrayList<Produto> produtos = produtoDAO.search(produto);
+
+            if (!produtos.isEmpty()) {
+                produto = produtos.get(0);
+                txtCodigo.setText(produto.getCodBarra());
+
+                String precoUn = produto.getPrecoUnitario();
+                double valorUn = Double.parseDouble(precoUn);
+                precoUn = String.format("%.2f", valorUn);
+                txtPrecoUn.setText(precoUn);
+            } else {
+                System.out.println("Nenhum produto encontrado!");
+                txtCodigo.setText(null);
+                txtPrecoUn.setText(null);
+            }
+        } else {
+            txtCodigo.setText(null);
+            txtPrecoUn.setText(null);
+        }
     }
-    }
+
 
     @FXML
     void actionProdutotype(KeyEvent event) {
