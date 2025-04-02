@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.paint.Color?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController" prefWidth="800.0" prefHeight="600.0">
+    <children>
+        <!-- Painel principal -->
+        <VBox alignment="CENTER" spacing="30.0" prefWidth="400.0" prefHeight="500.0" layoutX="200" layoutY="50" style="-fx-background-color: #f0f0f0; -fx-border-radius: 20px; -fx-background-radius: 20px; -fx-padding: 40px;">
+            <children>
+                <!-- Logo -->
+                <Label text="AGENDAMENTOS" style="-fx-font-size: 32px; -fx-text-fill: #2c3e50; -fx-font-weight: bold;" />
+
+                <!-- Campo de email -->
+                <TextField fx:id="txtEmail" promptText="Digite seu email" prefWidth="300.0" style="-fx-font-size: 16px; -fx-background-color: #ecf0f1; -fx-border-radius: 10px; -fx-border-color: #bdc3c7; -fx-padding: 10px;" />
+
+                <!-- Campo de senha -->
+                <PasswordField fx:id="txtSenha" promptText="Digite sua senha" prefWidth="300.0" style="-fx-font-size: 16px; -fx-background-color: #ecf0f1; -fx-border-radius: 10px; -fx-border-color: #bdc3c7; -fx-padding: 10px;" />
+
+                <!-- Botões -->
+                <HBox spacing="15.0">
+                    <children>
+                        <!-- Botão Entrar -->
+                        <Button fx:id="btnLogin" text="Entrar" prefWidth="140.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-border-radius: 10px;" />
+                        <!-- Botão Registrar -->
+                        <Button fx:id="btnRegistrar" text="Registrar" prefWidth="140.0" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-border-radius: 10px;" />
+                    </children>
+                </HBox>
+
+                <!-- Link "Esqueci a senha" -->
+                <Hyperlink fx:id="linkEsqueciSenha" text="Esqueci minha senha" style="-fx-text-fill: #9b59b6; -fx-font-size: 14px; -fx-font-weight: bold;" />
+
+                <!-- Rodapé -->
+                <Label text="© 2024 Banda Shows" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

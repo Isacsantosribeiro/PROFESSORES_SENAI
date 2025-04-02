@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <HBox spacing="20" style="-fx-padding: 10px; -fx-background-color: #ffffff;">
+            <Label text="ProfOcioso" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2463eb;" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button text="Painel" />
+            <Button text="Perfil do Professor" />
+            <Button text="Gerenciamento de Tarefas" />
+            <Button text="Notificações" />
+            <Button text="Rastreamento de disponibilidade" />
+            <Button text="Sair" style="-fx-background-color: red; -fx-text-fill: white;" />
+        </HBox>
+    </top>
+    
+    <center>
+        <VBox spacing="20" style="-fx-padding: 20px;">
+            <Label text="Painel de Administração" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+            <Label text="Gerencie os status ociosos dos professores e otimize as atribuições de tarefas." />
+            
+            <Label text="Visão geral do status do professor" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+            <HBox spacing="10">
+                <VBox spacing="10" style="-fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-padding: 10px;">
+                    <Label text="Ada Lovelace" style="-fx-font-weight: bold;" />
+                    <Label text="✔ Disponível" style="-fx-text-fill: green;" />
+                    <Label text="Disponível desde: Segunda a Sexta" />
+                    <HBox spacing="10">
+                        <Button text="👁 Visualizar" />
+                        <Button text="+ Atribuir tarefa" style="-fx-background-color: #2463eb; -fx-text-fill: white;" />
+                    </HBox>
+                </VBox>
+                
+                <HBox spacing="10">
+                    <Label text="✔ Disponível: 5" style="-fx-background-color: #dfffd8; -fx-padding: 5px;" />
+                    <Label text="✖ Ocupado: 12" style="-fx-background-color: #ffd8d8; -fx-padding: 5px;" />
+                    <Label text="⚠ Em licença: 3" style="-fx-background-color: #fff4d8; -fx-padding: 5px;" />
+                </HBox>
+            </HBox>
+            
+            <Label text="Atribuições de tarefas recentes" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+            
+            <HBox spacing="10">
+                <VBox spacing="10" style="-fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-padding: 10px;">
+                    <Label text="Relatório Anual de Desempenho" style="-fx-font-weight: bold;" />
+                    <Label text="Compilar métricas de desempenho anuais" />
+                    <Label text="Atribuído a: Graça Hopper" />
+                    <Label text="Status: ✔ Concluído" style="-fx-text-fill: green;" />
+                    <HBox spacing="10">
+                        <Button text="👁 Ver detalhes" />
+                        <Button text="✏ Editar" />
+                    </HBox>
+                </VBox>
+                
+                <VBox spacing="10" style="-fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-padding: 10px;">
+                    <Label text="Auditoria de Segurança de Laboratório" style="-fx-font-weight: bold;" />
+                    <Label text="Realizar auditorias de segurança para o laboratório" />
+                    <Label text="Atribuído a: Charles Babbage" />
+                    <Label text="Status: ⏳ Em andamento" style="-fx-text-fill: orange;" />
+                    <HBox spacing="10">
+                        <Button text="👁 Ver detalhes" />
+                        <Button text="✏ Editar" />
+                    </HBox>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
