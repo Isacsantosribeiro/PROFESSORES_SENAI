@@ -4,8 +4,9 @@ public class Agente {
 	private String id;
 	private String nome;
 	private String cpf;
+	private String senha;
 	
-
+	
 	/**
 	 * 
 	 */
@@ -16,12 +17,14 @@ public class Agente {
 	 * @param id
 	 * @param nome
 	 * @param cpf
+	 * @param senha
 	 */
-	public Agente(String id, String nome, String cpf) {
+	public Agente(String id, String nome, String cpf, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
+		this.senha = senha;
 	}
 	public String getId() {
 		return id;
@@ -41,7 +44,12 @@ public class Agente {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 	
 	
 

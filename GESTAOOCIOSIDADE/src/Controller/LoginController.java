@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 public class LoginController {
 
     @FXML
-    private TextField txtEmail;
+    private TextField txtNome;
 
     @FXML
     private PasswordField txtSenha;
@@ -20,13 +20,14 @@ public class LoginController {
     @FXML
     private Button btnRegistrar;
 
+    
     @FXML
     private Hyperlink linkEsqueciSenha;
 
     @FXML
     public void initialize() {
         btnLogin.setOnAction(event -> {
-            System.out.println("Tentativa de login: " + txtEmail.getText());
+            System.out.println("Tentativa de login: " + txtNome.getText());
             // Adicionar lógica de autenticação
         });
 

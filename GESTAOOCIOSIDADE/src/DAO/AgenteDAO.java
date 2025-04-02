@@ -15,9 +15,10 @@ public class AgenteDAO {
 		PreparedStatement stmt = null;
 
 		try {
-			stmt = con.prepareStatement("Insert into AGENTE values(? , ?)");
+			stmt = con.prepareStatement("Insert into AGENTE values(? , ? , ?)");
 			stmt.setString(1, agente.getNome());
 			stmt.setString(2, agente.getCpf());
+			stmt.setString(3, agente.getSenha());
 
 			stmt.executeUpdate();
 			System.out.println("Cadastro com sucesso!");
@@ -47,6 +48,7 @@ public class AgenteDAO {
 				agente.setId(""+i);
 				agente.setNome(rs.getString(2));
 				agente.setCpf(rs.getString(3));
+				agente.setSenha(rs.getString(4));
 
 				agentes.add(agente);
 				i++;
@@ -66,10 +68,10 @@ public class AgenteDAO {
 
 		try {
 			stmt = con.prepareStatement("Update AGENTES set nome = ? , CPF = ? where idAgente = ? or CPF = ?");
-			stmt.setString(1, agente.getNome());
-			stmt.setString(2, agente.getCpf());
-
-			stmt.setString(3, agente.getId());
+			stmt.setString(1, agente.getId());
+			stmt.setString(2, agente.getNome());
+			stmt.setString(3, agente.getCpf());
+			stmt.setString(4, agente.getSenha());
 
 
 
