@@ -27,44 +27,62 @@ public class LoginController {
     @FXML
     private Button btnRegistrar;
 
-    
     @FXML
     private Hyperlink linkEsqueciSenha;
-    
-  
+
+    @FXML
+    void actionEntrar(ActionEvent event) throws IOException {
+        // Lógica de autenticação (adicione sua lógica aqui)
+        String nome = txtNome.getText();
+        String senha = txtSenha.getText();
+
+        // Exemplo de autenticação simples (substitua com sua lógica real)
+        if (nome.equals("isac") && senha.equals("123")) {
+            // Autenticação bem-sucedida, abre a tela principal
+            Parent root = FXMLLoader.load(getClass().getResource("/View/ViewPrincipal.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Tela Principal");
+            stage.show();
+
+            // Fecha a tela de login
+            ((Stage) btnLogin.getScene().getWindow()).close();
+        } else {
+            // Autenticação falhou, exibe mensagem de erro (opcional)
+            System.out.println("Credenciais inválidas");
+        }
+    }
+
     @FXML
     public void initialize() {
         btnLogin.setOnAction(event -> {
             System.out.println("Tentativa de login: " + txtNome.getText());
-            // Adicionar lógica de autenticação
+           
         });
 
         btnRegistrar.setOnAction(event -> {
             try {
-                actionRegistrar(new ActionEvent()); // Chama o método para abrir a tela de cadastro
+                actionRegistrar(new ActionEvent());
             } catch (IOException e) {
                 e.printStackTrace();
-                // Tratar a exceção, por exemplo, exibir uma mensagem de erro
             }
         });
 
         linkEsqueciSenha.setOnAction(event -> {
             System.out.println("Redirecionando para recuperação de senha...");
-            // Adicionar lógica para abrir uma nova tela de recuperação de senha
         });
     }
+
     @FXML
-    void actionRegistrar(ActionEvent event)throws IOException {
-    	
-        // Carrega o arquivo FXML da tela de cadastro de agentes
+    void actionRegistrar(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/View/ViewRegistroAgente.fxml"));
         Scene scene = new Scene(root);
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Cadastro de Agentes");
         stage.show();
-        
-        // Opcional: Fechar a tela de login
-        // ((Stage) btnRegistrar.getScene().getWindow()).close();
+
+        ((Stage) btnRegistrar.getScene().getWindow()).close();
     }
 }
