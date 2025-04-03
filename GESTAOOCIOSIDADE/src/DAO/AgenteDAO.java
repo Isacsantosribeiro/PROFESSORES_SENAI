@@ -145,4 +145,8 @@ public class AgenteDAO {
 		}
 		return agentes;
 	}
+	public boolean inserirAgente(Agente agente) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

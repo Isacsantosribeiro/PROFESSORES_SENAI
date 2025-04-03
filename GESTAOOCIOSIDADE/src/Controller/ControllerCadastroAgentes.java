@@ -12,6 +12,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import java.io.IOException;
+import Model.Agente; // Supondo que você tenha uma classe Agente em Model
+import DAO.AgenteDAO; // Supondo que você tenha um AgenteDAO em DAO
 
 public class ControllerCadastroAgentes {
 
@@ -29,9 +31,12 @@ public class ControllerCadastroAgentes {
 
     @FXML
     private Button btnCancelar;
-    
-    
-    
+
+    @FXML
+    void actionCadastrar(ActionEvent event) {
+
+    }
+
     @FXML
     void actionCancelar(ActionEvent event) {
         try {
@@ -42,7 +47,7 @@ public class ControllerCadastroAgentes {
             stage.setScene(scene);
             stage.setTitle("Login");
             stage.show();
-            
+
             // Fecha a tela de cadastro
             ((Stage) btnCancelar.getScene().getWindow()).close();
         } catch (IOException e) {
@@ -67,11 +72,41 @@ public class ControllerCadastroAgentes {
             return;
         }
 
-        // Aqui você pode adicionar a lógica para salvar no banco de dados
-        System.out.println("Usuário cadastrado: " + nome + " | CPF: " + cpf);
+        // Cria um objeto Agente com os dados do formulário
+        Agente agente = new Agente();
+        agente.setNome(nome);
+        agente.setCpf(cpf);
+        agente.setSenha(senha);
 
-        mostrarAlerta("Sucesso", "Cadastro realizado com sucesso!", AlertType.INFORMATION);
-        limparCampos();
+        // Cria uma instância de AgenteDAO
+        AgenteDAO agenteDAO = new AgenteDAO();
+
+        // Salva o agente no banco de dados
+        boolean cadastroSucesso = agenteDAO.inserirAgente(agente); // Supondo que você tenha um método inserirAgente no AgenteDAO
+
+        if (cadastroSucesso) {
+            mostrarAlerta("Sucesso", "Cadastro realizado com sucesso!", AlertType.INFORMATION);
+            limparCampos();
+
+            // Carrega e exibe a tela principal
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/View/ViewPrincipal.fxml")); // Certifique-se de que o caminho está correto
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("Tela Principal");
+                stage.show();
+
+                // Fecha a tela de cadastro
+                ((Stage) btnSalvar.getScene().getWindow()).close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Tratar a exceção, por exemplo, exibir uma mensagem de erro
+            }
+
+        } else {
+            mostrarAlerta("Erro", "Erro ao cadastrar o agente.", AlertType.ERROR);
+        }
     }
 
     private void limparCampos() {
