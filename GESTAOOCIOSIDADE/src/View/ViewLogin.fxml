@@ -29,7 +29,7 @@
                         <!-- Botão Entrar -->
                         <Button fx:id="btnLogin" prefWidth="140.0" style="-fx-background-color: #2980b9; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-border-radius: 10px; -fx-cursor: hand;" text="Entrar" />
                         <!-- Botão Registrar -->
-                        <Button fx:id="btnRegistrar" prefWidth="140.0" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-border-radius: 10px; -fx-cursor: hand;" text="Registrar" />
+                        <Button fx:id="btnRegistrar" onAction="#actionRegistrar" prefWidth="140.0" style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-border-radius: 10px; -fx-cursor: hand;" text="Registrar" />
                     </children>
                 </HBox>
 
