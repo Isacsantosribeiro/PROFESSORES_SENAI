@@ -22,7 +22,7 @@
 
                 <HBox spacing="15.0">
                     <children>
-                        <Button fx:id="btnSalvar" prefWidth="140.0" style="-fx-background-color: #27ae60; -fx-text-fill: white;                                         -fx-font-size: 16px; -fx-font-weight: bold;                                         -fx-border-radius: 10px; -fx-cursor: hand;" text="Cadastrar" />
+                        <Button fx:id="btnSalvar" onAction="#actionCadastrar" prefWidth="140.0" style="-fx-background-color: #27ae60; -fx-text-fill: white;                                         -fx-font-size: 16px; -fx-font-weight: bold;                                         -fx-border-radius: 10px; -fx-cursor: hand;" text="Cadastrar" />
                         <Button fx:id="btnCancelar" onAction="#actionCancelar" prefWidth="140.0" style="-fx-background-color: #c0392b; -fx-text-fill: white;                                         -fx-font-size: 16px; -fx-font-weight: bold;                                         -fx-border-radius: 10px; -fx-cursor: hand;" text="Cancelar" />
                     </children>
                 </HBox>

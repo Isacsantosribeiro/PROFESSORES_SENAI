@@ -12,6 +12,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import java.io.IOException;
+import Model.Agente;
+import DAO.AgenteDAO;
+import Util.Alerts;
+import Util.CPFValidator;
 
 public class ControllerCadastroAgentes {
 
@@ -29,49 +33,79 @@ public class ControllerCadastroAgentes {
 
     @FXML
     private Button btnCancelar;
-    
-    
-    
+
+    private final AgenteDAO agenteDAO = new AgenteDAO();
+    private final CPFValidator cpfValidator = new CPFValidator();
+
     @FXML
     void actionCancelar(ActionEvent event) {
         try {
-            // Carrega o arquivo FXML da tela de login
             Parent root = FXMLLoader.load(getClass().getResource("/View/ViewLogin.fxml"));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.setTitle("Login");
             stage.show();
-            
-            // Fecha a tela de cadastro
+
             ((Stage) btnCancelar.getScene().getWindow()).close();
         } catch (IOException e) {
             e.printStackTrace();
-            // Tratar a exceção, por exemplo, exibir uma mensagem de erro
+            Alerts.showAlert("Erro!", "Erro ao carregar tela!", "Não foi possível carregar a tela de login!", AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    void actionCadastrar(ActionEvent event) {
+        String nome = txtNome.getText();
+        String cpf = txtCPF.getText();
+        String senha = txtSenha.getText();
+
+        if (nome.isEmpty()) {
+            Alerts.showAlert("Erro", "Nome incompleto!", "Por favor, preencha o nome do agente!", AlertType.ERROR);
+            return;
+        }
+
+        if (cpf.isEmpty() || !CPFValidator.validarCPF(cpf)) {
+            Alerts.showAlert("Erro", "CPF inválido!", "Verifique o CPF e tente novamente!", AlertType.ERROR);
+            return;
+        }
+
+        if (senha.isEmpty()) {
+            Alerts.showAlert("Erro", "Senha incompleta!", "Por favor, preencha a senha do agente!", AlertType.ERROR);
+            return;
+        }
+
+        Agente agente = new Agente();
+        agente.setNome(nome);
+        agente.setCpf(cpf);
+        agente.setSenha(senha);
+
+        try {
+            agenteDAO.create(agente);
+            Alerts.showAlert("Sucesso!", "Agente cadastrado!", "O agente foi cadastrado com sucesso!", AlertType.INFORMATION);
+            limparCampos();
+            // Carrega e exibe a tela principal após o cadastro
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/View/ViewPrincipal.fxml"));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("Tela Principal");
+                stage.show();
+                ((Stage) btnSalvar.getScene().getWindow()).close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Alerts.showAlert("Erro!", "Erro ao carregar tela!", "Não foi possível carregar a tela principal!", AlertType.ERROR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alerts.showAlert("Erro!", "Erro ao cadastrar agente!", "Ocorreu um erro ao salvar o agente no banco de dados.", AlertType.ERROR);
         }
     }
 
     @FXML
     void initialize() {
-        btnSalvar.setOnAction(event -> salvarCadastro());
-        btnCancelar.setOnAction(event -> actionCancelar(event)); // Chama actionCancelar ao clicar em cancelar
-    }
-
-    private void salvarCadastro() {
-        String nome = txtNome.getText();
-        String cpf = txtCPF.getText();
-        String senha = txtSenha.getText();
-
-        if (nome.isEmpty() || cpf.isEmpty() || senha.isEmpty()) {
-            mostrarAlerta("Erro", "Preencha todos os campos!", AlertType.ERROR);
-            return;
-        }
-
-        // Aqui você pode adicionar a lógica para salvar no banco de dados
-        System.out.println("Usuário cadastrado: " + nome + " | CPF: " + cpf);
-
-        mostrarAlerta("Sucesso", "Cadastro realizado com sucesso!", AlertType.INFORMATION);
-        limparCampos();
+        btnCancelar.setOnAction(this::actionCancelar);
     }
 
     private void limparCampos() {

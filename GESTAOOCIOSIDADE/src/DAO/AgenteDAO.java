@@ -16,7 +16,7 @@ public class AgenteDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO AGENTE (nome, cpf, senha) VALUES (?, ?, ?)");
+            stmt = con.prepareStatement("INSERT INTO AGENTES (nome, cpf, senha) VALUES (?, ?, ?)"); // CORREÇÃO: AGENTES
             stmt.setString(1, agente.getNome());
             stmt.setString(2, agente.getCpf());
             stmt.setString(3, agente.getSenha());
@@ -141,7 +141,7 @@ public class AgenteDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO AGENTE (nome, cpf, senha) VALUES (?, ?, ?)");
+            stmt = con.prepareStatement("INSERT INTO AGENTES (nome, cpf, senha) VALUES (?, ?, ?)"); // CORREÇÃO: AGENTES
             stmt.setString(1, agente.getNome());
             stmt.setString(2, agente.getCpf());
             stmt.setString(3, agente.getSenha());
