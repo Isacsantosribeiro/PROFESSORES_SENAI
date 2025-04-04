@@ -150,4 +150,39 @@ public class AgenteDAO {
             ConnectionDatabase.closeConnection(con, stmt);
         }
     }
-}
+
+    public Agente autenticarUser(String usuario, String senha) {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Agente agenteAutenticado = null;
+
+        try {
+            stmt = con.prepareStatement("SELECT * FROM AGENTES WHERE nome = ?"); // Supondo que o login seja feito com o nome
+            stmt.setString(1, usuario);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Agente agente = new Agente();
+                agente.setId(rs.getString("idAgente")); // Use o nome correto da coluna
+                agente.setNome(rs.getString("nome"));
+                agente.setCpf(rs.getString("cpf"));
+                agente.setSenha(rs.getString("senha")); // A senha no banco DEVE estar criptografada
+
+                // *** IMPORTANTE: A senha armazenada no banco de dados DEVE estar criptografada. ***
+                // *** Você precisará comparar a senha fornecida (criptografada) com a senha do banco. ***
+                // *** Para fins de exemplo SIMPLES (NÃO recomendado para produção): ***
+                if (agente.getSenha().equals(senha)) {
+                    agenteAutenticado = agente;
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao autenticar usuário!", e);
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
+
+        return agenteAutenticado;
+    }
+	}

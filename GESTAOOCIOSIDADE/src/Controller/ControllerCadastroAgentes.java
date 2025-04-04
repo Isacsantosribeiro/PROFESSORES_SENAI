@@ -84,18 +84,18 @@ public class ControllerCadastroAgentes {
             agenteDAO.create(agente);
             Alerts.showAlert("Sucesso!", "Agente cadastrado!", "O agente foi cadastrado com sucesso!", AlertType.INFORMATION);
             limparCampos();
-            // Carrega e exibe a tela principal após o cadastro
+           
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/View/ViewPrincipal.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/View/ViewLogin.fxml"));
                 Scene scene = new Scene(root);
                 Stage stage = new Stage();
                 stage.setScene(scene);
-                stage.setTitle("Tela Principal");
+                stage.setTitle("Tela de Login");
                 stage.show();
                 ((Stage) btnSalvar.getScene().getWindow()).close();
             } catch (IOException e) {
                 e.printStackTrace();
-                Alerts.showAlert("Erro!", "Erro ao carregar tela!", "Não foi possível carregar a tela principal!", AlertType.ERROR);
+                Alerts.showAlert("Erro!", "Erro ao carregar tela!", "Não foi possível carregar a tela de login!", AlertType.ERROR);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,7 +114,8 @@ public class ControllerCadastroAgentes {
         txtSenha.clear();
     }
 
-    private void mostrarAlerta(String titulo, String mensagem, AlertType tipo) {
+    @SuppressWarnings("unused")
+	private void mostrarAlerta(String titulo, String mensagem, AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);

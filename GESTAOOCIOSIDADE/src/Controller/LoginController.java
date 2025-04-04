@@ -2,11 +2,15 @@ package Controller;
 
 import java.io.IOException;
 
+import DAO.AgenteDAO;
+import Model.Agente;
+import Util.Alerts;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
@@ -15,44 +19,55 @@ import javafx.stage.Stage;
 
 public class LoginController {
 
-    @FXML
-    private TextField txtNome;
+	@FXML
+	private TextField txtNome;
 
-    @FXML
-    private PasswordField txtSenha;
+	@FXML
+	private PasswordField txtSenha;
 
-    @FXML
-    private Button btnLogin;
+	@FXML
+	private Button btnLogin;
 
-    @FXML
-    private Button btnRegistrar;
+	@FXML
+	private Button btnRegistrar;
 
-    @FXML
-    private Hyperlink linkEsqueciSenha;
+	@FXML
+	private Hyperlink linkEsqueciSenha;
 
-    @FXML
-    void actionEntrar(ActionEvent event) throws IOException {
-        // Lógica de autenticação (adicione sua lógica aqui)
-        String nome = txtNome.getText();
-        String senha = txtSenha.getText();
+	// Remova estas declarações, pois você já tem txtNome e txtSenha
+	//@FXML
+	//private TextField txtUser;
+	//@FXML
+	//private PasswordField txtPassword;
+	//@FXML
+	//private Button btnEntrar;
 
-        // Exemplo de autenticação simples (substitua com sua lógica real)
-        if (nome.equals("isac") && senha.equals("123")) {
-            // Autenticação bem-sucedida, abre a tela principal
-            Parent root = FXMLLoader.load(getClass().getResource("/View/ViewPrincipal.fxml"));
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Tela Principal");
-            stage.show();
+	@FXML
+	void actionEntrar(ActionEvent event) throws IOException {
+	    AgenteDAO agenteDAO = new AgenteDAO();
+	    Agente agente = agenteDAO.autenticarUser(txtNome.getText(), txtSenha.getText());
 
-            // Fecha a tela de login
-            ((Stage) btnLogin.getScene().getWindow()).close();
-        } else {
-            // Autenticação falhou, exibe mensagem de erro (opcional)
-            System.out.println("Credenciais inválidas");
-        }
-    }
+	    if (txtNome.getText().isEmpty() || txtSenha.getText().isEmpty()) {
+	        Alerts.showAlert("Erro!", "Erro de login!", "Preencha as informações de login para acessar!", AlertType.ERROR);
+	    } else if (agente == null || agente.getCpf() == null) {
+	        Alerts.showAlert("Erro!", "Erro de login!", "Verifique se as informações estão corretas e tente novamente!", AlertType.ERROR);
+	    } else if (agente.getCpf().equals(txtNome.getText()) && agente.getSenha().equals(txtSenha.getText())) {
+	        Alerts.showAlert("Login bem sucedido", "Seja bem vindo " + agente.getNome(), "Agora que acessou vá trabalhar!", AlertType.INFORMATION);
+	        txtNome.setText("");
+	        txtSenha.setText("");
+	        Parent root = FXMLLoader.load(getClass().getResource("/View/ViewPrincipal.fxml"));
+	        Scene scene = new Scene(root);
+	        Stage stage = new Stage();
+	        stage.setScene(scene);
+	        stage.setTitle("Tela Principal");
+	        stage.show();
+	        ((Stage) btnLogin.getScene().getWindow()).close();
+	    } else {
+	        Alerts.showAlert("Erro!", "Erro de login!", "Falha ao autenticar. Verifique seu usuário e senha.", AlertType.ERROR);
+	    }
+	}
+
+	// ... (o restante do seu LoginController)
 
     @FXML
     public void initialize() {
