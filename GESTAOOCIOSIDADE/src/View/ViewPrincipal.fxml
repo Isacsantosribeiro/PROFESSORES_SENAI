@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerPrincipal">
+    <top>
+        <HBox spacing="20" style="-fx-padding: 10px; -fx-background-color: #ffffff;">
+            <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2463eb;" text="ProfOcioso" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button text="Painel" />
+            <Button text="Perfil do Professor" />
+            <Button text="Gerenciamento de Tarefas" />
+            <Button text="Notificações" />
+            <Button text="Rastreamento de disponibilidade" />
+            <Button style="-fx-background-color: red; -fx-text-fill: white;" text="Sair" />
+        </HBox>
+    </top>
+    
+    <center>
+        <VBox spacing="20" style="-fx-padding: 20px;">
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Painel de Administração" />
+            <Label text="Gerencie os status ociosos dos professores e otimize as atribuições de tarefas." />
+            
+            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Visão geral do status do professor" />
+            <HBox spacing="10">
+                <VBox spacing="10" style="-fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-padding: 10px;">
+                    <Label style="-fx-font-weight: bold;" text="Ada Lovelace" />
+                    <Label style="-fx-text-fill: green;" text="✔ Disponível" />
+                    <Label text="Disponível desde: Segunda a Sexta" />
+                    <HBox spacing="10">
+                        <Button text="👁 Visualizar" />
+                        <Button style="-fx-background-color: #2463eb; -fx-text-fill: white;" text="+ Atribuir tarefa" />
+                    </HBox>
+                </VBox>
+                
+                <HBox spacing="10">
+                    <Label style="-fx-background-color: #dfffd8; -fx-padding: 5px;" text="✔ Disponível: 5" />
+                    <Label style="-fx-background-color: #ffd8d8; -fx-padding: 5px;" text="✖ Ocupado: 12" />
+                    <Label style="-fx-background-color: #fff4d8; -fx-padding: 5px;" text="⚠ Em licença: 3" />
+                </HBox>
+            </HBox>
+            
+            <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Atribuições de tarefas recentes" />
+            
+            <HBox spacing="10">
+                <VBox spacing="10" style="-fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-padding: 10px;">
+                    <Label style="-fx-font-weight: bold;" text="Relatório Anual de Desempenho" />
+                    <Label text="Compilar métricas de desempenho anuais" />
+                    <Label text="Atribuído a: Graça Hopper" />
+                    <Label style="-fx-text-fill: green;" text="Status: ✔ Concluído" />
+                    <HBox spacing="10">
+                        <Button text="👁 Ver detalhes" />
+                        <Button text="✏ Editar" />
+                    </HBox>
+                </VBox>
+                
+                <VBox spacing="10" style="-fx-border-color: #e0e0e0; -fx-border-radius: 5px; -fx-padding: 10px;">
+                    <Label style="-fx-font-weight: bold;" text="Auditoria de Segurança de Laboratório" />
+                    <Label text="Realizar auditorias de segurança para o laboratório" />
+                    <Label text="Atribuído a: Charles Babbage" />
+                    <Label style="-fx-text-fill: orange;" text="Status: ⏳ Em andamento" />
+                    <HBox spacing="10">
+                        <Button text="👁 Ver detalhes" />
+                        <Button text="✏ Editar" />
+                    </HBox>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
