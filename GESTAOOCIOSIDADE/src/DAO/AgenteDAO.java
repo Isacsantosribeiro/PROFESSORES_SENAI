@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import ConnectionFactory.ConnectionDatabase;
 import Model.Agente;
+import Util.Alerts;
+import javafx.scene.control.Alert.AlertType;
 
 public class AgenteDAO {
 
@@ -16,7 +18,7 @@ public class AgenteDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("INSERT INTO AGENTE (nome, cpf, senha) VALUES (?, ?, ?)");
+        	stmt = con.prepareStatement("INSERT INTO AGENTES (nome, cpf, senha) VALUES (?, ?, ?)");
             stmt.setString(1, agente.getNome());
             stmt.setString(2, agente.getCpf());
             stmt.setString(3, agente.getSenha());
@@ -135,13 +137,12 @@ public class AgenteDAO {
         return agentes;
     }
 
-    // Método para inserir um novo agente (adaptado para o seu código)
     public void inserirAgente(Agente agente) throws SQLException {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
 
         try {
-        	String sql = "INSERT INTO agentes (nome, CPF, senha) VALUES (?, ?, ?)";
+        	String sql = "INSERT INTO AGENTES (nome, CPF, senha) VALUES (?, ?, ?)";
             stmt = con.prepareStatement(sql);
             stmt.setString(1, agente.getNome());
             stmt.setString(2, agente.getCpf());
@@ -160,8 +161,31 @@ public class AgenteDAO {
         }
     }
 
-	public Agente autenticarUser(String text, String text2) {
-		// TODO Auto-generated method stub
-		return null;
+    public Agente autenticarUser(String nome, String senha) {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        Agente agenteAutenticado = null; 
+
+        try {
+            stmt = con.prepareStatement("SELECT nome, senha FROM AGENTES WHERE nome = ? AND senha = ?");
+            stmt.setString(1, nome);
+            stmt.setString(2, senha);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) { 
+                agenteAutenticado = new Agente();
+                agenteAutenticado.setNome(rs.getString("nome"));
+                agenteAutenticado.setSenha(rs.getString("senha"));
+        
+            }
+        } catch (SQLException e) {
+            Alerts.showAlert("Erro", "Erro de conexão", "Falha ao consultar informações no banco de dados", AlertType.ERROR);
+            throw new RuntimeException("Erro de autenticação", e);
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
+        return agenteAutenticado; 
+    }
 	}
-}
