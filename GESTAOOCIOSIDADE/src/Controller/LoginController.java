@@ -5,7 +5,7 @@ import java.io.IOException;
 import DAO.AgenteDAO;
 import Model.Agente;
 import Util.Alerts;
-import application.Main; // Importe a classe Main
+import application.Main; 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,16 +40,24 @@ public class LoginController {
 	    AgenteDAO agenteDAO = new AgenteDAO();
 	    Agente agente = agenteDAO.autenticarUser(txtNome.getText(), txtSenha.getText());
 
-	    if (txtNome.getText().equals("") || txtSenha.getText().equals("")) {
+	    if (txtNome.getText().isEmpty() || txtSenha.getText().isEmpty()) {
 	        Alerts.showAlert("Erro!", "Erro de login!", "Preencha as informações de login para acessar!", AlertType.ERROR);
-	    } else if (agente == null) { 
+	    } else if (agente == null) {
 	        Alerts.showAlert("Erro!", "Erro de login!", "Verifique se as informações estão corretas e tente novamente!", AlertType.ERROR);
-	    } else { 
+	    } else {
 	        Alerts.showAlert("Login bem sucedido", "Seja bem vindo " + agente.getNome(), "Agora verifique a ociosidade dos instrutores!", AlertType.INFORMATION);
 	        txtNome.setText("");
 	        txtSenha.setText("");
 	        Main.TelaHome();
-	        ((javafx.scene.Node) event.getSource()).getScene().getWindow().hide();
+	        
+	    
+	        Object source = event.getSource();
+	        if (source instanceof javafx.scene.Node node) {
+	            Stage stage = (Stage) node.getScene().getWindow();
+	            if (stage != null) {
+	                stage.close();
+	            }
+	        }
 	    }
 	}
 
