@@ -1,146 +1,82 @@
 package Controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class ControllerPrincipal {
 
     @FXML
-    private Label labelProfOcioso;
+    private Button btInstrutor;
 
     @FXML
-    private Button btnPainel;
+    private Button btnAdicionarTarefa;
 
     @FXML
-    private Button btnPerfilProfessor;
+    private Button btnBuscarInstrutor;
 
     @FXML
-    private Button btnGerenciamentoTarefas;
+    private TableColumn<?, ?> colAgente;
 
     @FXML
-    private Button btnNotificacoes;
+    private TableColumn<?, ?> colCurso;
 
     @FXML
-    private Button btnRastreamentoDisponibilidade;
+    private TableColumn<?, ?> colData;
 
     @FXML
-    private Button btnSair;
+    private TableColumn<?, ?> colDisponibilidade;
 
     @FXML
-    private Label labelPainelAdministracao;
+    private TableColumn<?, ?> colInstrutor;
 
     @FXML
-    private Label labelGerencieStatus;
+    private ComboBox<?> comboAgente;
 
     @FXML
-    private Label labelVisaoGeralStatus;
+    private ComboBox<?> comboCurso;
 
     @FXML
-    private VBox vboxAdaLovelace;
+    private ComboBox<?> comboInstrutor;
 
     @FXML
-    private Label labelAdaLovelaceNome;
+    private DatePicker dateFinal;
 
     @FXML
-    private Label labelAdaLovelaceDisponibilidade;
+    private DatePicker dateInicial;
 
     @FXML
-    private Label labelAdaLovelaceDisponivelDesde;
+    private TableView<?> tabelaInstrutores;
 
     @FXML
-    private HBox hboxAdaLovelaceBotoes;
+    private TextField txtBuscaInstrutor;
 
     @FXML
-    private Button btnVisualizarAda;
+    private TextField txtDescricaoTarefa;
 
     @FXML
-    private Button btnAtribuirTarefaAda;
+    void onactionIntrutor(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ViewRegistroInstrutor.fxml"));
+            Parent root = loader.load();
 
-    @FXML
-    private HBox hboxStatusGeral;
-
-    @FXML
-    private Label labelDisponivelCount;
-
-    @FXML
-    private Label labelOcupadoCount;
-
-    @FXML
-    private Label labelEmLicencaCount;
-
-    @FXML
-    private Label labelAtribuicoesRecentes;
-
-    @FXML
-    private VBox vboxRelatorioDesempenho;
-
-    @FXML
-    private Label labelRelatorioDesempenhoTitulo;
-
-    @FXML
-    private Label labelRelatorioDesempenhoDescricao;
-
-    @FXML
-    private Label labelRelatorioDesempenhoAtribuido;
-
-    @FXML
-    private Label labelRelatorioDesempenhoStatus;
-
-    @FXML
-    private HBox hboxRelatorioDesempenhoBotoes;
-
-    @FXML
-    private Button btnVerDetalhesRelatorio;
-
-    @FXML
-    private Button btnEditarRelatorio;
-
-    @FXML
-    private VBox vboxAuditoriaSeguranca;
-
-    @FXML
-    private Label labelAuditoriaSegurancaTitulo;
-
-    @FXML
-    private Label labelAuditoriaSegurancaDescricao;
-
-    @FXML
-    private Label labelAuditoriaSegurancaAtribuido;
-
-    @FXML
-    private Label labelAuditoriaSegurancaStatus;
-
-    @FXML
-    private HBox hboxAuditoriaSegurancaBotoes;
-
-    @FXML
-    private Button btnVerDetalhesAuditoria;
-
-    @FXML
-    private Button btnEditarAuditoria;
-
-    @FXML
-    public void initialize() {
-        // Inicialização do controlador, se necessário
-        // Exemplo: Configurar eventos de botões, carregar dados, etc.
+            Stage stage = new Stage();
+            stage.setTitle("Cadastro de Instrutor");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    // Adicione aqui os métodos para lidar com os eventos da tela principal
-    // Exemplo:
-    @FXML
-    private void handleSair() {
-        // Lógica para sair do aplicativo
-        System.out.println("Sair clicado");
-    }
-
-    @FXML
-    private void handleVisualizarAda() {
-        // Lógica para visualizar detalhes de Ada Lovelace
-        System.out.println("Visualizar Ada clicado");
-    }
-
-    // Adicione outros métodos para lidar com os eventos dos botões e outros elementos
 }
