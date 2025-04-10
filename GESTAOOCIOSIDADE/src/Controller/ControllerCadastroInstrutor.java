@@ -1,5 +1,7 @@
 package Controller;
 
+import java.io.IOException;
+
 import DAO.InstrutoresDAO;
 import Model.Instrutores;
 import Util.Alerts;
@@ -7,6 +9,7 @@ import Util.CPFValidator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
@@ -25,7 +28,7 @@ public class ControllerCadastroInstrutor {
     private TextField txtNome;
 
     @FXML
-    void actionCadastrar(ActionEvent event) {
+    void actionCadastrar(ActionEvent event) throws IOException {
         String nome = txtNome.getText().trim();
         String cpf = txtCPF.getText().trim();
 
@@ -39,20 +42,29 @@ public class ControllerCadastroInstrutor {
             return;
         }
 
-       
         Instrutores instrutor = new Instrutores();
         instrutor.setNome(nome);
         instrutor.setCpf(cpf);
 
-        
         InstrutoresDAO dao = new InstrutoresDAO();
         boolean sucesso = dao.inserirInstrutor(instrutor);
 
         if (sucesso) {
             Alerts.showAlert("Sucesso", null, "Instrutor cadastrado com sucesso!", AlertType.INFORMATION);
-        
-            txtNome.clear();
-            txtCPF.clear();
+
+            
+            javafx.stage.Stage stageAtual = (javafx.stage.Stage) btnSalvar.getScene().getWindow();
+            stageAtual.close();
+
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/View/ViewPrincipal.fxml"));
+            javafx.scene.Parent root = loader.load();
+
+            javafx.stage.Stage novoStage = new javafx.stage.Stage();
+            novoStage.setScene(new javafx.scene.Scene(root));
+            novoStage.setTitle("Tela Principal");
+            novoStage.setResizable(false);
+            novoStage.show();
+
         } else {
             Alerts.showAlert("Erro", null, "Falha ao cadastrar o instrutor!", AlertType.ERROR);
         }
@@ -72,8 +84,12 @@ public class ControllerCadastroInstrutor {
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
-            Alerts.showAlert("Erro", "Erro ao voltar", "Não foi possível voltar à tela principal!", AlertType.ERROR);
+           
+           Alerts.showAlert("Erro", "Erro ao voltar", "Não foi possível voltar à tela principal!", AlertType.ERROR);
+           
         }
+    	
     }
+    
 }
 
