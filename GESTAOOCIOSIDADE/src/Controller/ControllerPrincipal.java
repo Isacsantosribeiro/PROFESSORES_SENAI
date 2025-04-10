@@ -40,10 +40,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> branch 'master' of https://github.com/Isacsantosribeiro/PROFESSORES_SENAI.git
 
 public class ControllerPrincipal implements Initializable{
 
@@ -156,8 +153,5 @@ public class ControllerPrincipal implements Initializable{
 
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> branch 'master' of https://github.com/Isacsantosribeiro/PROFESSORES_SENAI.git
 }

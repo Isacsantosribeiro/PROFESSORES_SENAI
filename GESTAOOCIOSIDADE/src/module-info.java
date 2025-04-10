@@ -1,4 +1,4 @@
-module AGENDAMENTOS {
+module GESTAOOCIOSIDADE {
 	requires javafx.controls;
 	requires javafx.fxml;
 	requires java.sql;
