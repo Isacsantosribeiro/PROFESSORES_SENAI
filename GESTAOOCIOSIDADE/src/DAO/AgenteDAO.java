@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import ConnectionFactory.ConnectionDatabase;
 import Model.Agente;
 import Util.Alerts;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert.AlertType;
 
 public class AgenteDAO {
@@ -187,5 +189,27 @@ public class AgenteDAO {
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return agenteAutenticado; 
+    }
+    
+    public ObservableList<String> buscarAgenteDoBanco() {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ObservableList<String> Agente = FXCollections.observableArrayList();
+        try {
+            stmt = con.prepareStatement("select nome from AGENTES"); 
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	String f = rs.getString(1);
+            	Agente.add(f);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
+
+        return Agente;
     }
 	}

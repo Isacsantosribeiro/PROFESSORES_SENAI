@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import ConnectionFactory.ConnectionDatabase;
 import Model.Instrutores;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class InstrutoresDAO {
 
@@ -32,33 +34,33 @@ public class InstrutoresDAO {
         }
     }
 
-    public ArrayList<Instrutores> listarInstrutores() {
-        Connection con = ConnectionDatabase.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        ArrayList<Instrutores> instrutores = new ArrayList<>();
-
-        try {
-            stmt = con.prepareStatement("SELECT * FROM INSTRUTORES");
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Instrutores instrutor = new Instrutores();
-                instrutor.setId(rs.getString("idInstrutor"));
-                instrutor.setNome(rs.getString("nome"));
-                instrutor.setCpf(rs.getString("CPF"));
-                instrutores.add(instrutor);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Erro ao ler instrutores!", e);
-        } finally {
-            ConnectionDatabase.closeConnection(con, stmt, rs);
-        }
-
-        return instrutores;
-    }
+//    public ArrayList<String> listarInstrutores() {
+//        Connection con = ConnectionDatabase.getConnection();
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//
+//        ArrayList<String> instrutores = new ArrayList<>();
+//
+//        try {
+//            stmt = con.prepareStatement("SELECT * FROM INSTRUTORES");
+//            rs = stmt.executeQuery();
+//
+//            while (rs.next()) {
+//                String instrutor = new String();
+//                instrutor.setId(rs.getString("idInstrutor"));
+//                instrutor.setNome(rs.getString("nome"));
+//                instrutor.setCpf(rs.getString("CPF"));
+//                instrutores.add(instrutor);
+//            }
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException("Erro ao ler instrutores!", e);
+//        } finally {
+//            ConnectionDatabase.closeConnection(con, stmt, rs);
+//        }
+//
+//        return instrutores;
+//    }
 
     public boolean atualizarInstrutor(Instrutores instrutor) {
         Connection con = ConnectionDatabase.getConnection();
@@ -101,34 +103,55 @@ public class InstrutoresDAO {
         }
     }
 
-    public ArrayList<Instrutores> buscarInstrutores(String busca) {
+//    public ArrayList<String> buscarInstrutores(String busca) {
+//        Connection con = ConnectionDatabase.getConnection();
+//        PreparedStatement stmt = null;
+//        ResultSet rs = null;
+//
+//        ArrayList<String> instrutores = new ArrayList<>();
+//
+//        try {
+//            stmt = con.prepareStatement("SELECT * FROM INSTRUTORES WHERE nome LIKE ? OR CPF LIKE ?");
+//            stmt.setString(1, "%" + busca + "%");
+//            stmt.setString(2, "%" + busca + "%");
+//
+//            rs = stmt.executeQuery();
+//
+//            while (rs.next()) {
+//                String instrutor = new String();
+//                instrutor.setId(rs.getString("idInstrutor"));
+//                instrutor.setNome(rs.getString("nome"));
+//                instrutor.setCpf(rs.getString("CPF"));
+//                instrutores.add(instrutor);
+//            }
+//
+//        } catch (SQLException e) {
+//            throw new RuntimeException("Erro ao buscar instrutores!", e);
+//        } finally {
+//            ConnectionDatabase.closeConnection(con, stmt, rs);
+//        }
+//
+//        return instrutores;
+//    }
+    public ObservableList<String> buscarInstrutoresDoBanco() {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
-        ArrayList<Instrutores> instrutores = new ArrayList<>();
-
+        ObservableList<String> Instrutores = FXCollections.observableArrayList();
         try {
-            stmt = con.prepareStatement("SELECT * FROM INSTRUTORES WHERE nome LIKE ? OR CPF LIKE ?");
-            stmt.setString(1, "%" + busca + "%");
-            stmt.setString(2, "%" + busca + "%");
-
+            stmt = con.prepareStatement("select nome from INSTRUTORES"); 
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Instrutores instrutor = new Instrutores();
-                instrutor.setId(rs.getString("idInstrutor"));
-                instrutor.setNome(rs.getString("nome"));
-                instrutor.setCpf(rs.getString("CPF"));
-                instrutores.add(instrutor);
+            	String f = rs.getString(1);
+            	Instrutores.add(f);
             }
-
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar instrutores!", e);
+            e.printStackTrace();
         } finally {
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
 
-        return instrutores;
+        return Instrutores;
     }
 }

@@ -1,8 +1,27 @@
 package Controller;
 
+import java.net.URL;
+import java.sql.Connection;
+import ConnectionFactory.ConnectionDatabase;
+import DAO.AgenteDAO;
+import DAO.InstrutoresDAO;
+import Model.Instrutores;
+import Model.Agente;
+
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,8 +32,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ControllerPrincipal {
 
+public class ControllerPrincipal implements Initializable{
+
+	
     @FXML
     private Button btInstrutor;
 
@@ -40,13 +61,13 @@ public class ControllerPrincipal {
     private TableColumn<?, ?> colInstrutor;
 
     @FXML
-    private ComboBox<?> comboAgente;
+    private ComboBox<String> comboAgente;
 
     @FXML
     private ComboBox<?> comboCurso;
 
     @FXML
-    private ComboBox<?> comboInstrutor;
+    private ComboBox<String> comboInstrutor;
 
     @FXML
     private DatePicker dateFinal;
@@ -63,6 +84,7 @@ public class ControllerPrincipal {
     @FXML
     private TextField txtDescricaoTarefa;
 
+    
     @FXML
     void onactionIntrutor(ActionEvent event) {
         try {
@@ -78,5 +100,22 @@ public class ControllerPrincipal {
             e.printStackTrace();
         }
     }
+
+
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		        InstrutoresDAO instrutores = new InstrutoresDAO();
+		        comboInstrutor.setItems(instrutores.buscarInstrutoresDoBanco());
+		        
+		        AgenteDAO Agente = new AgenteDAO();
+		        comboAgente.setItems(Agente.buscarAgenteDoBanco());
+		    
+	}
+    
+  
+    
+
+
 
 }

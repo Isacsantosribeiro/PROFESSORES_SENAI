@@ -2,21 +2,14 @@ package Model;
 
 public class Instrutores {
 	
-	private String id;
-	private String nome;
-	private String cpf;
+	public String id;
+	public String nome;
+	public String cpf;
 	
-	/**
-	 * 
-	 */
+	
 	public Instrutores() {
 		super();
 	}
-	/**
-	 * @param id
-	 * @param nome
-	 * @param cpf
-	 */
 	public Instrutores(String id, String nome, String cpf) {
 		super();
 		this.id = id;
@@ -42,5 +35,4 @@ public class Instrutores {
 		this.cpf = cpf;
 	}
 	
-
 }
