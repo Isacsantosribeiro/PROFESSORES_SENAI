@@ -64,7 +64,7 @@ public class ControllerCadastroInstrutor {
             novoStage.setTitle("Tela Principal");
             novoStage.setResizable(false);
             novoStage.show();
-
+            //TESTE
         } else {
             Alerts.showAlert("Erro", null, "Falha ao cadastrar o instrutor!", AlertType.ERROR);
         }

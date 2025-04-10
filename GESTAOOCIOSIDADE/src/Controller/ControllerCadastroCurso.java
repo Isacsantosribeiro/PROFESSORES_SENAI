@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-
+//TESTE
 public class ControllerCadastroCurso {
 
     @FXML
