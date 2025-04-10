@@ -10,29 +10,72 @@ import ConnectionFactory.ConnectionDatabase;
 import Model.Instrutores;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class InstrutoresDAO {
 
-    public boolean inserirInstrutor(Instrutores instrutor) {
-        Connection con = ConnectionDatabase.getConnection();
-        PreparedStatement stmt = null;
+	public boolean inserirInstrutor(Instrutores instrutor) {
+	    if (cpfExiste(instrutor.getCpf())) {
+	        mostrarAlerta("CPF já cadastrado!", AlertType.WARNING);
+	        return false;
+	    }
 
-        try {
-            String sql = "INSERT INTO INSTRUTORES (nome, CPF) VALUES (?, ?)";
-            stmt = con.prepareStatement(sql);
-            stmt.setString(1, instrutor.getNome());
-            stmt.setString(2, instrutor.getCpf());
+	    Connection con = ConnectionDatabase.getConnection();
+	    PreparedStatement stmt = null;
 
-            int linhasAfetadas = stmt.executeUpdate();
-            return linhasAfetadas > 0;
+	    try {
+	        String sql = "INSERT INTO INSTRUTORES (nome, CPF) VALUES (?, ?)";
+	        stmt = con.prepareStatement(sql);
+	        stmt.setString(1, instrutor.getNome());
+	        stmt.setString(2, instrutor.getCpf());
 
-        } catch (SQLException e) {
-            System.out.println("Erro ao cadastrar instrutor: " + e.getMessage());
-            return false;
-        } finally {
-            ConnectionDatabase.closeConnection(con, stmt);
-        }
-    }
+	        int linhasAfetadas = stmt.executeUpdate();
+
+	        if (linhasAfetadas > 0) {
+	            mostrarAlerta("Instrutor cadastrado com sucesso!", AlertType.INFORMATION);
+	            return true;
+	        } else {
+	            mostrarAlerta("Não foi possível cadastrar o instrutor.", AlertType.ERROR);
+	            return false;
+	        }
+
+	    } catch (SQLException e) {
+	        mostrarAlerta("Erro ao cadastrar instrutor: " + e.getMessage(), AlertType.ERROR);
+	        return false;
+	    } finally {
+	        ConnectionDatabase.closeConnection(con, stmt);
+	    }
+	}
+	
+	private void mostrarAlerta(String mensagem, AlertType tipo) {
+	    Alert alert = new Alert(tipo);
+	    alert.setTitle("Cadastro de Instrutor");
+	    alert.setHeaderText(null);
+	    alert.setContentText(mensagem);
+	    alert.showAndWait();
+	}
+
+	public boolean cpfExiste(String cpf) {
+	    Connection con = ConnectionDatabase.getConnection();
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	        String sql = "SELECT 1 FROM INSTRUTORES WHERE CPF = ?";
+	        stmt = con.prepareStatement(sql);
+	        stmt.setString(1, cpf);
+	        rs = stmt.executeQuery();
+
+	        return rs.next(); // Se houver resultado, o CPF já existe
+
+	    } catch (SQLException e) {
+	        System.out.println("Erro ao verificar CPF: " + e.getMessage());
+	        return false;
+	    } finally {
+	        ConnectionDatabase.closeConnection(con, stmt, rs);
+	    }
+	}
 
 //    public ArrayList<String> listarInstrutores() {
 //        Connection con = ConnectionDatabase.getConnection();

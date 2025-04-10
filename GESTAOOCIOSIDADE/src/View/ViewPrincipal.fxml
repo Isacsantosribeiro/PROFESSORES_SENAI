@@ -22,7 +22,7 @@
             <Label prefHeight="27.0" prefWidth="141.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2463eb;" text="Seja bem vindo:" />
             <Pane HBox.hgrow="ALWAYS" />
             <Button fx:id="btInstrutor" onAction="#onactionIntrutor" text="Cadastrar Instrutor" />
-            <Button text="Cadastrar Cursos" />
+            <Button fx:id="btcurso" onAction="#onactionCurso" text="Cadastrar Cursos" />
         </HBox>
     </top>
 
