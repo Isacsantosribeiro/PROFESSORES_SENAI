@@ -3,8 +3,11 @@ package Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -14,6 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class ControllerPrincipal {
+	@FXML
+    private Button btcurso;
 
     @FXML
     private Button btInstrutor;
@@ -76,7 +81,26 @@ public class ControllerPrincipal {
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
+        
+    }
+    }
+    @FXML
+    void onactionCurso(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ViewRegistroCurso.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); 
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alerta = new Alert(AlertType.ERROR);
+            alerta.setTitle("Erro");
+            alerta.setHeaderText("Erro ao abrir a tela de cadastro de curso");
+            alerta.setContentText(e.getMessage());
+            alerta.show();
         }
     }
+
 
 }
