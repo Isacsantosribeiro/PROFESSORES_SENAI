@@ -2,10 +2,13 @@ package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import ConnectionFactory.ConnectionDatabase;
 import Model.Curso;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class CursoDAO {
 
@@ -30,5 +33,26 @@ public class CursoDAO {
         } finally {
             ConnectionDatabase.closeConnection(con, stmt);
         }
+    }
+    public ObservableList<String> buscarCursosDoBanco() {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ObservableList<String> Cursos = FXCollections.observableArrayList();
+        try {
+            stmt = con.prepareStatement("select nome from CURSO"); 
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+            	String f = rs.getString(1);
+            	Cursos.add(f);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
+
+        return Cursos;
     }
 }

@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.Connection;
 import ConnectionFactory.ConnectionDatabase;
 import DAO.AgenteDAO;
+import DAO.CursoDAO;
 import DAO.InstrutoresDAO;
 import Model.Instrutores;
 import Model.Agente;
@@ -141,6 +142,9 @@ public class ControllerPrincipal implements Initializable{
 		        AgenteDAO Agente = new AgenteDAO();
 		        comboAgente.setItems(Agente.buscarAgenteDoBanco());
 		    
+		        CursoDAO Curso = new CursoDAO();
+		        comboCurso.setItems(Curso.buscarCursosDoBanco());
+		        
 	}
     
   
