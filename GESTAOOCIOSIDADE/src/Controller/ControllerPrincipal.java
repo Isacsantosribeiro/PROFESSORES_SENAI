@@ -4,6 +4,7 @@ import java.net.URL;
 import java.sql.Connection;
 import ConnectionFactory.ConnectionDatabase;
 import DAO.AgenteDAO;
+import DAO.CursoDAO;
 import DAO.InstrutoresDAO;
 import Model.Instrutores;
 import Model.Agente;
@@ -39,7 +40,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/Isacsantosribeiro/PROFESSORES_SENAI.git
 
 public class ControllerPrincipal implements Initializable{
 
@@ -54,25 +58,25 @@ public class ControllerPrincipal implements Initializable{
     private Button btnBuscarInstrutor;
 
     @FXML
-    private TableColumn<?, ?> colAgente;
+    private TableColumn<String,String> colAgente;
 
     @FXML
-    private TableColumn<?, ?> colCurso;
+    private TableColumn<String,String> colCurso;
 
     @FXML
-    private TableColumn<?, ?> colData;
+    private TableColumn<String,String> colData;
 
     @FXML
-    private TableColumn<?, ?> colDisponibilidade;
+    private TableColumn<String,String> colDisponibilidade;
 
     @FXML
-    private TableColumn<?, ?> colInstrutor;
+    private TableColumn<String,String> colInstrutor;
 
     @FXML
     private ComboBox<String> comboAgente;
 
     @FXML
-    private ComboBox<?> comboCurso;
+    private ComboBox<String> comboCurso;
 
     @FXML
     private ComboBox<String> comboInstrutor;
@@ -95,6 +99,10 @@ public class ControllerPrincipal implements Initializable{
     
     @FXML
     void onactionIntrutor(ActionEvent event) {
+    	   javafx.stage.Stage stageAtual = (javafx.stage.Stage) btInstrutor.getScene().getWindow();
+           stageAtual.close();
+
+           
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ViewRegistroInstrutor.fxml"));
             Parent root = loader.load();
@@ -138,6 +146,9 @@ public class ControllerPrincipal implements Initializable{
 		        AgenteDAO Agente = new AgenteDAO();
 		        comboAgente.setItems(Agente.buscarAgenteDoBanco());
 		    
+		        CursoDAO Curso = new CursoDAO();
+		        comboCurso.setItems(Curso.buscarCursosDoBanco());
+		        
 	}
     
   
@@ -145,5 +156,8 @@ public class ControllerPrincipal implements Initializable{
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/Isacsantosribeiro/PROFESSORES_SENAI.git
 }

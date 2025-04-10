@@ -88,6 +88,7 @@ public class ControllerCadastroInstrutor {
            Alerts.showAlert("Erro", "Erro ao voltar", "Não foi possível voltar à tela principal!", AlertType.ERROR);
            
         }
+        
     	
     }
     
