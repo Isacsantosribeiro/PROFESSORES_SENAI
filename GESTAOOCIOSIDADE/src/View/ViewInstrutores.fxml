@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerPrincipal">
+
+    <!-- TOPO -->
+    <top>
+        <HBox spacing="20" style="-fx-padding: 10px; -fx-background-color: #ffffff;">
+            <Label prefHeight="27.0" prefWidth="225.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2463eb;" text="GESTÃO DE INSTRUTORES" />
+            <Pane HBox.hgrow="ALWAYS">
+            <children>
+               <Button layoutX="456.0" layoutY="1.0" mnemonicParsing="false" text="CADASTRAR CURSOS" />
+            </children></Pane>
+            <Button fx:id="btcurso" onAction="#onactionCurso" text=" TELA INICIAL" />
+        </HBox>
+    </top>
+
+    <!-- CENTRO -->
+    <center>
+        <VBox prefWidth="900" spacing="15" style="-fx-padding: 20px;">
+
+            <!-- AVATAR -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <ImageView fitHeight="40" fitWidth="40" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@img/avatar.png" />
+                    </image>
+                </ImageView>
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Instrutores" />
+            </HBox>
+
+            <!-- PESQUISA -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label style="-fx-font-size: 13px;" text="Pesquisar:" />
+                <TextField fx:id="txtBuscaInstrutor" prefWidth="300" promptText="Nome do instrutor ou CPF" />
+                <Button fx:id="btnBuscarInstrutor" style="-fx-background-color: #2463eb; -fx-text-fill: white;" text="Buscar" />
+            </HBox>
+
+            <!-- BOTÕES DE AÇÃO COLORIDOS -->
+            <HBox spacing="10">
+                <Button fx:id="btnCadastrar" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="CADASTRAR" />
+                <Button fx:id="btnEditar" style="-fx-background-color: #ffc107; -fx-text-fill: black;" text="EDITAR" />
+                <Button fx:id="btnExcluir" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="EXCLUIR" />
+            </HBox>
+
+            <!-- TABELA -->
+            <TableView fx:id="tabelaInstrutores" prefHeight="250" prefWidth="850.0">
+                <columns>
+                    <TableColumn fx:id="colInstrutor" prefWidth="283.0" text="ID" />
+                    <TableColumn fx:id="colCurso" prefWidth="283.0" text="NOME" />
+                    <TableColumn fx:id="colAgente" prefWidth="283.0" text="CPF" />
+                </columns>
+            </TableView>
+
+        </VBox>
+    </center>
+
+</BorderPane>
