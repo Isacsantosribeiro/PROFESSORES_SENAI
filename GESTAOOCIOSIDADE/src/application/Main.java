@@ -14,7 +14,6 @@ public class Main extends Application {
 
     private static Stage stage;
     private static Scene mainScene;
-    //teste
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;

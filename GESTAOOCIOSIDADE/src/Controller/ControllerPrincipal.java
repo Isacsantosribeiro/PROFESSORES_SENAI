@@ -1,5 +1,6 @@
 package Controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import ConnectionFactory.ConnectionDatabase;
@@ -92,6 +93,27 @@ public class ControllerPrincipal implements Initializable{
 
     @FXML
     private TextField txtDescricaoTarefa;
+    
+    @FXML
+    void onactionConsultarCurso(ActionEvent event) {
+    	
+    	    try {
+    	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ViewCurso.fxml"));
+    	        Parent root = loader.load();
+
+    	        Stage stage = new Stage();
+    	        stage.setTitle("Consulta de Cursos");
+    	        stage.setScene(new Scene(root));
+    	        stage.show();
+    	    } catch (IOException e) {
+    	        e.printStackTrace();
+    }
+    	}
+
+    @FXML
+    void onactionConsultarInstrutor(ActionEvent event) {
+
+    }
 
     
     @FXML
