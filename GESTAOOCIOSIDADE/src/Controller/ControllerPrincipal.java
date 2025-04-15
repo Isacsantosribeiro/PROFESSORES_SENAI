@@ -96,19 +96,23 @@ public class ControllerPrincipal implements Initializable{
     
     @FXML
     void onactionConsultarCurso(ActionEvent event) {
-    	
-    	    try {
-    	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ViewCurso.fxml"));
-    	        Parent root = loader.load();
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ViewCurso.fxml"));
+            Parent root = loader.load();
 
-    	        Stage stage = new Stage();
-    	        stage.setTitle("Consulta de Cursos");
-    	        stage.setScene(new Scene(root));
-    	        stage.show();
-    	    } catch (IOException e) {
-    	        e.printStackTrace();
+            Stage stage = new Stage();
+            stage.setTitle("Consulta de Cursos");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alerta = new Alert(AlertType.ERROR);
+            alerta.setTitle("Erro");
+            alerta.setHeaderText("Erro ao abrir a tela de consulta de cursos");
+            alerta.setContentText(e.getMessage());
+            alerta.show();
+        }
     }
-    	}
 
     @FXML
     void onactionConsultarInstrutor(ActionEvent event) {
@@ -117,7 +121,7 @@ public class ControllerPrincipal implements Initializable{
 
     
     @FXML
-    void onactionIntrutor(ActionEvent event) {
+    void onactionInstrutor(ActionEvent event) {
     	   javafx.stage.Stage stageAtual = (javafx.stage.Stage) btInstrutor.getScene().getWindow();
            stageAtual.close();
 

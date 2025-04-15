@@ -24,7 +24,7 @@
             <Button fx:id="btConsultarInstrutor" onAction="#onactionConsultarInstrutor" text="Instrutores" />
          <Button fx:id="btConsultarCurso" onAction="#onactionConsultarCurso" text="Cursos" />
             <Button fx:id="btcurso" onAction="#onactionCurso" text="Cadastrar Cursos" />
-         <Button fx:id="btInstrutor1" onAction="#onactionIntrutor" text="Cadastrar Instrutor" />
+         <Button fx:id="btInstrutor" onAction="#onactionInstrutor" text="Cadastrar Instrutor" />
         </HBox>
     </top>
 
