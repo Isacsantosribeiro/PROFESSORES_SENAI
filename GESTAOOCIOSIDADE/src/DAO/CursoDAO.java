@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import ConnectionFactory.ConnectionDatabase;
 import Model.Curso;
@@ -55,4 +56,30 @@ public class CursoDAO {
 
         return Cursos;
     }
+    
+    public ArrayList<Curso> read() { 
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Curso> listaDeCursos = new ArrayList<>();
+
+        try {
+            stmt = con.prepareStatement("SELECT * FROM CURSO"); 
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Curso curso = new Curso();
+                curso.setId(rs.getString("idCurso")); 
+                curso.setNome(rs.getString("nome"));
+                listaDeCursos.add(curso);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao ler os cursos!", e);
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
+        return listaDeCursos;
+    }
+
 }
+

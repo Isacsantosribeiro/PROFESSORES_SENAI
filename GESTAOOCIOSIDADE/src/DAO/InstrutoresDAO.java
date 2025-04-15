@@ -197,4 +197,28 @@ public class InstrutoresDAO {
 
         return Instrutores;
     }
+    public ArrayList<Instrutores> read() {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Instrutores> listaDeInstrutores = new ArrayList<>();
+
+        try {
+            stmt = con.prepareStatement("SELECT * FROM INSTRUTORES");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Instrutores instrutor = new Instrutores();
+                instrutor.setId(rs.getString("idInstrutor"));
+                instrutor.setNome(rs.getString("nome"));
+                instrutor.setCpf(rs.getString("cpf"));
+                listaDeInstrutores.add(instrutor);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao ler os instrutores!", e);
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
+        return listaDeInstrutores;
+    }
 }
