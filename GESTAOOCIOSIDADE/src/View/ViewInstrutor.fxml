@@ -45,8 +45,8 @@
 
             <!-- BOTÕES DE AÇÃO -->
             <HBox spacing="10">
-                <Button fx:id="btnCadastrar" prefWidth="100" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="CADASTRAR" />
-                <Button fx:id="btnExcluir" prefWidth="100" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="EXCLUIR" />
+                <Button fx:id="btnExcluir" onAction="#ActionExcluir" prefWidth="100" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="EXCLUIR" />
+            <Button fx:id="btnSair" onAction="#ActionSair" prefWidth="100" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="SAIR" />
             </HBox>
 
             <!-- TABELA DE INSTRUTORES -->

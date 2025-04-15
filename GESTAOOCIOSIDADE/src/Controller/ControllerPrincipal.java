@@ -116,6 +116,8 @@ public class ControllerPrincipal implements Initializable{
 
     @FXML
     void onactionConsultarInstrutor(ActionEvent event) {
+    	javafx.stage.Stage stageAtual = (javafx.stage.Stage) btnBuscarInstrutor.getScene().getWindow();
+        stageAtual.close();
     	   try {
                FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ViewInstrutor.fxml"));
                Parent root = loader.load();

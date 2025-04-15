@@ -127,20 +127,19 @@ public class InstrutoresDAO {
         }
     }
 
-    public boolean deletarInstrutor(String id) {
+    public void delete(Instrutores instrutores) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM INSTRUTORES WHERE idInstrutor = ?");
-            stmt.setString(1, id);
+            stmt = con.prepareStatement("DELETE FROM INSTRUTORES WHERE idInstrutor = ? OR CPF = ?");
+            stmt.setString(1, instrutores.getId());   
+            stmt.setString(2, instrutores.getCpf());
 
-            int linhasAfetadas = stmt.executeUpdate();
-            return linhasAfetadas > 0;
-
+            stmt.executeUpdate();
+            System.out.println("Instrutor excluído com sucesso!");
         } catch (SQLException e) {
-            System.out.println("Erro ao excluir instrutor: " + e.getMessage());
-            return false;
+            throw new RuntimeException("Erro ao excluir instrutor!", e);
         } finally {
             ConnectionDatabase.closeConnection(con, stmt);
         }
@@ -172,7 +171,7 @@ public class InstrutoresDAO {
 //            throw new RuntimeException("Erro ao buscar instrutores!", e);
 //        } finally {
 //            ConnectionDatabase.closeConnection(con, stmt, rs);
-//        }
+//       }
 //
 //        return instrutores;
 //    }
