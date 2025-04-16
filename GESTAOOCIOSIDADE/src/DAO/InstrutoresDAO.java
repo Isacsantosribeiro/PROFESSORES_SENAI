@@ -107,8 +107,10 @@ public class InstrutoresDAO {
 
 	        while (rs.next()) {
 	            Instrutores instrutor = new Instrutores();
+	            instrutor.setId(rs.getString("idInstrutor")); 
 	            instrutor.setNome(rs.getString("nome"));
 	            instrutor.setCpf(rs.getString("cpf"));
+
 	            instrutores.add(instrutor);
 	        }
 
