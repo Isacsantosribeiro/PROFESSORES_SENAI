@@ -46,6 +46,7 @@
             <!-- BOTÕES DE AÇÃO -->
             <HBox spacing="10">
                 <Button fx:id="btnExcluir" onAction="#onactionExcluir" prefWidth="100" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="EXCLUIR" />
+            <Button fx:id="btnSair" onAction="#onactionSair" prefWidth="100" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="SAIR" />
             </HBox>
 
             <!-- TABELA DE CURSOS -->
