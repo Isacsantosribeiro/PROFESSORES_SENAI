@@ -90,7 +90,7 @@
                     <TextField fx:id="txtDescricaoTarefa" prefWidth="350" promptText="Digite a descrição" />
                 </HBox>
 
-                <Button fx:id="btnAdicionarTarefa" prefWidth="180" style="-fx-background-color: #2463eb; -fx-text-fill: white; -fx-font-size: 13px;" text="Adicionar Tarefa" />
+                <Button fx:id="btnAdicionarTarefa" onAction="#ActionAdicionarTarefa" prefWidth="180" style="-fx-background-color: #2463eb; -fx-text-fill: white; -fx-font-size: 13px;" text="Adicionar Tarefa" />
             </VBox>
         </VBox>
     </center>

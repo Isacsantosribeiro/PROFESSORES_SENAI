@@ -11,11 +11,11 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/javafx">
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Javafx">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SqlServer"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SQLserver"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

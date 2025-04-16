@@ -95,6 +95,11 @@ public class ControllerPrincipal implements Initializable{
     private TextField txtDescricaoTarefa;
     
     @FXML
+    void ActionAdicionarTarefa(ActionEvent event) {
+
+    }
+    
+    @FXML
     void onactionConsultarCurso(ActionEvent event) {
     	javafx.stage.Stage stageAtual = (javafx.stage.Stage) btnBuscarInstrutor.getScene().getWindow();
         stageAtual.close();
