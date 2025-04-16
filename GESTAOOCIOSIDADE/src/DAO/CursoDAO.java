@@ -80,6 +80,54 @@ public class CursoDAO {
         }
         return listaDeCursos;
     }
+    
+    public void delete(Curso curso) {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = con.prepareStatement("DELETE FROM CURSO WHERE idCurso = ? OR nome = ?");
+            stmt.setString(1, curso.getId());   
+            stmt.setString(2, curso.getNome());
+
+            stmt.executeUpdate();
+            System.out.println("Curso excluído com sucesso!");
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao excluir curso!", e);
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt);
+        }
+    }
+    public ArrayList<Curso> search(Curso cursoBusca) {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Curso> cursos = new ArrayList<>();
+
+        try {
+            stmt = con.prepareStatement("SELECT * FROM curso WHERE idCurso LIKE ? OR nome LIKE ?");
+            stmt.setString(1, "%" + cursoBusca.getId() + "%");
+            stmt.setString(2, "%" + cursoBusca.getNome() + "%");
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Curso curso = new Curso();
+                curso.setId(rs.getString("idCurso"));   
+                curso.setNome(rs.getString("nome"));
+
+                cursos.add(curso);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar cursos!", e);
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
+
+        return cursos;
+    }
+
 
 }
 

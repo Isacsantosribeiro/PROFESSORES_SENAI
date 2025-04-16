@@ -40,13 +40,12 @@
             <HBox alignment="CENTER_LEFT" spacing="10">
                 <Label style="-fx-font-size: 13px;" text="Pesquisar:" />
                 <TextField fx:id="txtBuscaCurso" prefWidth="250" promptText="Nome do curso" />
-                <Button fx:id="btnBuscarCurso" style="-fx-background-color: #2463eb; -fx-text-fill: white;" text="Buscar" />
+                <Button fx:id="btnBuscarCurso" onAction="#onactionBuscar" style="-fx-background-color: #2463eb; -fx-text-fill: white;" text="Buscar" />
             </HBox>
 
             <!-- BOTÕES DE AÇÃO -->
             <HBox spacing="10">
-                <Button fx:id="btnCadastrar" prefWidth="100" style="-fx-background-color: #28a745; -fx-text-fill: white;" text="CADASTRAR" />
-                <Button fx:id="btnExcluir" prefWidth="100" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="EXCLUIR" />
+                <Button fx:id="btnExcluir" onAction="#onactionExcluir" prefWidth="100" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="EXCLUIR" />
             </HBox>
 
             <!-- TABELA DE CURSOS -->
