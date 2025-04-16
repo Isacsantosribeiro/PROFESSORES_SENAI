@@ -1,16 +1,21 @@
 package Controller;
 
 import Model.Curso;
+import Util.Alerts;
 import DAO.CursoDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Alert;
+
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,6 +41,60 @@ public class ControllerCurso implements Initializable {
 
     @FXML
     private TableView<Curso> tabelaCursos;
+    
+    @FXML
+    void onactionBuscar(ActionEvent event) {
+        String textoBusca = txtBuscaCurso.getText();
+
+        if (textoBusca == null || textoBusca.trim().isEmpty()) {
+            Alerts.showAlert("Aviso", null, "Digite o nome ou ID do curso para buscar.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        CursoDAO cursoDAO = new CursoDAO();
+        Curso cursoBusca = new Curso();
+
+        try {
+            int id = Integer.parseInt(textoBusca.trim());
+            cursoBusca.setId(String.valueOf(id)); 
+            cursoBusca.setNome(""); 
+        } catch (NumberFormatException e) {
+            cursoBusca.setId("0"); 
+            cursoBusca.setNome(textoBusca.trim());
+        }
+
+        ArrayList<Curso> resultados = cursoDAO.search(cursoBusca);
+
+        if (resultados.isEmpty()) {
+            Alerts.showAlert("Resultado", null, "Nenhum curso encontrado.", Alert.AlertType.INFORMATION);
+        }
+
+        tabelaCursos.getItems().setAll(resultados);
+    }
+
+    @FXML
+    void onactionExcluir(ActionEvent event) {
+        Curso cursoSelecionado = tabelaCursos.getSelectionModel().getSelectedItem();
+
+        if (cursoSelecionado != null) {
+            boolean confirmar = Alerts.showConfirmation("Confirmação", "Deseja realmente excluir o curso?");
+            
+            if (confirmar) {
+                try {
+                    CursoDAO dao = new CursoDAO();
+                    dao.delete(cursoSelecionado);
+                    tabelaCursos.getItems().remove(cursoSelecionado);
+                    Alerts.showAlert("Sucesso", null, "Curso excluído com sucesso!", AlertType.INFORMATION);
+                } catch (Exception e) {
+                    Alerts.showAlert("Erro", null, "Erro ao excluir o curso: " + e.getMessage(), AlertType.ERROR);
+                }
+            }
+        } else {
+            Alerts.showAlert("Atenção", null, "Nenhum curso selecionado!", AlertType.WARNING);
+        }
+    }
+
+    
 
     @FXML
     private TextField txtBuscaCurso;
