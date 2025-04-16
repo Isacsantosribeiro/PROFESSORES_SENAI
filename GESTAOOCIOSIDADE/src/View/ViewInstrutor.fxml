@@ -40,7 +40,7 @@
             <HBox alignment="CENTER_LEFT" spacing="10">
                 <Label style="-fx-font-size: 13px;" text="Pesquisar:" />
                 <TextField fx:id="txtBuscaInstrutor" prefWidth="250" promptText="Nome do instrutor" />
-                <Button fx:id="btnBuscarInstrutor" style="-fx-background-color: #2463eb; -fx-text-fill: white;" text="Buscar" />
+                <Button fx:id="btnBuscarInstrutor" onAction="#onactionBuscar" style="-fx-background-color: #2463eb; -fx-text-fill: white;" text="Buscar" />
             </HBox>
 
             <!-- BOTÕES DE AÇÃO -->

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import ConnectionFactory.ConnectionDatabase;
 import Model.Instrutores;
+import Util.Alerts;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -75,7 +76,52 @@ public class InstrutoresDAO {
 	    } finally {
 	        ConnectionDatabase.closeConnection(con, stmt, rs);
 	    }
+	    
 	}
+	public ArrayList<Instrutores> search(Instrutores instrutorBusca) {
+	    Connection con = ConnectionDatabase.getConnection();
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    ArrayList<Instrutores> instrutores = new ArrayList<>();
+
+	    try {
+	        String sql = "SELECT * FROM instrutores WHERE 1=1";
+	        if (!instrutorBusca.getCpf().isEmpty()) {
+	            sql += " AND cpf LIKE ?";
+	        }
+	        if (!instrutorBusca.getNome().isEmpty()) {
+	            sql += " AND nome LIKE ?";
+	        }
+
+	        stmt = con.prepareStatement(sql);
+
+	        int index = 1;
+	        if (!instrutorBusca.getCpf().isEmpty()) {
+	            stmt.setString(index++, "%" + instrutorBusca.getCpf() + "%");
+	        }
+	        if (!instrutorBusca.getNome().isEmpty()) {
+	            stmt.setString(index++, "%" + instrutorBusca.getNome() + "%");
+	        }
+
+	        rs = stmt.executeQuery();
+
+	        while (rs.next()) {
+	            Instrutores instrutor = new Instrutores();
+	            instrutor.setNome(rs.getString("nome"));
+	            instrutor.setCpf(rs.getString("cpf"));
+	            instrutores.add(instrutor);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        ConnectionDatabase.closeConnection(con, stmt, rs);
+	    }
+
+	    return instrutores;
+	}
+
+	
 
 //    public ArrayList<String> listarInstrutores() {
 //        Connection con = ConnectionDatabase.getConnection();

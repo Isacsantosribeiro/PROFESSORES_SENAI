@@ -20,6 +20,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory; // Importe PropertyValueFactory
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+
 
 import javafx.scene.control.cell.PropertyValueFactory; 
 
@@ -67,6 +69,36 @@ public class ControllerInstrutor implements Initializable {
 
     @FXML
     private TextField txtBuscaInstrutor;
+    
+    @FXML
+    void onactionBuscar(ActionEvent event) {
+        String textoBusca = txtBuscaInstrutor.getText();
+
+        if (textoBusca == null || textoBusca.trim().isEmpty()) {
+            Alerts.showAlert("Aviso", null, "Digite o nome ou CPF do instrutor para buscar.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        Instrutores instrutorBusca = new Instrutores();
+
+       
+        if (textoBusca.trim().matches("\\d{11}")) {
+            instrutorBusca.setCpf(textoBusca.trim());
+            instrutorBusca.setNome("");
+        } else {
+            instrutorBusca.setCpf(""); 
+            instrutorBusca.setNome(textoBusca.trim());
+        }
+
+        ArrayList<Instrutores> instrutoresEncontrados = instrutorDAO.search(instrutorBusca);
+
+        if (instrutoresEncontrados.isEmpty()) {
+            Alerts.showAlert("Resultado", null, "Nenhum instrutor encontrado.", Alert.AlertType.INFORMATION);
+        }
+
+        tabelaInstrutores.getItems().setAll(instrutoresEncontrados);
+    }
+
 
     private InstrutoresDAO instrutorDAO;
     private ObservableList<Instrutores> listaObservableDeInstrutores;
