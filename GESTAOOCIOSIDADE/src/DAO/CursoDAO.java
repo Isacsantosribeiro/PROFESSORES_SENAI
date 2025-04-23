@@ -35,41 +35,19 @@ public class CursoDAO {
             ConnectionDatabase.closeConnection(con, stmt);
         }
     }
-    public ObservableList<String> buscarCursosDoBanco() {
+
+    public ObservableList<Curso> buscarCursosDoBanco() {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        ObservableList<String> Cursos = FXCollections.observableArrayList();
+        ObservableList<Curso> listaDeCursos = FXCollections.observableArrayList();
         try {
-            stmt = con.prepareStatement("select nome from CURSO"); 
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-            	String f = rs.getString(1);
-            	Cursos.add(f);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            ConnectionDatabase.closeConnection(con, stmt, rs);
-        }
-
-        return Cursos;
-    }
-    
-    public ArrayList<Curso> read() { 
-        Connection con = ConnectionDatabase.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        ArrayList<Curso> listaDeCursos = new ArrayList<>();
-
-        try {
-            stmt = con.prepareStatement("SELECT * FROM CURSO"); 
+            stmt = con.prepareStatement("SELECT idCurso, nome FROM CURSO");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Curso curso = new Curso();
-                curso.setId(rs.getString("idCurso")); 
+                curso.setIdCurso(rs.getInt("idCurso")); // Busca o ID como inteiro
                 curso.setNome(rs.getString("nome"));
                 listaDeCursos.add(curso);
             }
@@ -80,15 +58,38 @@ public class CursoDAO {
         }
         return listaDeCursos;
     }
-    
+
+    public ArrayList<Curso> read() {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Curso> listaDeCursos = new ArrayList<>();
+
+        try {
+            stmt = con.prepareStatement("SELECT * FROM CURSO");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Curso curso = new Curso();
+                curso.setIdCurso(rs.getInt("idCurso")); // Busca o ID como inteiro
+                curso.setNome(rs.getString("nome"));
+                listaDeCursos.add(curso);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao ler os cursos!", e);
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
+        return listaDeCursos;
+    }
+
     public void delete(Curso curso) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM CURSO WHERE idCurso = ? OR nome = ?");
-            stmt.setString(1, curso.getId());   
-            stmt.setString(2, curso.getNome());
+            stmt = con.prepareStatement("DELETE FROM CURSO WHERE idCurso = ?");
+            stmt.setInt(1, curso.getIdCurso()); // Usa o ID como inteiro
 
             stmt.executeUpdate();
             System.out.println("Curso excluído com sucesso!");
@@ -98,6 +99,7 @@ public class CursoDAO {
             ConnectionDatabase.closeConnection(con, stmt);
         }
     }
+
     public ArrayList<Curso> search(Curso cursoBusca) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
@@ -106,16 +108,15 @@ public class CursoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT * FROM curso WHERE idCurso LIKE ? OR nome LIKE ?");
-            stmt.setString(1, "%" + cursoBusca.getId() + "%");
+            stmt.setString(1, "%" + cursoBusca.getIdCurso() + "%"); // Busca pelo ID como String (pode ser alterado se preferir buscar por int)
             stmt.setString(2, "%" + cursoBusca.getNome() + "%");
 
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Curso curso = new Curso();
-                curso.setId(rs.getString("idCurso"));   
+                curso.setIdCurso(rs.getInt("idCurso")); // Busca o ID como inteiro
                 curso.setNome(rs.getString("nome"));
-
                 cursos.add(curso);
             }
 
@@ -127,7 +128,4 @@ public class CursoDAO {
 
         return cursos;
     }
-
-
 }
-

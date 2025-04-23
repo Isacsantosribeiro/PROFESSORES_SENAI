@@ -115,7 +115,7 @@ public class ControllerInstrutor implements Initializable {
 
         tabelaInstrutores.setItems(listaObservableDeInstrutores);
 
-        colIdInstrutor.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colIdInstrutor.setCellValueFactory(new PropertyValueFactory<>("idInstrutor"));
         colNomeInstrutor.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colCpfInstrutor.setCellValueFactory(new PropertyValueFactory<>("cpf"));
     }
@@ -125,7 +125,7 @@ public class ControllerInstrutor implements Initializable {
         Instrutores instrutorSelecionado = tabelaInstrutores.getSelectionModel().getSelectedItem();
 
         if (instrutorSelecionado != null) {
-            boolean confirmar = Alerts.showConfirmation("Confirmação", "Deseja realmente excluir o curso?");
+            boolean confirmar = Alerts.showConfirmation("Confirmação", "Deseja realmente excluir o instrutor?");
             
             if (confirmar) {
                 try {

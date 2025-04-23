@@ -38,25 +38,26 @@ public class ControllerCurso implements Initializable {
     private Button btnExcluir;
 
     @FXML
-    private TableColumn<Curso, String> colIdCurso;
+    private TableColumn<Curso, Integer> colIdCurso; // Alterado para Integer
 
     @FXML
     private TableColumn<Curso, String> colNomeCurso;
 
     @FXML
     private TableView<Curso> tabelaCursos;
-    
+
     @FXML
     void onactionSair(ActionEvent event) {
-    	 try {
-             Parent root = FXMLLoader.load(getClass().getResource("/View/ViewPrincipal.fxml"));
-             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-             stage.setScene(new Scene(root));
-             stage.show();
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/View/ViewPrincipal.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     @FXML
     void onactionBuscar(ActionEvent event) {
         String textoBusca = txtBuscaCurso.getText();
@@ -71,14 +72,14 @@ public class ControllerCurso implements Initializable {
 
         try {
             int id = Integer.parseInt(textoBusca.trim());
-            cursoBusca.setId(String.valueOf(id)); 
-            cursoBusca.setNome(""); 
+            cursoBusca.setIdCurso(id); // Seta o ID como int
+            cursoBusca.setNome("");
         } catch (NumberFormatException e) {
-            cursoBusca.setId("0"); 
+            cursoBusca.setIdCurso(0); // Valor padrão para busca por nome
             cursoBusca.setNome(textoBusca.trim());
         }
 
-        ArrayList<Curso> resultados = cursoDAO.search(cursoBusca);
+        ArrayList<Curso> resultados = cursoDAO.search(cursoBusca); // Assumindo que search() no DAO aceita Curso com int id
 
         if (resultados.isEmpty()) {
             Alerts.showAlert("Resultado", null, "Nenhum curso encontrado.", Alert.AlertType.INFORMATION);
@@ -93,11 +94,11 @@ public class ControllerCurso implements Initializable {
 
         if (cursoSelecionado != null) {
             boolean confirmar = Alerts.showConfirmation("Confirmação", "Deseja realmente excluir o curso?");
-            
+
             if (confirmar) {
                 try {
                     CursoDAO dao = new CursoDAO();
-                    dao.delete(cursoSelecionado);
+                    dao.delete(cursoSelecionado); // O método delete() no DAO deve usar cursoSelecionado.getIdCurso() (int)
                     tabelaCursos.getItems().remove(cursoSelecionado);
                     Alerts.showAlert("Sucesso", null, "Curso excluído com sucesso!", AlertType.INFORMATION);
                 } catch (Exception e) {
@@ -108,8 +109,6 @@ public class ControllerCurso implements Initializable {
             Alerts.showAlert("Atenção", null, "Nenhum curso selecionado!", AlertType.WARNING);
         }
     }
-
-    
 
     @FXML
     private TextField txtBuscaCurso;
@@ -124,12 +123,12 @@ public class ControllerCurso implements Initializable {
     }
 
     public void carregarTableCursos() {
-        ArrayList<Curso> listaCursos = cursoDAO.read(); 
+        ArrayList<Curso> listaCursos = cursoDAO.read();
         arrayCursos = FXCollections.observableList(listaCursos);
 
         tabelaCursos.setItems(arrayCursos);
 
-        colIdCurso.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colIdCurso.setCellValueFactory(new PropertyValueFactory<>("idCurso")); // Alterado para "idCurso"
         colNomeCurso.setCellValueFactory(new PropertyValueFactory<>("nome"));
     }
 }

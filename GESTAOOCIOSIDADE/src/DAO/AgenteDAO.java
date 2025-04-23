@@ -40,7 +40,6 @@ public class AgenteDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<Agente> agentes = new ArrayList<>();
-        int i = 1;
 
         try {
             stmt = con.prepareStatement("SELECT * FROM AGENTES");
@@ -48,14 +47,11 @@ public class AgenteDAO {
 
             while (rs.next()) {
                 Agente agente = new Agente();
-
-                agente.setId("" + i);
-                agente.setNome(rs.getString(2));
-                agente.setCpf(rs.getString(3));
-                agente.setSenha(rs.getString(4));
-
+                agente.setIdAgente(rs.getInt("idAgente")); // Busca o ID como inteiro
+                agente.setNome(rs.getString("nome"));
+                agente.setCpf(rs.getString("CPF"));
+                agente.setSenha(rs.getString("senha"));
                 agentes.add(agente);
-                i++;
             }
 
         } catch (SQLException e) {
@@ -71,12 +67,11 @@ public class AgenteDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("UPDATE AGENTES SET nome = ?, CPF = ?, senha = ? WHERE idAgente = ? OR CPF = ?");
+            stmt = con.prepareStatement("UPDATE AGENTES SET nome = ?, CPF = ?, senha = ? WHERE idAgente = ?");
             stmt.setString(1, agente.getNome());
             stmt.setString(2, agente.getCpf());
             stmt.setString(3, agente.getSenha());
-            stmt.setString(4, agente.getId()); // Adicionado o ID para a cláusula WHERE
-            stmt.setString(5, agente.getCpf()); // Adicionado o CPF para a cláusula WHERE
+            stmt.setInt(4, agente.getIdAgente()); // Usa o ID como inteiro
 
             stmt.executeUpdate();
             System.out.println("Atualizado com sucesso!");
@@ -93,10 +88,8 @@ public class AgenteDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM AGENTES WHERE idAgente = ? OR CPF = ?");
-
-            stmt.setString(1, agente.getId());
-            stmt.setString(2, agente.getCpf());
+            stmt = con.prepareStatement("DELETE FROM AGENTES WHERE idAgente = ?");
+            stmt.setInt(1, agente.getIdAgente()); // Usa o ID como inteiro
 
             stmt.executeUpdate();
             System.out.println("Excluido com sucesso!");
@@ -108,26 +101,25 @@ public class AgenteDAO {
         }
     }
 
-    public ArrayList<Agente> search(Agente agente1) {
+    public ArrayList<Agente> search(Agente agenteBusca) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<Agente> agentes = new ArrayList<>();
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM AGENTES WHERE CPF LIKE ? OR nome LIKE ?");
-            stmt.setString(1, "%" + agente1.getCpf() + "%");
-            stmt.setString(2, "%" + agente1.getNome() + "%");
+            stmt = con.prepareStatement("SELECT * FROM AGENTES WHERE CPF LIKE ? OR nome LIKE ? OR idAgente LIKE ?");
+            stmt.setString(1, "%" + agenteBusca.getCpf() + "%");
+            stmt.setString(2, "%" + agenteBusca.getNome() + "%");
+            stmt.setString(3, "%" + agenteBusca.getIdAgente() + "%"); // Busca pelo ID como String (pode ser alterado para int)
 
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Agente agente = new Agente();
-
-                agente.setId(rs.getString(1));
-                agente.setNome(rs.getString(2));
-                agente.setCpf(rs.getString(3));
-
+                agente.setIdAgente(rs.getInt("idAgente")); // Busca o ID como inteiro
+                agente.setNome(rs.getString("nome"));
+                agente.setCpf(rs.getString("CPF"));
                 agentes.add(agente);
             }
 
@@ -149,7 +141,7 @@ public class AgenteDAO {
             stmt.setString(1, agente.getNome());
             stmt.setString(2, agente.getCpf());
             stmt.setString(3, agente.getSenha());
-            
+
             int linhasAfetadas = stmt.executeUpdate();
             if(linhasAfetadas > 0) {
             	System.out.println("Agente cadastro com sucesso!");
@@ -157,7 +149,7 @@ public class AgenteDAO {
             	System.out.println("Nenhum agente foi cadastrado: ");
             }
         } catch (SQLException e){
-        	System.out.println("Erro ao cadastrar agente:" + e.getMessage()); 	
+        	System.out.println("Erro ao cadastrar agente:" + e.getMessage());
         } finally {
         	ConnectionDatabase.closeConnection(con,stmt);
         }
@@ -168,19 +160,19 @@ public class AgenteDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        Agente agenteAutenticado = null; 
+        Agente agenteAutenticado = null;
 
         try {
-            stmt = con.prepareStatement("SELECT nome, senha FROM AGENTES WHERE nome = ? AND senha = ?");
+            stmt = con.prepareStatement("SELECT idAgente, nome, senha FROM AGENTES WHERE nome = ? AND senha = ?");
             stmt.setString(1, nome);
             stmt.setString(2, senha);
             rs = stmt.executeQuery();
 
-            while (rs.next()) { 
+            while (rs.next()) {
                 agenteAutenticado = new Agente();
+                agenteAutenticado.setIdAgente(rs.getInt("idAgente")); // Busca o ID como inteiro
                 agenteAutenticado.setNome(rs.getString("nome"));
                 agenteAutenticado.setSenha(rs.getString("senha"));
-        
             }
         } catch (SQLException e) {
             Alerts.showAlert("Erro", "Erro de conexão", "Falha ao consultar informações no banco de dados", AlertType.ERROR);
@@ -188,28 +180,29 @@ public class AgenteDAO {
         } finally {
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
-        return agenteAutenticado; 
+        return agenteAutenticado;
     }
-    
-    public ObservableList<String> buscarAgenteDoBanco() {
+
+    public ObservableList<Agente> buscarAgenteDoBanco() { // Alterado para retornar ObservableList de Agente
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        ObservableList<String> Agente = FXCollections.observableArrayList();
+        ObservableList<Agente> agentes = FXCollections.observableArrayList();
         try {
-            stmt = con.prepareStatement("select nome from AGENTES"); 
+            stmt = con.prepareStatement("SELECT idAgente, nome FROM AGENTES"); // Busca ID e nome
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-            	String f = rs.getString(1);
-            	Agente.add(f);
+                Agente agente = new Agente();
+                agente.setIdAgente(rs.getInt("idAgente")); // Busca o ID como inteiro
+                agente.setNome(rs.getString("nome"));
+                agentes.add(agente);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
-
-        return Agente;
+        return agentes;
     }
-	}
+}

@@ -16,142 +16,119 @@ import javafx.scene.control.Alert.AlertType;
 
 public class InstrutoresDAO {
 
-	public boolean inserirInstrutor(Instrutores instrutor) {
-	    if (cpfExiste(instrutor.getCpf())) {
-	        mostrarAlerta("CPF já cadastrado!", AlertType.WARNING);
-	        return false;
-	    }
+    public boolean inserirInstrutor(Instrutores instrutor) {
+        if (cpfExiste(instrutor.getCpf())) {
+            mostrarAlerta("CPF já cadastrado!", AlertType.WARNING);
+            return false;
+        }
 
-	    Connection con = ConnectionDatabase.getConnection();
-	    PreparedStatement stmt = null;
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
 
-	    try {
-	        String sql = "INSERT INTO INSTRUTORES (nome, CPF) VALUES (?, ?)";
-	        stmt = con.prepareStatement(sql);
-	        stmt.setString(1, instrutor.getNome());
-	        stmt.setString(2, instrutor.getCpf());
+        try {
+            String sql = "INSERT INTO INSTRUTORES (nome, CPF) VALUES (?, ?)";
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, instrutor.getNome());
+            stmt.setString(2, instrutor.getCpf());
 
-	        int linhasAfetadas = stmt.executeUpdate();
+            int linhasAfetadas = stmt.executeUpdate();
 
-	        if (linhasAfetadas > 0) {
-	            mostrarAlerta("Instrutor cadastrado com sucesso!", AlertType.INFORMATION);
-	            return true;
-	        } else {
-	            mostrarAlerta("Não foi possível cadastrar o instrutor.", AlertType.ERROR);
-	            return false;
-	        }
+            if (linhasAfetadas > 0) {
+                mostrarAlerta("Instrutor cadastrado com sucesso!", AlertType.INFORMATION);
+                return true;
+            } else {
+                mostrarAlerta("Não foi possível cadastrar o instrutor.", AlertType.ERROR);
+                return false;
+            }
 
-	    } catch (SQLException e) {
-	        mostrarAlerta("Erro ao cadastrar instrutor: " + e.getMessage(), AlertType.ERROR);
-	        return false;
-	    } finally {
-	        ConnectionDatabase.closeConnection(con, stmt);
-	    }
-	}
-	
-	private void mostrarAlerta(String mensagem, AlertType tipo) {
-	    Alert alert = new Alert(tipo);
-	    alert.setTitle("Cadastro de Instrutor");
-	    alert.setHeaderText(null);
-	    alert.setContentText(mensagem);
-	    alert.showAndWait();
-	}
+        } catch (SQLException e) {
+            mostrarAlerta("Erro ao cadastrar instrutor: " + e.getMessage(), AlertType.ERROR);
+            return false;
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt);
+        }
+    }
 
-	public boolean cpfExiste(String cpf) {
-	    Connection con = ConnectionDatabase.getConnection();
-	    PreparedStatement stmt = null;
-	    ResultSet rs = null;
+    private void mostrarAlerta(String mensagem, AlertType tipo) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle("Cadastro de Instrutor");
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
 
-	    try {
-	        String sql = "SELECT 1 FROM INSTRUTORES WHERE CPF = ?";
-	        stmt = con.prepareStatement(sql);
-	        stmt.setString(1, cpf);
-	        rs = stmt.executeQuery();
+    public boolean cpfExiste(String cpf) {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-	        return rs.next(); // Se houver resultado, o CPF já existe
+        try {
+            String sql = "SELECT 1 FROM INSTRUTORES WHERE CPF = ?";
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, cpf);
+            rs = stmt.executeQuery();
 
-	    } catch (SQLException e) {
-	        System.out.println("Erro ao verificar CPF: " + e.getMessage());
-	        return false;
-	    } finally {
-	        ConnectionDatabase.closeConnection(con, stmt, rs);
-	    }
-	    
-	}
-	public ArrayList<Instrutores> search(Instrutores instrutorBusca) {
-	    Connection con = ConnectionDatabase.getConnection();
-	    PreparedStatement stmt = null;
-	    ResultSet rs = null;
-	    ArrayList<Instrutores> instrutores = new ArrayList<>();
+            return rs.next(); // Se houver resultado, o CPF já existe
 
-	    try {
-	        String sql = "SELECT * FROM instrutores WHERE 1=1";
-	        if (!instrutorBusca.getCpf().isEmpty()) {
-	            sql += " AND cpf LIKE ?";
-	        }
-	        if (!instrutorBusca.getNome().isEmpty()) {
-	            sql += " AND nome LIKE ?";
-	        }
+        } catch (SQLException e) {
+            System.out.println("Erro ao verificar CPF: " + e.getMessage());
+            return false;
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
 
-	        stmt = con.prepareStatement(sql);
+    }
 
-	        int index = 1;
-	        if (!instrutorBusca.getCpf().isEmpty()) {
-	            stmt.setString(index++, "%" + instrutorBusca.getCpf() + "%");
-	        }
-	        if (!instrutorBusca.getNome().isEmpty()) {
-	            stmt.setString(index++, "%" + instrutorBusca.getNome() + "%");
-	        }
+    public ArrayList<Instrutores> search(Instrutores instrutorBusca) {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Instrutores> instrutores = new ArrayList<>();
 
-	        rs = stmt.executeQuery();
+        try {
+            String sql = "SELECT * FROM instrutores WHERE 1=1";
+            if (!instrutorBusca.getCpf().isEmpty()) {
+                sql += " AND cpf LIKE ?";
+            }
+            if (!instrutorBusca.getNome().isEmpty()) {
+                sql += " AND nome LIKE ?";
+            }
+            if (instrutorBusca.getIdInstrutor() != 0) { // Adicionado busca por ID
+                sql += " AND idInstrutor = ?";
+            }
 
-	        while (rs.next()) {
-	            Instrutores instrutor = new Instrutores();
-	            instrutor.setId(rs.getString("idInstrutor")); 
-	            instrutor.setNome(rs.getString("nome"));
-	            instrutor.setCpf(rs.getString("cpf"));
+            stmt = con.prepareStatement(sql);
 
-	            instrutores.add(instrutor);
-	        }
+            int index = 1;
+            if (!instrutorBusca.getCpf().isEmpty()) {
+                stmt.setString(index++, "%" + instrutorBusca.getCpf() + "%");
+            }
+            if (!instrutorBusca.getNome().isEmpty()) {
+                stmt.setString(index++, "%" + instrutorBusca.getNome() + "%");
+            }
+            if (instrutorBusca.getIdInstrutor() != 0) { // Seta o ID como inteiro
+                stmt.setInt(index++, instrutorBusca.getIdInstrutor());
+            }
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    } finally {
-	        ConnectionDatabase.closeConnection(con, stmt, rs);
-	    }
+            rs = stmt.executeQuery();
 
-	    return instrutores;
-	}
+            while (rs.next()) {
+                Instrutores instrutor = new Instrutores();
+                instrutor.setIdInstrutor(rs.getInt("idInstrutor")); // Busca o ID como inteiro
+                instrutor.setNome(rs.getString("nome"));
+                instrutor.setCpf(rs.getString("cpf"));
 
-	
+                instrutores.add(instrutor);
+            }
 
-//    public ArrayList<String> listarInstrutores() {
-//        Connection con = ConnectionDatabase.getConnection();
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//
-//        ArrayList<String> instrutores = new ArrayList<>();
-//
-//        try {
-//            stmt = con.prepareStatement("SELECT * FROM INSTRUTORES");
-//            rs = stmt.executeQuery();
-//
-//            while (rs.next()) {
-//                String instrutor = new String();
-//                instrutor.setId(rs.getString("idInstrutor"));
-//                instrutor.setNome(rs.getString("nome"));
-//                instrutor.setCpf(rs.getString("CPF"));
-//                instrutores.add(instrutor);
-//            }
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException("Erro ao ler instrutores!", e);
-//        } finally {
-//            ConnectionDatabase.closeConnection(con, stmt, rs);
-//        }
-//
-//        return instrutores;
-//    }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
+
+        return instrutores;
+    }
 
     public boolean atualizarInstrutor(Instrutores instrutor) {
         Connection con = ConnectionDatabase.getConnection();
@@ -162,7 +139,7 @@ public class InstrutoresDAO {
             stmt = con.prepareStatement(sql);
             stmt.setString(1, instrutor.getNome());
             stmt.setString(2, instrutor.getCpf());
-            stmt.setString(3, instrutor.getId());
+            stmt.setInt(3, instrutor.getIdInstrutor()); // Usa o ID como inteiro
 
             int linhasAfetadas = stmt.executeUpdate();
             return linhasAfetadas > 0;
@@ -180,9 +157,8 @@ public class InstrutoresDAO {
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement("DELETE FROM INSTRUTORES WHERE idInstrutor = ? OR CPF = ?");
-            stmt.setString(1, instrutores.getId());   
-            stmt.setString(2, instrutores.getCpf());
+            stmt = con.prepareStatement("DELETE FROM INSTRUTORES WHERE idInstrutor = ?");
+            stmt.setInt(1, instrutores.getIdInstrutor()); // Usa o ID como inteiro
 
             stmt.executeUpdate();
             System.out.println("Instrutor excluído com sucesso!");
@@ -193,57 +169,29 @@ public class InstrutoresDAO {
         }
     }
 
-//    public ArrayList<String> buscarInstrutores(String busca) {
-//        Connection con = ConnectionDatabase.getConnection();
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//
-//        ArrayList<String> instrutores = new ArrayList<>();
-//
-//        try {
-//            stmt = con.prepareStatement("SELECT * FROM INSTRUTORES WHERE nome LIKE ? OR CPF LIKE ?");
-//            stmt.setString(1, "%" + busca + "%");
-//            stmt.setString(2, "%" + busca + "%");
-//
-//            rs = stmt.executeQuery();
-//
-//            while (rs.next()) {
-//                String instrutor = new String();
-//                instrutor.setId(rs.getString("idInstrutor"));
-//                instrutor.setNome(rs.getString("nome"));
-//                instrutor.setCpf(rs.getString("CPF"));
-//                instrutores.add(instrutor);
-//            }
-//
-//        } catch (SQLException e) {
-//            throw new RuntimeException("Erro ao buscar instrutores!", e);
-//        } finally {
-//            ConnectionDatabase.closeConnection(con, stmt, rs);
-//       }
-//
-//        return instrutores;
-//    }
-    public ObservableList<String> buscarInstrutoresDoBanco() {
+    public ObservableList<Instrutores> buscarInstrutoresDoBanco() { // Retorna ObservableList de Instrutores
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        ObservableList<String> Instrutores = FXCollections.observableArrayList();
+        ObservableList<Instrutores> instrutores = FXCollections.observableArrayList();
         try {
-            stmt = con.prepareStatement("select nome from INSTRUTORES"); 
+            stmt = con.prepareStatement("SELECT idInstrutor, nome FROM INSTRUTORES"); // Busca ID e nome
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-            	String f = rs.getString(1);
-            	Instrutores.add(f);
+                Instrutores instrutor = new Instrutores();
+                instrutor.setIdInstrutor(rs.getInt("idInstrutor")); // Busca o ID como inteiro
+                instrutor.setNome(rs.getString("nome"));
+                instrutores.add(instrutor);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
-
-        return Instrutores;
+        return instrutores;
     }
+
     public ArrayList<Instrutores> read() {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
@@ -256,7 +204,7 @@ public class InstrutoresDAO {
 
             while (rs.next()) {
                 Instrutores instrutor = new Instrutores();
-                instrutor.setId(rs.getString("idInstrutor"));
+                instrutor.setIdInstrutor(rs.getInt("idInstrutor")); // Busca o ID como inteiro
                 instrutor.setNome(rs.getString("nome"));
                 instrutor.setCpf(rs.getString("cpf"));
                 listaDeInstrutores.add(instrutor);
