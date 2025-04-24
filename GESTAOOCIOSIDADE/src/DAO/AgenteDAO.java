@@ -205,4 +205,31 @@ public class AgenteDAO {
         }
         return agentes;
     }
+    
+    public Agente buscarAgentePorId(String idAgente) {
+        String sql = "SELECT idAgente, nome, senha FROM AGENTES WHERE idAgente = ?";
+        Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        Agente agente = null;
+
+        try {
+            con = ConnectionDatabase.getConnection();
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, idAgente);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                agente = new Agente();
+                agente.setIdAgente(rs.getInt("idAgente"));
+                agente.setNome(rs.getString("nome"));
+                agente.setSenha(rs.getString("senha"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
+        return agente;
+    }
 }

@@ -12,6 +12,7 @@ import Model.Agente;
 import Model.Curso;
 import Model.Instrutores;
 import Model.Tarefa;
+import Util.Alerts; // Importe a classe Alerts
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -47,6 +48,9 @@ public class ControllerPrincipal implements Initializable {
     private Button btnAdicionarTarefa;
 
     @FXML
+    private Button btnBuscarTarefa;
+    
+    @FXML
     private Button btnBuscarInstrutor;
 
     @FXML
@@ -66,18 +70,18 @@ public class ControllerPrincipal implements Initializable {
 
     @FXML
     private TableColumn<Tarefa, String> colInstrutor;
-    
+
     @FXML
     private TableColumn<Tarefa, String> colDataFinal;
 
     @FXML
-    private ComboBox<Agente> comboAgente; // Alterado para ComboBox<Agente>
+    private ComboBox<Agente> comboAgente;
 
     @FXML
-    private ComboBox<Curso> comboCurso; // Alterado para ComboBox<Curso>
+    private ComboBox<Curso> comboCurso;
 
     @FXML
-    private ComboBox<Instrutores> comboInstrutor; // Alterado para ComboBox<Instrutores>
+    private ComboBox<Instrutores> comboInstrutor;
 
     @FXML
     private DatePicker dateFinal;
@@ -89,10 +93,17 @@ public class ControllerPrincipal implements Initializable {
     private TextField txtBuscaInstrutor;
 
     @FXML
-    private TextField txtDescricaoTarefa;
+    private ComboBox<String> comboTurno;
+
+    @FXML
+    private TableColumn<Tarefa, String> colTurno;
+
+    @FXML
+    private Button btnExcluirTarefa; 
 
     private TarefaDAO tarefaDAO;
     private ObservableList<Tarefa> listaDeTarefas;
+    private Agente agenteLogado; 
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -102,13 +113,12 @@ public class ControllerPrincipal implements Initializable {
         comboInstrutor.setConverter(new StringConverter<Instrutores>() {
             @Override
             public String toString(Instrutores instrutor) {
-            	
                 return (instrutor != null) ? instrutor.getNome() : "";
             }
 
             @Override
             public Instrutores fromString(String string) {
-                return null; // Não precisamos da conversão inversa aqui
+                return null; 
             }
         });
 
@@ -142,9 +152,13 @@ public class ControllerPrincipal implements Initializable {
             }
         });
 
+        ObservableList<String> turnos = FXCollections.observableArrayList("Matutino", "Vespertino", "Noturno");
+        comboTurno.setItems(turnos);
+
         tarefaDAO = new TarefaDAO();
         carregarTarefas();
         configurarTabela();
+        btnExcluirTarefa.setOnAction(this::ActionExcluirTarefa);
     }
 
     private void carregarTarefas() {
@@ -164,9 +178,70 @@ public class ControllerPrincipal implements Initializable {
         colData.setCellValueFactory(new PropertyValueFactory<>("dataInicial"));
         colDataFinal.setCellValueFactory(new PropertyValueFactory<>("dataFinal"));
         colDisponibilidade.setCellValueFactory(new PropertyValueFactory<>("disponibilidade"));
+        colTurno.setCellValueFactory(new PropertyValueFactory<>("turno"));
 
         tabelaInstrutores.setItems(listaDeTarefas);
     }
+    
+    @FXML
+    void ActionBuscarTarefa(ActionEvent event) {
+    	   String termoBusca = txtBuscaInstrutor.getText();
+    	    TarefaDAO tarefaDAO = new TarefaDAO();
+    	    List<Tarefa> resultados = tarefaDAO.buscarTarefasPorInstrutor(termoBusca);
+    	    listaDeTarefas.clear(); 
+    	    listaDeTarefas.addAll(resultados); 
+    	    tabelaInstrutores.refresh(); 
+    	
+
+    }
+
+
+    @FXML
+    void ActionExcluirTarefa(ActionEvent event) {
+        Tarefa tarefaSelecionada = tabelaInstrutores.getSelectionModel().getSelectedItem();
+        if (tarefaSelecionada != null) {
+            abrirTelaAutenticacao(tarefaSelecionada.getIdTarefa(), 1); 
+        } else {
+            mostrarAlerta("Atenção", "Selecione uma tarefa para excluir.");
+        }
+    }
+
+    private void abrirTelaAutenticacao(int idTarefaParaExcluir, int idAgenteAutenticado) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/TelaAutenticacaoAgente.fxml"));
+            Parent root = loader.load();
+            ControllerAutenticacaoAgente controller = loader.getController();
+            controller.setDadosExclusao(idTarefaParaExcluir, idAgenteAutenticado, this);
+            Stage stage = new Stage();
+            stage.setTitle("Autenticação do Agente");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("Erro", "Não foi possível abrir a tela de autenticação.");
+        }
+    }
+
+    public void confirmarExclusao(int idTarefa) {
+        if (Alerts.showConfirmacaoExcluirTarefa("a tarefa")) {
+            if (tarefaDAO.excluirTarefa(idTarefa)) {
+                Alerts.showTarefaExcluidaSucesso();
+                listaDeTarefas.removeIf(tarefa -> tarefa.getIdTarefa() == idTarefa);
+                tabelaInstrutores.refresh();
+            } else {
+                Alerts.showAlert("Erro", null, "Falha ao excluir a tarefa.", AlertType.ERROR);
+            }
+        }
+    }
+
+    private void mostrarAlerta(String titulo, String mensagem) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
+
 
     @FXML
     void ActionAdicionarTarefa(ActionEvent event) {
@@ -175,9 +250,9 @@ public class ControllerPrincipal implements Initializable {
         Curso cursoSelecionado = comboCurso.getValue();
         LocalDate dataIni = dateInicial.getValue();
         LocalDate dataFim = dateFinal.getValue();
-        String descricao = txtDescricaoTarefa.getText();
+        String turnoSelecionado = comboTurno.getValue();
 
-        if (instrutorSelecionado == null || agenteSelecionado == null || cursoSelecionado == null || dataIni == null || dataFim == null || descricao.isEmpty()) {
+        if (instrutorSelecionado == null || agenteSelecionado == null || cursoSelecionado == null || dataIni == null || dataFim == null || turnoSelecionado == null) {
             Alert alerta = new Alert(AlertType.WARNING);
             alerta.setTitle("Atenção");
             alerta.setHeaderText(null);
@@ -196,27 +271,26 @@ public class ControllerPrincipal implements Initializable {
         novaTarefa.setCodCurso(String.valueOf(cursoSelecionado.getIdCurso()));
         novaTarefa.setDataInicial(dataInicialFormatada);
         novaTarefa.setDataFinal(dataFinalFormatada);
-        novaTarefa.setDescricao(descricao);
+        novaTarefa.setTurno(turnoSelecionado);
 
         tarefaDAO.adicionarTarefa(novaTarefa);
 
-        // Recarrega as tarefas do banco
         List<Tarefa> novasTarefas = tarefaDAO.listarTarefasComDisponibilidade();
-        // Limpa a lista existente e adiciona todos os novos itens
         listaDeTarefas.clear();
         listaDeTarefas.addAll(novasTarefas);
- tabelaInstrutores.refresh();
+        tabelaInstrutores.refresh();
 
         comboInstrutor.setValue(null);
         comboAgente.setValue(null);
         comboCurso.setValue(null);
+        comboTurno.setValue(null);
         dateInicial.setValue(null);
         dateFinal.setValue(null);
-        txtDescricaoTarefa.clear();
     }
+
     @FXML
     void onactionConsultarCurso(ActionEvent event) {
-        javafx.stage.Stage stageAtual = (javafx.stage.Stage) btnBuscarInstrutor.getScene().getWindow();
+        Stage stageAtual = (Stage) btnBuscarInstrutor.getScene().getWindow();
         stageAtual.close();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ViewCurso.fxml"));
@@ -228,40 +302,32 @@ public class ControllerPrincipal implements Initializable {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alerta = new Alert(AlertType.ERROR);
-            alerta.setTitle("Erro");
-            alerta.setHeaderText("Erro ao abrir a tela de consulta de cursos");
-            alerta.setContentText(e.getMessage());
-            alerta.show();
+            Alerts.showAlert("Erro", "Erro ao abrir a tela de consulta de cursos", e.getMessage(), AlertType.ERROR);
         }
     }
 
     @FXML
     void onactionConsultarInstrutor(ActionEvent event) {
-        javafx.stage.Stage stageAtual = (javafx.stage.Stage) btnBuscarInstrutor.getScene().getWindow();
+        Stage stageAtual = (Stage) btnBuscarInstrutor.getScene().getWindow();
         stageAtual.close();
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/View/ViewInstrutor.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("Consulta de Cursos");
+            stage.setTitle("Consulta de Instrutores");
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            Alert alerta = new Alert(AlertType.ERROR);
-            alerta.setTitle("Erro");
-            alerta.setHeaderText("Erro ao abrir a tela de consulta de cursos");
-            alerta.setContentText(e.getMessage());
-            alerta.show();
+            Alerts.showAlert("Erro", "Erro ao abrir a tela de consulta de instrutores", e.getMessage(), AlertType.ERROR);
         }
     }
 
 
     @FXML
     void onactionInstrutor(ActionEvent event) {
-        javafx.stage.Stage stageAtual = (javafx.stage.Stage) btInstrutor.getScene().getWindow();
+        Stage stageAtual = (Stage) btInstrutor.getScene().getWindow();
         stageAtual.close();
 
 
@@ -276,7 +342,7 @@ public class ControllerPrincipal implements Initializable {
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
-
+            Alerts.showAlert("Erro", "Erro ao abrir a tela de cadastro de instrutor", e.getMessage(), AlertType.ERROR);
         }
     }
 
@@ -290,11 +356,7 @@ public class ControllerPrincipal implements Initializable {
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
-            Alert alerta = new Alert(AlertType.ERROR);
-            alerta.setTitle("Erro");
-            alerta.setHeaderText("Erro ao abrir a tela de cadastro de curso");
-            alerta.setContentText(e.getMessage());
-            alerta.show();
+            Alerts.showAlert("Erro", "Erro ao abrir a tela de cadastro de curso", e.getMessage(), AlertType.ERROR);
         }
     }
 }
