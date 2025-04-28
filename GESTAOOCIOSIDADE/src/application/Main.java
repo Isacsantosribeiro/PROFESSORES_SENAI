@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -29,6 +30,11 @@ public class Main extends Application {
             Parent root = FXMLLoader.load(getClass().getResource("/View/ViewLogin.fxml"));
             mainScene = new Scene(root, 800, 600);
             primaryStage.setTitle("Login - GESTAO");
+
+            // Carregando o ícone
+            Image icon = new Image(getClass().getResourceAsStream("/img/icone.jpg"));
+            primaryStage.getIcons().add(icon);
+
             primaryStage.setScene(mainScene);
             primaryStage.show();
         } catch (Exception e) {
