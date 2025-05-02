@@ -56,7 +56,7 @@ public class ControllerPrincipal implements Initializable {
     @FXML private TableColumn<Tarefa, String> colData;
     @FXML private TableColumn<Tarefa, String> colDataFinal;
     @FXML private TableColumn<Tarefa, String> colDisponibilidade;
-    @FXML private TableColumn<Tarefa, Tarefa> colTarefaObjeto; // Adicione esta coluna
+    @FXML private TableColumn<Tarefa, Tarefa> colTarefaObjeto; 
 
     @FXML private ComboBox<Instrutores> comboInstrutor;
     @FXML private ComboBox<Agente> comboAgente;
@@ -74,7 +74,6 @@ public class ControllerPrincipal implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Comboboxes (seu código existente)
         InstrutoresDAO instrutoresDAO = new InstrutoresDAO();
         comboInstrutor.setItems(instrutoresDAO.buscarInstrutoresDoBanco());
         comboInstrutor.setConverter(new StringConverter<Instrutores>() {
@@ -98,13 +97,11 @@ public class ControllerPrincipal implements Initializable {
 
         comboTurno.setItems(FXCollections.observableArrayList("Matutino", "Vespertino", "Noturno"));
 
-        // Prepara tabela
         tarefaDAO = new TarefaDAO();
         carregarTarefas();
         configurarTabela();
         btnExcluirTarefa.setOnAction(this::ActionExcluirTarefa);
 
-        // Adiciona o listener para o duplo clique na tabela
         tabelaInstrutores.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && event.getButton() == MouseButton.PRIMARY) {
                 Tarefa tarefaSelecionada = tabelaInstrutores.getSelectionModel().getSelectedItem();
@@ -115,14 +112,12 @@ public class ControllerPrincipal implements Initializable {
         });
     }
 
-    /** Recebe o agente logado, exibe o nome e recarrega a tabela de tarefas */
     public void setAgenteLogado(Agente agente) {
         this.agenteLogado = agente;
         if (agente != null && agente.getNome() != null && !agente.getNome().isBlank()) {
             String primeiroNome = agente.getNome().trim().split("\\s+")[0];
             lblNomeAgenteLogado.setText(primeiroNome);
         }
-        // Recarrega tarefas sempre que o agente é definido
         carregarTarefas();
         tabelaInstrutores.setItems(listaDeTarefas);
         tabelaInstrutores.refresh();
@@ -142,11 +137,10 @@ public class ControllerPrincipal implements Initializable {
         colDataFinal.setCellValueFactory(new PropertyValueFactory<>("dataFinal"));
         colDisponibilidade.setCellValueFactory(new PropertyValueFactory<>("disponibilidade"));
 
-        // Configura a coluna para armazenar o objeto Tarefa (invisível)
         colTarefaObjeto = new TableColumn<>("Tarefa");
         colTarefaObjeto.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue()));
         colTarefaObjeto.setVisible(false);
-        tabelaInstrutores.getColumns().add(colTarefaObjeto); // Adiciona a coluna à tabela
+        tabelaInstrutores.getColumns().add(colTarefaObjeto); 
 
         tabelaInstrutores.setItems(listaDeTarefas);
     }
@@ -180,14 +174,14 @@ public class ControllerPrincipal implements Initializable {
         nt.setDataFinal(df.format(fmt));
         nt.setTurno(t);
 
-        System.out.println("Tentando adicionar tarefa: " + nt); // Debugging log
+        System.out.println("Tentando adicionar tarefa: " + nt); 
         tarefaDAO.adicionarTarefa(nt);
 
         carregarTarefas();
-        System.out.println("Número de tarefas carregadas: " + listaDeTarefas.size()); // Debugging log
-        tabelaInstrutores.setItems(listaDeTarefas); // Ensure setItems is called after reloading
+        System.out.println("Número de tarefas carregadas: " + listaDeTarefas.size()); 
+        tabelaInstrutores.setItems(listaDeTarefas); 
         tabelaInstrutores.refresh();
-        System.out.println("Tabela de tarefas foi atualizada."); // Debugging log
+        System.out.println("Tabela de tarefas foi atualizada."); 
     }
     @FXML
     void ActionExcluirTarefa(ActionEvent event) {
@@ -241,7 +235,7 @@ public class ControllerPrincipal implements Initializable {
             Parent root = loader.load();
 
             ControllerDetalheTarefa controller = loader.getController();
-            controller.setTarefa(tarefa); // Passa a tarefa para o controlador da tela de detalhes
+            controller.setTarefa(tarefa); 
 
             Stage stage = new Stage();
             stage.setTitle("Detalhes da Tarefa");
