@@ -15,33 +15,21 @@ import javafx.scene.control.Alert.AlertType;
 
 public class AgenteDAO {
 
-    public boolean inserirAgente(Agente agente) throws SQLException {
-        if (cpfExiste(agente.getCpf())) {
-            Alerts.showAlert("Aviso", "CPF Duplicado", "Este CPF já está cadastrado.", AlertType.WARNING);
-            return false; // Indica que a inserção não foi realizada devido ao CPF duplicado
-        }
-
+    public void create(Agente agente) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
 
         try {
-            String sql = "INSERT INTO AGENTES (nome, CPF, senha) VALUES (?, ?, ?)";
-            stmt = con.prepareStatement(sql);
+        	stmt = con.prepareStatement("INSERT INTO AGENTES (nome, cpf, senha) VALUES (?, ?, ?)");
             stmt.setString(1, agente.getNome());
             stmt.setString(2, agente.getCpf());
             stmt.setString(3, agente.getSenha());
 
-            int linhasAfetadas = stmt.executeUpdate();
-            if (linhasAfetadas > 0) {
-                System.out.println("Agente cadastrado com sucesso!");
-                return true; // Indica que a inserção foi bem-sucedida
-            } else {
-                System.out.println("Nenhum agente foi cadastrado.");
-                return false; // Indica que a inserção não afetou nenhuma linha
-            }
+            stmt.executeUpdate();
+            System.out.println("Cadastro com sucesso!");
+
         } catch (SQLException e) {
-            System.out.println("Erro ao cadastrar agente: " + e.getMessage());
-            throw e; // Re-lança a exceção para ser tratada na camada superior
+            throw new RuntimeException("Erro ao cadastrar! ", e);
         } finally {
             ConnectionDatabase.closeConnection(con, stmt);
         }
@@ -59,12 +47,13 @@ public class AgenteDAO {
 
             while (rs.next()) {
                 Agente agente = new Agente();
-                agente.setIdAgente(rs.getInt("idAgente"));
+                agente.setIdAgente(rs.getInt("idAgente")); // Busca o ID como inteiro
                 agente.setNome(rs.getString("nome"));
                 agente.setCpf(rs.getString("CPF"));
                 agente.setSenha(rs.getString("senha"));
                 agentes.add(agente);
             }
+
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao ler informações!", e);
         } finally {
@@ -73,7 +62,7 @@ public class AgenteDAO {
         return agentes;
     }
 
-    public boolean update(Agente agente) {
+    public void update(Agente agente) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
 
@@ -82,41 +71,31 @@ public class AgenteDAO {
             stmt.setString(1, agente.getNome());
             stmt.setString(2, agente.getCpf());
             stmt.setString(3, agente.getSenha());
-            stmt.setInt(4, agente.getIdAgente());
+            stmt.setInt(4, agente.getIdAgente()); // Usa o ID como inteiro
 
-            int linhasAfetadas = stmt.executeUpdate();
-            if (linhasAfetadas > 0) {
-                System.out.println("Atualizado com sucesso!");
-                return true;
-            } else {
-                System.out.println("Nenhum agente foi atualizado.");
-                return false;
-            }
+            stmt.executeUpdate();
+            System.out.println("Atualizado com sucesso!");
+
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar!", e);
+            throw new RuntimeException("Erro ao atualizar! ", e);
         } finally {
             ConnectionDatabase.closeConnection(con, stmt);
         }
     }
 
-    public boolean delete(Agente agente) {
+    public void delete(Agente agente) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
 
         try {
             stmt = con.prepareStatement("DELETE FROM AGENTES WHERE idAgente = ?");
-            stmt.setInt(1, agente.getIdAgente());
+            stmt.setInt(1, agente.getIdAgente()); // Usa o ID como inteiro
 
-            int linhasAfetadas = stmt.executeUpdate();
-            if (linhasAfetadas > 0) {
-                System.out.println("Excluído com sucesso!");
-                return true;
-            } else {
-                System.out.println("Nenhum agente foi excluído.");
-                return false;
-            }
+            stmt.executeUpdate();
+            System.out.println("Excluido com sucesso!");
+
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao excluir!", e);
+            throw new RuntimeException("Erro ao excluir! ", e);
         } finally {
             ConnectionDatabase.closeConnection(con, stmt);
         }
@@ -132,29 +111,55 @@ public class AgenteDAO {
             stmt = con.prepareStatement("SELECT * FROM AGENTES WHERE CPF LIKE ? OR nome LIKE ? OR idAgente LIKE ?");
             stmt.setString(1, "%" + agenteBusca.getCpf() + "%");
             stmt.setString(2, "%" + agenteBusca.getNome() + "%");
-            stmt.setString(3, "%" + agenteBusca.getIdAgente() + "%");
+            stmt.setString(3, "%" + agenteBusca.getIdAgente() + "%"); // Busca pelo ID como String (pode ser alterado para int)
 
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Agente agente = new Agente();
-                agente.setIdAgente(rs.getInt("idAgente"));
+                agente.setIdAgente(rs.getInt("idAgente")); // Busca o ID como inteiro
                 agente.setNome(rs.getString("nome"));
                 agente.setCpf(rs.getString("CPF"));
                 agentes.add(agente);
             }
+
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao buscar agente!", e);
+            throw new RuntimeException("Erro ao ler informações!", e);
         } finally {
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return agentes;
     }
 
+    public void inserirAgente(Agente agente) throws SQLException {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+
+        try {
+        	String sql = "INSERT INTO AGENTES (nome, CPF, senha) VALUES (?, ?, ?)";
+            stmt = con.prepareStatement(sql);
+            stmt.setString(1, agente.getNome());
+            stmt.setString(2, agente.getCpf());
+            stmt.setString(3, agente.getSenha());
+
+            int linhasAfetadas = stmt.executeUpdate();
+            if(linhasAfetadas > 0) {
+            	System.out.println("Agente cadastro com sucesso!");
+            } else {
+            	System.out.println("Nenhum agente foi cadastrado: ");
+            }
+        } catch (SQLException e){
+        	System.out.println("Erro ao cadastrar agente:" + e.getMessage());
+        } finally {
+        	ConnectionDatabase.closeConnection(con,stmt);
+        }
+    }
+
     public Agente autenticarUser(String nome, String senha) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
+
         Agente agenteAutenticado = null;
 
         try {
@@ -163,9 +168,9 @@ public class AgenteDAO {
             stmt.setString(2, senha);
             rs = stmt.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
                 agenteAutenticado = new Agente();
-                agenteAutenticado.setIdAgente(rs.getInt("idAgente"));
+                agenteAutenticado.setIdAgente(rs.getInt("idAgente")); // Busca o ID como inteiro
                 agenteAutenticado.setNome(rs.getString("nome"));
                 agenteAutenticado.setSenha(rs.getString("senha"));
             }
@@ -178,19 +183,18 @@ public class AgenteDAO {
         return agenteAutenticado;
     }
 
-    public ObservableList<Agente> buscarAgenteDoBanco() {
+    public ObservableList<Agente> buscarAgenteDoBanco() { // Alterado para retornar ObservableList de Agente
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ObservableList<Agente> agentes = FXCollections.observableArrayList();
-
         try {
-            stmt = con.prepareStatement("SELECT idAgente, nome FROM AGENTES");
+            stmt = con.prepareStatement("SELECT idAgente, nome FROM AGENTES"); // Busca ID e nome
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Agente agente = new Agente();
-                agente.setIdAgente(rs.getInt("idAgente"));
+                agente.setIdAgente(rs.getInt("idAgente")); // Busca o ID como inteiro
                 agente.setNome(rs.getString("nome"));
                 agentes.add(agente);
             }
@@ -201,7 +205,7 @@ public class AgenteDAO {
         }
         return agentes;
     }
-
+    
     public Agente buscarAgentePorId(String idAgente) {
         String sql = "SELECT idAgente, nome, senha FROM AGENTES WHERE idAgente = ?";
         Connection con = null;
@@ -227,25 +231,5 @@ public class AgenteDAO {
             ConnectionDatabase.closeConnection(con, stmt, rs);
         }
         return agente;
-    }
-
-    public boolean cpfExiste(String cpf) {
-        Connection con = ConnectionDatabase.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = "SELECT 1 FROM AGENTES WHERE CPF = ?";
-            stmt = con.prepareStatement(sql);
-            stmt.setString(1, cpf);
-            rs = stmt.executeQuery();
-
-            return rs.next();
-        } catch (SQLException e) {
-            System.out.println("Erro ao verificar CPF: " + e.getMessage());
-            return false;
-        } finally {
-            ConnectionDatabase.closeConnection(con, stmt, rs);
-        }
     }
 }

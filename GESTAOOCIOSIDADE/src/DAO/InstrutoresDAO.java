@@ -68,7 +68,7 @@ public class InstrutoresDAO {
             stmt.setString(1, cpf);
             rs = stmt.executeQuery();
 
-            return rs.next(); 
+            return rs.next(); // Se houver resultado, o CPF já existe
 
         } catch (SQLException e) {
             System.out.println("Erro ao verificar CPF: " + e.getMessage());

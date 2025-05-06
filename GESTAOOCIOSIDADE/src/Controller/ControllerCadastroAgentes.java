@@ -16,7 +16,6 @@ import Model.Agente;
 import DAO.AgenteDAO;
 import Util.Alerts;
 import Util.CPFValidator;
-import java.sql.SQLException;
 
 public class ControllerCadastroAgentes {
 
@@ -82,26 +81,23 @@ public class ControllerCadastroAgentes {
         agente.setSenha(senha);
 
         try {
-            if (agenteDAO.inserirAgente(agente)) {
-                Alerts.showAlert("Sucesso!", "Agente cadastrado!", "O agente foi cadastrado com sucesso!", AlertType.INFORMATION);
-                limparCampos();
-
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("/View/ViewLogin.fxml"));
-                    Scene scene = new Scene(root);
-                    Stage stage = new Stage();
-                    stage.setScene(scene);
-                    stage.setTitle("Tela de Login");
-                    stage.show();
-                    ((Stage) btnSalvar.getScene().getWindow()).close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Alerts.showAlert("Erro!", "Erro ao carregar tela!", "Não foi possível carregar a tela de login!", AlertType.ERROR);
-                }
-            } else {
-                System.out.println("Cadastro não finalizado devido a CPF duplicado.");
+            agenteDAO.create(agente);
+            Alerts.showAlert("Sucesso!", "Agente cadastrado!", "O agente foi cadastrado com sucesso!", AlertType.INFORMATION);
+            limparCampos();
+           
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("/View/ViewLogin.fxml"));
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("Tela de Login");
+                stage.show();
+                ((Stage) btnSalvar.getScene().getWindow()).close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Alerts.showAlert("Erro!", "Erro ao carregar tela!", "Não foi possível carregar a tela de login!", AlertType.ERROR);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Alerts.showAlert("Erro!", "Erro ao cadastrar agente!", "Ocorreu um erro ao salvar o agente no banco de dados.", AlertType.ERROR);
         }
@@ -119,7 +115,7 @@ public class ControllerCadastroAgentes {
     }
 
     @SuppressWarnings("unused")
-    private void mostrarAlerta(String titulo, String mensagem, AlertType tipo) {
+	private void mostrarAlerta(String titulo, String mensagem, AlertType tipo) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
