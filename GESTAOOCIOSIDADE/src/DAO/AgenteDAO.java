@@ -34,6 +34,27 @@ public class AgenteDAO {
             ConnectionDatabase.closeConnection(con, stmt);
         }
     }
+        public boolean cpfExiste(String cpf) {
+            Connection con = ConnectionDatabase.getConnection();
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+
+            try {
+                String sql = "SELECT 1 FROM AGENTES WHERE CPF = ?";
+                stmt = con.prepareStatement(sql);
+                stmt.setString(1, cpf);
+                rs = stmt.executeQuery();
+
+                return rs.next(); 
+            } catch (SQLException e) {
+                System.out.println("Erro ao verificar CPF: " + e.getMessage());
+                return false;
+            } finally {
+                ConnectionDatabase.closeConnection(con, stmt, rs);
+            }
+        
+
+    }
 
     public ArrayList<Agente> read() {
         Connection con = ConnectionDatabase.getConnection();

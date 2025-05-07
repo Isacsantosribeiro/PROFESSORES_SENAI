@@ -75,6 +75,12 @@ public class ControllerCadastroAgentes {
             return;
         }
 
+        // Verifica se o CPF já está cadastrado
+        if (agenteDAO.cpfExiste(cpf)) {
+            Alerts.showAlert("Erro", "CPF já cadastrado!", "Este CPF já está registrado no sistema.", AlertType.ERROR);
+            return;
+        }
+
         Agente agente = new Agente();
         agente.setNome(nome);
         agente.setCpf(cpf);
@@ -84,7 +90,7 @@ public class ControllerCadastroAgentes {
             agenteDAO.create(agente);
             Alerts.showAlert("Sucesso!", "Agente cadastrado!", "O agente foi cadastrado com sucesso!", AlertType.INFORMATION);
             limparCampos();
-           
+
             try {
                 Parent root = FXMLLoader.load(getClass().getResource("/View/ViewLogin.fxml"));
                 Scene scene = new Scene(root);
@@ -102,6 +108,7 @@ public class ControllerCadastroAgentes {
             Alerts.showAlert("Erro!", "Erro ao cadastrar agente!", "Ocorreu um erro ao salvar o agente no banco de dados.", AlertType.ERROR);
         }
     }
+
 
     @FXML
     void initialize() {
