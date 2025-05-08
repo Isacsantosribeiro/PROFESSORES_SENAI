@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-//TESTE
+
 public class ControllerCadastroCurso {
 
     @FXML
@@ -29,7 +29,6 @@ public class ControllerCadastroCurso {
         String nomeCurso = txtNome.getText().trim();
 
         if (nomeCurso.isEmpty()) {
-            // Alerta de erro
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro de Validação");
             alert.setHeaderText(null);
@@ -39,13 +38,23 @@ public class ControllerCadastroCurso {
         }
 
         try {
+            CursoDAO dao = new CursoDAO();
+
+            // ✅ Verifica se o curso já existe no banco de dados
+            if (dao.cursoExiste(nomeCurso)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Curso já existe");
+                alert.setHeaderText(null);
+                alert.setContentText("Já existe um curso com esse nome.");
+                alert.showAndWait();
+                return;
+            }
+
+            // Se não existir, continua com o cadastro
             Curso curso = new Curso();
             curso.setNome(nomeCurso);
-
-            CursoDAO dao = new CursoDAO();
             dao.inserirCurso(curso);
 
-            // Alerta de sucesso
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Sucesso");
             alert.setHeaderText(null);
@@ -53,8 +62,8 @@ public class ControllerCadastroCurso {
             alert.showAndWait();
 
             txtNome.clear();
+
         } catch (RuntimeException e) {
-            // Alerta de erro no DAO
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
             alert.setHeaderText(null);

@@ -47,7 +47,7 @@ public class CursoDAO {
 
             while (rs.next()) {
                 Curso curso = new Curso();
-                curso.setIdCurso(rs.getInt("idCurso")); // Busca o ID como inteiro
+                curso.setIdCurso(rs.getInt("idCurso"));
                 curso.setNome(rs.getString("nome"));
                 listaDeCursos.add(curso);
             }
@@ -71,7 +71,7 @@ public class CursoDAO {
 
             while (rs.next()) {
                 Curso curso = new Curso();
-                curso.setIdCurso(rs.getInt("idCurso")); // Busca o ID como inteiro
+                curso.setIdCurso(rs.getInt("idCurso"));
                 curso.setNome(rs.getString("nome"));
                 listaDeCursos.add(curso);
             }
@@ -89,7 +89,7 @@ public class CursoDAO {
 
         try {
             stmt = con.prepareStatement("DELETE FROM CURSO WHERE idCurso = ?");
-            stmt.setInt(1, curso.getIdCurso()); // Usa o ID como inteiro
+            stmt.setInt(1, curso.getIdCurso());
 
             stmt.executeUpdate();
             System.out.println("Curso excluído com sucesso!");
@@ -108,14 +108,14 @@ public class CursoDAO {
 
         try {
             stmt = con.prepareStatement("SELECT * FROM curso WHERE idCurso LIKE ? OR nome LIKE ?");
-            stmt.setString(1, "%" + cursoBusca.getIdCurso() + "%"); // Busca pelo ID como String (pode ser alterado se preferir buscar por int)
+            stmt.setString(1, "%" + cursoBusca.getIdCurso() + "%");
             stmt.setString(2, "%" + cursoBusca.getNome() + "%");
 
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Curso curso = new Curso();
-                curso.setIdCurso(rs.getInt("idCurso")); // Busca o ID como inteiro
+                curso.setIdCurso(rs.getInt("idCurso"));
                 curso.setNome(rs.getString("nome"));
                 cursos.add(curso);
             }
@@ -127,5 +127,29 @@ public class CursoDAO {
         }
 
         return cursos;
+    }
+
+    // ✅ Novo método adicionado para verificar se um curso já existe
+    public boolean cursoExiste(String nomeCurso) {
+        Connection con = ConnectionDatabase.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            stmt = con.prepareStatement("SELECT COUNT(*) AS total FROM CURSO WHERE nome = ?");
+            stmt.setString(1, nomeCurso);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("total") > 0;
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao verificar existência do curso!", e);
+        } finally {
+            ConnectionDatabase.closeConnection(con, stmt, rs);
+        }
+
+        return false;
     }
 }

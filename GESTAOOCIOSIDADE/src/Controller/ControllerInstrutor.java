@@ -8,23 +8,18 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable; // Importe Initializable
+import javafx.fxml.Initializable; 
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
-import javafx.fxml.Initializable; 
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory; // Importe PropertyValueFactory
+import javafx.scene.control.cell.PropertyValueFactory; 
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
-
-
-import javafx.scene.control.cell.PropertyValueFactory; 
-
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -75,13 +70,13 @@ public class ControllerInstrutor implements Initializable {
         String textoBusca = txtBuscaInstrutor.getText();
 
         if (textoBusca == null || textoBusca.trim().isEmpty()) {
-            Alerts.showAlert("Aviso", null, "Digite o nome ou CPF do instrutor para buscar.", Alert.AlertType.WARNING);
+            // Se campo de busca estiver vazio, mostra todos os instrutores
+            carregarTabelaInstrutores();
             return;
         }
 
         Instrutores instrutorBusca = new Instrutores();
 
-       
         if (textoBusca.trim().matches("\\d{11}")) {
             instrutorBusca.setCpf(textoBusca.trim());
             instrutorBusca.setNome("");
@@ -98,6 +93,7 @@ public class ControllerInstrutor implements Initializable {
 
         tabelaInstrutores.getItems().setAll(instrutoresEncontrados);
     }
+
 
 
     private InstrutoresDAO instrutorDAO;

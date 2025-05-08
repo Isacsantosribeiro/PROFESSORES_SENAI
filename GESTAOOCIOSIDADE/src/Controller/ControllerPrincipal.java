@@ -74,32 +74,15 @@ public class ControllerPrincipal implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        InstrutoresDAO instrutoresDAO = new InstrutoresDAO();
-        comboInstrutor.setItems(instrutoresDAO.buscarInstrutoresDoBanco());
-        comboInstrutor.setConverter(new StringConverter<Instrutores>() {
-            @Override public String toString(Instrutores ins) { return ins!=null?ins.getNome():""; }
-            @Override public Instrutores fromString(String s) { return null; }
-        });
-
-        AgenteDAO agenteDAO = new AgenteDAO();
-        comboAgente.setItems(agenteDAO.buscarAgenteDoBanco());
-        comboAgente.setConverter(new StringConverter<Agente>() {
-            @Override public String toString(Agente ag) { return ag!=null?ag.getNome():""; }
-            @Override public Agente fromString(String s) { return null; }
-        });
-
-        CursoDAO cursoDAO = new CursoDAO();
-        comboCurso.setItems(cursoDAO.buscarCursosDoBanco());
-        comboCurso.setConverter(new StringConverter<Curso>() {
-            @Override public String toString(Curso cr) { return cr!=null?cr.getNome():""; }
-            @Override public Curso fromString(String s) { return null; }
-        });
-
+        configurarComboBox(comboInstrutor, new InstrutoresDAO().buscarInstrutoresDoBanco());
+        configurarComboBox(comboAgente, new AgenteDAO().buscarAgenteDoBanco());
+        configurarComboBox(comboCurso, new CursoDAO().buscarCursosDoBanco());
         comboTurno.setItems(FXCollections.observableArrayList("Matutino", "Vespertino", "Noturno"));
 
         tarefaDAO = new TarefaDAO();
         carregarTarefas();
         configurarTabela();
+
         btnExcluirTarefa.setOnAction(this::ActionExcluirTarefa);
 
         tabelaInstrutores.setOnMouseClicked(event -> {
@@ -108,6 +91,21 @@ public class ControllerPrincipal implements Initializable {
                 if (tarefaSelecionada != null) {
                     abrirTelaDetalheTarefa(tarefaSelecionada);
                 }
+            }
+        });
+    }
+
+    private <T> void configurarComboBox(ComboBox<T> comboBox, List<T> items) {
+        comboBox.setItems(FXCollections.observableArrayList(items));
+        comboBox.setConverter(new StringConverter<T>() {
+            @Override
+            public String toString(T obj) {
+                return obj != null ? obj.toString() : "";
+            }
+
+            @Override
+            public T fromString(String s) {
+                return null;
             }
         });
     }
@@ -174,20 +172,29 @@ public class ControllerPrincipal implements Initializable {
         nt.setDataFinal(df.format(fmt));
         nt.setTurno(t);
 
-        System.out.println("Tentando adicionar tarefa: " + nt); 
         tarefaDAO.adicionarTarefa(nt);
 
         carregarTarefas();
-        System.out.println("Número de tarefas carregadas: " + listaDeTarefas.size()); 
         tabelaInstrutores.setItems(listaDeTarefas); 
         tabelaInstrutores.refresh();
-        System.out.println("Tabela de tarefas foi atualizada."); 
+        Alerts.showAlert("Sucesso", "Tarefa adicionada com sucesso!", "", AlertType.INFORMATION);
     }
+
     @FXML
     void ActionExcluirTarefa(ActionEvent event) {
         Tarefa sel = tabelaInstrutores.getSelectionModel().getSelectedItem();
-        if (sel!=null) abrirTelaAutenticacao(sel.getIdTarefa(), agenteLogado.getIdAgente());
-        else Alerts.showAlert("Atenção","Selecione uma tarefa","",AlertType.INFORMATION);
+
+        if (sel == null) {
+            Alerts.showAlert("Atenção", "Selecione uma tarefa", "", AlertType.INFORMATION);
+            return;
+        }
+
+        if (agenteLogado == null) {
+            int idTarefa = sel.getIdTarefa();
+            abrirTelaAutenticacao(idTarefa, -1); 
+        } else {
+            abrirTelaAutenticacao(sel.getIdTarefa(), agenteLogado.getIdAgente());
+        }
     }
 
     private void abrirTelaAutenticacao(int idT, int idA) {
@@ -205,28 +212,35 @@ public class ControllerPrincipal implements Initializable {
 
     public void confirmarExclusao(int idTarefa) {
         if (Alerts.showConfirmacaoExcluirTarefa("a tarefa") && tarefaDAO.excluirTarefa(idTarefa)) {
-            listaDeTarefas.removeIf(x->x.getIdTarefa()==idTarefa);
+            listaDeTarefas.removeIf(x -> x.getIdTarefa() == idTarefa);
             tabelaInstrutores.refresh();
         }
     }
 
     @FXML void onactionConsultarInstrutor(ActionEvent e) throws IOException {
-        Stage s=(Stage)btnBuscarInstrutor.getScene().getWindow(); s.close();
-        Parent r=FXMLLoader.load(getClass().getResource("/View/ViewInstrutor.fxml"));
-        Stage n=new Stage(); n.setTitle("Consulta Instrutores"); n.setScene(new Scene(r)); n.show();
+        abrirNovaTela("/View/ViewInstrutor.fxml", "Consulta Instrutores");
     }
+
     @FXML void onactionConsultarCurso(ActionEvent e) throws IOException {
-        Stage s=(Stage)btnBuscarInstrutor.getScene().getWindow(); s.close();
-        Parent r=FXMLLoader.load(getClass().getResource("/View/ViewCurso.fxml"));
-        Stage n=new Stage(); n.setTitle("Consulta Cursos"); n.setScene(new Scene(r)); n.show();
+        abrirNovaTela("/View/ViewCurso.fxml", "Consulta Cursos");
     }
+
     @FXML void onactionInstrutor(ActionEvent e) throws IOException {
-        Stage s=(Stage)btInstrutor.getScene().getWindow(); s.close();
-        Parent r=FXMLLoader.load(getClass().getResource("/View/ViewRegistroInstrutor.fxml"));
-        Stage n=new Stage(); n.setTitle("Cadastro Instrutor"); n.setResizable(false); n.setScene(new Scene(r)); n.show();
+        abrirNovaTela("/View/ViewRegistroInstrutor.fxml", "Cadastro Instrutor");
     }
+
     @FXML void onactionCurso(ActionEvent e) throws IOException {
-        Stage s=(Stage)((Node)e.getSource()).getScene().getWindow(); s.setScene(new Scene(FXMLLoader.load(getClass().getResource("/View/ViewRegistroCurso.fxml")))); s.show();
+        abrirNovaTela("/View/ViewRegistroCurso.fxml", "Cadastro Curso");
+    }
+
+    private void abrirNovaTela(String caminhoFXML, String titulo) throws IOException {
+        Stage s = (Stage) btnBuscarInstrutor.getScene().getWindow();
+        s.close();
+        Parent root = FXMLLoader.load(getClass().getResource(caminhoFXML));
+        Stage novaStage = new Stage();
+        novaStage.setTitle(titulo);
+        novaStage.setScene(new Scene(root));
+        novaStage.show();
     }
 
     private void abrirTelaDetalheTarefa(Tarefa tarefa) {
@@ -235,7 +249,7 @@ public class ControllerPrincipal implements Initializable {
             Parent root = loader.load();
 
             ControllerDetalheTarefa controller = loader.getController();
-            controller.setTarefa(tarefa); 
+            controller.setTarefa(tarefa);
 
             Stage stage = new Stage();
             stage.setTitle("Detalhes da Tarefa");

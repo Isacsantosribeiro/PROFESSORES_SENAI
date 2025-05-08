@@ -38,7 +38,7 @@ public class ControllerCurso implements Initializable {
     private Button btnExcluir;
 
     @FXML
-    private TableColumn<Curso, Integer> colIdCurso; // Alterado para Integer
+    private TableColumn<Curso, Integer> colIdCurso;
 
     @FXML
     private TableColumn<Curso, String> colNomeCurso;
@@ -63,7 +63,7 @@ public class ControllerCurso implements Initializable {
         String textoBusca = txtBuscaCurso.getText();
 
         if (textoBusca == null || textoBusca.trim().isEmpty()) {
-            Alerts.showAlert("Aviso", null, "Digite o nome ou ID do curso para buscar.", Alert.AlertType.WARNING);
+            carregarTableCursos();
             return;
         }
 
@@ -72,14 +72,14 @@ public class ControllerCurso implements Initializable {
 
         try {
             int id = Integer.parseInt(textoBusca.trim());
-            cursoBusca.setIdCurso(id); // Seta o ID como int
+            cursoBusca.setIdCurso(id);
             cursoBusca.setNome("");
         } catch (NumberFormatException e) {
-            cursoBusca.setIdCurso(0); // Valor padrão para busca por nome
+            cursoBusca.setIdCurso(0);
             cursoBusca.setNome(textoBusca.trim());
         }
 
-        ArrayList<Curso> resultados = cursoDAO.search(cursoBusca); // Assumindo que search() no DAO aceita Curso com int id
+        ArrayList<Curso> resultados = cursoDAO.search(cursoBusca);
 
         if (resultados.isEmpty()) {
             Alerts.showAlert("Resultado", null, "Nenhum curso encontrado.", Alert.AlertType.INFORMATION);
@@ -87,6 +87,7 @@ public class ControllerCurso implements Initializable {
 
         tabelaCursos.getItems().setAll(resultados);
     }
+
 
     @FXML
     void onactionExcluir(ActionEvent event) {
@@ -98,11 +99,11 @@ public class ControllerCurso implements Initializable {
             if (confirmar) {
                 try {
                     CursoDAO dao = new CursoDAO();
-                    dao.delete(cursoSelecionado); // O método delete() no DAO deve usar cursoSelecionado.getIdCurso() (int)
+                    dao.delete(cursoSelecionado); 
                     tabelaCursos.getItems().remove(cursoSelecionado);
                     Alerts.showAlert("Sucesso", null, "Curso excluído com sucesso!", AlertType.INFORMATION);
                 } catch (Exception e) {
-                    Alerts.showAlert("Erro", null, "Erro ao excluir o curso: " + e.getMessage(), AlertType.ERROR);
+                    Alerts.showAlert("Erro", null, "Curso vinculado a uma tarefa! " + e.getMessage(), AlertType.ERROR);
                 }
             }
         } else {
