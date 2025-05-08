@@ -31,7 +31,6 @@ public class Main extends Application {
             mainScene = new Scene(root, 800, 600);
             primaryStage.setTitle("Login - GESTAO");
 
-            // Carregando o ícone
             Image icon = new Image(getClass().getResourceAsStream("/img/icone.jpg"));
             primaryStage.getIcons().add(icon);
 

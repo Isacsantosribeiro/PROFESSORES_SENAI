@@ -129,7 +129,6 @@ public class CursoDAO {
         return cursos;
     }
 
-    // ✅ Novo método adicionado para verificar se um curso já existe
     public boolean cursoExiste(String nomeCurso) {
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;

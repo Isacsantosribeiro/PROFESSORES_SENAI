@@ -2,20 +2,20 @@ package Model;
 
 public class Curso {
 
-    private int idCurso; // Alterado para int e renomeado para clareza
+    private int idCurso; 
     private String nome;
 
     public Curso() {
         super();
     }
 
-    public Curso(int idCurso, String nome) { // Alterado o tipo do parâmetro id
+    public Curso(int idCurso, String nome) { 
         super();
-        this.idCurso = idCurso; // Usando o nome mais claro
+        this.idCurso = idCurso; 
         this.nome = nome;
     }
 
-    public int getIdCurso() { // Getter para o ID
+    public int getIdCurso() { 
         return idCurso;
     }
 
@@ -33,6 +33,6 @@ public class Curso {
 
     @Override
     public String toString() {
-        return nome; // Para exibir o nome no ComboBox
+        return nome; 
     }
 }

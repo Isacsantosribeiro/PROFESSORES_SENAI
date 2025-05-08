@@ -1,5 +1,4 @@
 package Controller;
-
 import Model.Curso;
 import Util.Alerts;
 import DAO.CursoDAO;
@@ -129,7 +128,7 @@ public class ControllerCurso implements Initializable {
 
         tabelaCursos.setItems(arrayCursos);
 
-        colIdCurso.setCellValueFactory(new PropertyValueFactory<>("idCurso")); // Alterado para "idCurso"
+        colIdCurso.setCellValueFactory(new PropertyValueFactory<>("idCurso")); 
         colNomeCurso.setCellValueFactory(new PropertyValueFactory<>("nome"));
     }
 }

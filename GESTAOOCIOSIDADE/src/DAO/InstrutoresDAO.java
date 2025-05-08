@@ -66,8 +66,7 @@ public class InstrutoresDAO {
             stmt.setString(1, cpf);
             rs = stmt.executeQuery();
 
-            return rs.next(); // Se houver resultado, o CPF já existe
-
+            return rs.next(); 
         } catch (SQLException e) {
             System.out.println("Erro ao verificar CPF: " + e.getMessage());
             return false;
@@ -91,7 +90,7 @@ public class InstrutoresDAO {
             if (!instrutorBusca.getNome().isEmpty()) {
                 sql += " AND nome LIKE ?";
             }
-            if (instrutorBusca.getIdInstrutor() != 0) { // Adicionado busca por ID
+            if (instrutorBusca.getIdInstrutor() != 0) { 
                 sql += " AND idInstrutor = ?";
             }
 
@@ -104,7 +103,7 @@ public class InstrutoresDAO {
             if (!instrutorBusca.getNome().isEmpty()) {
                 stmt.setString(index++, "%" + instrutorBusca.getNome() + "%");
             }
-            if (instrutorBusca.getIdInstrutor() != 0) { // Seta o ID como inteiro
+            if (instrutorBusca.getIdInstrutor() != 0) { 
                 stmt.setInt(index++, instrutorBusca.getIdInstrutor());
             }
 
@@ -112,7 +111,7 @@ public class InstrutoresDAO {
 
             while (rs.next()) {
                 Instrutores instrutor = new Instrutores();
-                instrutor.setIdInstrutor(rs.getInt("idInstrutor")); // Busca o ID como inteiro
+                instrutor.setIdInstrutor(rs.getInt("idInstrutor")); 
                 instrutor.setNome(rs.getString("nome"));
                 instrutor.setCpf(rs.getString("cpf"));
 
@@ -137,7 +136,7 @@ public class InstrutoresDAO {
             stmt = con.prepareStatement(sql);
             stmt.setString(1, instrutor.getNome());
             stmt.setString(2, instrutor.getCpf());
-            stmt.setInt(3, instrutor.getIdInstrutor()); // Usa o ID como inteiro
+            stmt.setInt(3, instrutor.getIdInstrutor()); 
 
             int linhasAfetadas = stmt.executeUpdate();
             return linhasAfetadas > 0;
@@ -156,7 +155,7 @@ public class InstrutoresDAO {
 
         try {
             stmt = con.prepareStatement("DELETE FROM INSTRUTORES WHERE idInstrutor = ?");
-            stmt.setInt(1, instrutores.getIdInstrutor()); // Usa o ID como inteiro
+            stmt.setInt(1, instrutores.getIdInstrutor()); 
 
             stmt.executeUpdate();
             System.out.println("Instrutor excluído com sucesso!");
@@ -167,18 +166,18 @@ public class InstrutoresDAO {
         }
     }
 
-    public ObservableList<Instrutores> buscarInstrutoresDoBanco() { // Retorna ObservableList de Instrutores
+    public ObservableList<Instrutores> buscarInstrutoresDoBanco() { 
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ObservableList<Instrutores> instrutores = FXCollections.observableArrayList();
         try {
-            stmt = con.prepareStatement("SELECT idInstrutor, nome FROM INSTRUTORES"); // Busca ID e nome
+            stmt = con.prepareStatement("SELECT idInstrutor, nome FROM INSTRUTORES"); 
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Instrutores instrutor = new Instrutores();
-                instrutor.setIdInstrutor(rs.getInt("idInstrutor")); // Busca o ID como inteiro
+                instrutor.setIdInstrutor(rs.getInt("idInstrutor")); 
                 instrutor.setNome(rs.getString("nome"));
                 instrutores.add(instrutor);
             }
@@ -202,7 +201,7 @@ public class InstrutoresDAO {
 
             while (rs.next()) {
                 Instrutores instrutor = new Instrutores();
-                instrutor.setIdInstrutor(rs.getInt("idInstrutor")); // Busca o ID como inteiro
+                instrutor.setIdInstrutor(rs.getInt("idInstrutor")); 
                 instrutor.setNome(rs.getString("nome"));
                 instrutor.setCpf(rs.getString("cpf"));
                 listaDeInstrutores.add(instrutor);

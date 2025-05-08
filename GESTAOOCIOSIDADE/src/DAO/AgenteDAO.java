@@ -68,7 +68,7 @@ public class AgenteDAO {
 
             while (rs.next()) {
                 Agente agente = new Agente();
-                agente.setIdAgente(rs.getInt("idAgente")); // Busca o ID como inteiro
+                agente.setIdAgente(rs.getInt("idAgente")); 
                 agente.setNome(rs.getString("nome"));
                 agente.setCpf(rs.getString("CPF"));
                 agente.setSenha(rs.getString("senha"));
@@ -92,8 +92,7 @@ public class AgenteDAO {
             stmt.setString(1, agente.getNome());
             stmt.setString(2, agente.getCpf());
             stmt.setString(3, agente.getSenha());
-            stmt.setInt(4, agente.getIdAgente()); // Usa o ID como inteiro
-
+            stmt.setInt(4, agente.getIdAgente()); 
             stmt.executeUpdate();
             System.out.println("Atualizado com sucesso!");
 
@@ -110,7 +109,7 @@ public class AgenteDAO {
 
         try {
             stmt = con.prepareStatement("DELETE FROM AGENTES WHERE idAgente = ?");
-            stmt.setInt(1, agente.getIdAgente()); // Usa o ID como inteiro
+            stmt.setInt(1, agente.getIdAgente()); 
 
             stmt.executeUpdate();
             System.out.println("Excluido com sucesso!");
@@ -132,13 +131,12 @@ public class AgenteDAO {
             stmt = con.prepareStatement("SELECT * FROM AGENTES WHERE CPF LIKE ? OR nome LIKE ? OR idAgente LIKE ?");
             stmt.setString(1, "%" + agenteBusca.getCpf() + "%");
             stmt.setString(2, "%" + agenteBusca.getNome() + "%");
-            stmt.setString(3, "%" + agenteBusca.getIdAgente() + "%"); // Busca pelo ID como String (pode ser alterado para int)
-
+            stmt.setString(3, "%" + agenteBusca.getIdAgente() + "%"); 
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Agente agente = new Agente();
-                agente.setIdAgente(rs.getInt("idAgente")); // Busca o ID como inteiro
+                agente.setIdAgente(rs.getInt("idAgente")); 
                 agente.setNome(rs.getString("nome"));
                 agente.setCpf(rs.getString("CPF"));
                 agentes.add(agente);
@@ -191,7 +189,7 @@ public class AgenteDAO {
 
             while (rs.next()) {
                 agenteAutenticado = new Agente();
-                agenteAutenticado.setIdAgente(rs.getInt("idAgente")); // Busca o ID como inteiro
+                agenteAutenticado.setIdAgente(rs.getInt("idAgente")); 
                 agenteAutenticado.setNome(rs.getString("nome"));
                 agenteAutenticado.setSenha(rs.getString("senha"));
             }
@@ -204,18 +202,18 @@ public class AgenteDAO {
         return agenteAutenticado;
     }
 
-    public ObservableList<Agente> buscarAgenteDoBanco() { // Alterado para retornar ObservableList de Agente
+    public ObservableList<Agente> buscarAgenteDoBanco() { 
         Connection con = ConnectionDatabase.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ObservableList<Agente> agentes = FXCollections.observableArrayList();
         try {
-            stmt = con.prepareStatement("SELECT idAgente, nome FROM AGENTES"); // Busca ID e nome
+            stmt = con.prepareStatement("SELECT idAgente, nome FROM AGENTES"); 
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 Agente agente = new Agente();
-                agente.setIdAgente(rs.getInt("idAgente")); // Busca o ID como inteiro
+                agente.setIdAgente(rs.getInt("idAgente")); 
                 agente.setNome(rs.getString("nome"));
                 agentes.add(agente);
             }

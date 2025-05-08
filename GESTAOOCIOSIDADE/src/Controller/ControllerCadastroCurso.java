@@ -40,7 +40,6 @@ public class ControllerCadastroCurso {
         try {
             CursoDAO dao = new CursoDAO();
 
-            // ✅ Verifica se o curso já existe no banco de dados
             if (dao.cursoExiste(nomeCurso)) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Curso já existe");
@@ -50,7 +49,6 @@ public class ControllerCadastroCurso {
                 return;
             }
 
-            // Se não existir, continua com o cadastro
             Curso curso = new Curso();
             curso.setNome(nomeCurso);
             dao.inserirCurso(curso);

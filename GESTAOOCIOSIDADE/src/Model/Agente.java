@@ -1,7 +1,7 @@
 package Model;
 
 public class Agente {
-    private int idAgente; // Alterado para int e renomeado para clareza
+    private int idAgente; 
     private String nome;
     private String cpf;
     private String senha;
@@ -10,15 +10,15 @@ public class Agente {
         super();
     }
 
-    public Agente(int idAgente, String nome, String cpf, String senha) { // Alterado o tipo do parâmetro id
+    public Agente(int idAgente, String nome, String cpf, String senha) { 
         super();
-        this.idAgente = idAgente; // Usando o nome mais claro
+        this.idAgente = idAgente;
         this.nome = nome;
         this.cpf = cpf;
         this.senha = senha;
     }
 
-    public int getIdAgente() { // Getter para o ID
+    public int getIdAgente() { 
         return idAgente;
     }
 
@@ -52,6 +52,6 @@ public class Agente {
 
     @Override
     public String toString() {
-        return nome; // Para exibir o nome no ComboBox
+        return nome; 
     }
 }

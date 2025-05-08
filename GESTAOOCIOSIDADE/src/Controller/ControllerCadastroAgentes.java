@@ -75,7 +75,6 @@ public class ControllerCadastroAgentes {
             return;
         }
 
-        // Verifica se o CPF já está cadastrado
         if (agenteDAO.cpfExiste(cpf)) {
             Alerts.showAlert("Erro", "CPF já cadastrado!", "Este CPF já está registrado no sistema.", AlertType.ERROR);
             return;

@@ -2,7 +2,7 @@ package Model;
 
 public class Instrutores {
 
-    private int idInstrutor; // Alterado para int e renomeado para clareza
+    private int idInstrutor;
     private String nome;
     private String cpf;
 
@@ -10,14 +10,14 @@ public class Instrutores {
         super();
     }
 
-    public Instrutores(int idInstrutor, String nome, String cpf) { // Alterado o tipo do parâmetro id
+    public Instrutores(int idInstrutor, String nome, String cpf) { 
         super();
-        this.idInstrutor = idInstrutor; // Usando o nome mais claro
+        this.idInstrutor = idInstrutor; 
         this.nome = nome;
         this.cpf = cpf;
     }
 
-    public int getIdInstrutor() { // Getter para o ID
+    public int getIdInstrutor() { 
         return idInstrutor;
     }
 
@@ -43,6 +43,6 @@ public class Instrutores {
 
     @Override
     public String toString() {
-        return nome; // Para exibir o nome no ComboBox
+        return nome; 
     }
 }

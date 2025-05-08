@@ -70,7 +70,6 @@ public class ControllerInstrutor implements Initializable {
         String textoBusca = txtBuscaInstrutor.getText();
 
         if (textoBusca == null || textoBusca.trim().isEmpty()) {
-            // Se campo de busca estiver vazio, mostra todos os instrutores
             carregarTabelaInstrutores();
             return;
         }
@@ -142,5 +141,5 @@ public class ControllerInstrutor implements Initializable {
     
     
     }
-//ssd
+
    
