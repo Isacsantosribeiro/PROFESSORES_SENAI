@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.geometry.Insets?>
+
+<GridPane hgap="10.0" vgap="10.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerDetalheTarefa">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <Label text="Instrutor:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+    <Label fx:id="lblInstrutor" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+    <Label text="Curso:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+    <Label fx:id="lblCurso" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+    <Label text="Agente:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <Label fx:id="lblAgente" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+    <Label text="Turno:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+    <Label fx:id="lblTurno" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+    <Label text="Data Inicial:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+    <Label fx:id="lblDataInicial" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+    <Label text="Data Final:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+    <Label fx:id="lblDataFinal" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+    <Label text="Disponibilidade:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+    <Label fx:id="lblDisponibilidade" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+</GridPane>

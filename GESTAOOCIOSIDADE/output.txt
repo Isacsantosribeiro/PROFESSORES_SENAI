@@ -1,0 +1,3 @@
+# List of generated media files. The columns are tab-separated:
+# id | media file type | display name | media file path
+29	windows	Windows Archive	C:\Users\sistemanoturno\git\PROFESSORES_SENAI\PROFESSORES_SENAI\GESTAOOCIOSIDADE\gestao_windows-x64_1__0_0.zip

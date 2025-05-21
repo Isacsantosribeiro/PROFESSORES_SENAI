@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerPrincipal">
+
+     <top>
+         <HBox spacing="20" style="-fx-padding: 10px; -fx-background-color: #ffffff;">
+             <Label prefHeight="27.0" prefWidth="141.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2463eb;" text="Seja bem vindo:" />
+             <Label fx:id="lblNomeAgenteLogado" style="-fx-font-size: 18px; -fx-text-fill: #2463eb;" text="" />
+             <Pane HBox.hgrow="ALWAYS" />
+             <Button fx:id="btnBuscarInstrutor" onAction="#onactionConsultarInstrutor" text="Instrutores" />
+             <Button fx:id="btConsultarCurso" onAction="#onactionConsultarCurso" text="Cursos" />
+             <Button fx:id="btcurso" onAction="#onactionCurso" text="Cadastrar Cursos" />
+             <Button fx:id="btInstrutor" onAction="#onactionInstrutor" text="Cadastrar Instrutor" />
+         </HBox>
+     </top>
+
+     <center>
+         <VBox prefWidth="1000" spacing="15" style="-fx-padding: 20px;">
+
+             <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="1000.0" spacing="10">
+                 <ImageView fitHeight="40" fitWidth="40" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                         <Image url="@img/avatar.png" />
+                     </image>
+                 </ImageView>
+             </HBox>
+
+             <HBox alignment="CENTER_LEFT" spacing="10">
+                 <Label style="-fx-font-size: 13px;" text="Pesquisar:" />
+                 <TextField fx:id="txtBuscaInstrutor" prefWidth="300" promptText="Nome do instrutor ou CPF" />
+                 <Button fx:id="btnBuscarTarefa" onAction="#ActionBuscarTarefa" style="-fx-background-color: #2463eb; -fx-text-fill: white;" text="Buscar" />
+             <Button fx:id="btnExcluirTarefa" onAction="#ActionExcluirTarefa" prefHeight="26.0" prefWidth="82.0" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="EXCLUIR" />
+             </HBox>
+
+             <TableView fx:id="tabelaInstrutores" prefHeight="300" prefWidth="1000.0">
+                 <columns>
+                     <TableColumn fx:id="colInstrutor" prefWidth="122.39999389648438" text="Instrutor" />
+                     <TableColumn fx:id="colCurso" prefWidth="115.199951171875" text="Curso" />
+                     <TableColumn fx:id="colAgente" prefWidth="152.79998779296875" text="Agente" />
+                     <TableColumn fx:id="colTurno" prefWidth="114.4000244140625" text="Turno" />
+                     <TableColumn fx:id="colData" prefWidth="146.39996337890625" text="Data Inicial" />
+                     <TableColumn fx:id="colDataFinal" minWidth="0.0" prefWidth="107.2000732421875" text="Data Final" />
+                     <TableColumn fx:id="colDisponibilidade" prefWidth="286.39996337890625" text="Disponibilidade" />
+                 </columns>
+             </TableView>
+
+             <VBox spacing="8" style="-fx-padding: 10; -fx-border-color: #ccc; -fx-border-radius: 5; -fx-background-color: #f9f9f9;">
+                 <Label style="-fx-font-size: 15px; -fx-font-weight: bold;" text="Adicionar nova tarefa" />
+
+                 <HBox spacing="10">
+                     <Label style="-fx-font-size: 12px;" text="Instrutor:" />
+                     <ComboBox fx:id="comboInstrutor" prefWidth="180" promptText="Selecione o instrutor" />
+                 </HBox>
+
+                 <HBox spacing="10">
+                     <Label style="-fx-font-size: 12px;" text="Agente:" />
+                     <ComboBox fx:id="comboAgente" prefWidth="180" promptText="Selecione o agente" />
+                 </HBox>
+
+                 <HBox spacing="10">
+                     <Label style="-fx-font-size: 12px;" text="Curso:" />
+                     <ComboBox fx:id="comboCurso" prefWidth="180" promptText="Selecione o curso" />
+                 </HBox>
+
+                 <HBox spacing="10">
+                     <Label style="-fx-font-size: 12px;" text="Turno:" />
+                     <ComboBox fx:id="comboTurno" prefWidth="180" promptText="Selecione o turno" />
+                 </HBox>
+
+                 <HBox spacing="10">
+                     <Label style="-fx-font-size: 12px;" text="Data Inicial:" />
+                     <DatePicker fx:id="dateInicial" prefWidth="150" />
+                     <Label style="-fx-font-size: 12px;" text="Data Final:" />
+                     <DatePicker fx:id="dateFinal" prefWidth="150" />
+                 </HBox>
+
+                 <Button fx:id="btnAdicionarTarefa" onAction="#ActionAdicionarTarefa" prefWidth="180" style="-fx-background-color: #2463eb; -fx-text-fill: white; -fx-font-size: 13px;" text="Adicionar Tarefa" />
+             </VBox>
+         </VBox>
+     </center>
+ </BorderPane>

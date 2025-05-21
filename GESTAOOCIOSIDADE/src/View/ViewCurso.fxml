@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="600" prefWidth="800" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.ControllerCurso">
+
+    <!-- TOPO -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 10px; -fx-background-color: #ffffff;">
+            <Label prefHeight="30.0" prefWidth="220.0" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2463eb;" text="GESTÃO DE CURSOS" />
+            <Pane HBox.hgrow="ALWAYS" />
+        </HBox>
+    </top>
+
+    <!-- CENTRO -->
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="18" style="-fx-padding: 20px 30px 20px 30px;">
+
+            <!-- AVATAR + TÍTULO -->
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <ImageView fitHeight="40" fitWidth="40" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@img/avatar.png" />
+                    </image>
+                </ImageView>
+                <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Cursos" />
+            </HBox>
+
+            <!-- BARRA DE PESQUISA -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label style="-fx-font-size: 13px;" text="Pesquisar:" />
+                <TextField fx:id="txtBuscaCurso" prefWidth="250" promptText="Nome do curso" />
+                <Button fx:id="btnBuscarCurso" onAction="#onactionBuscar" style="-fx-background-color: #2463eb; -fx-text-fill: white;" text="Buscar" />
+            </HBox>
+
+            <!-- BOTÕES DE AÇÃO -->
+            <HBox spacing="10">
+                <Button fx:id="btnExcluir" onAction="#onactionExcluir" prefWidth="100" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="EXCLUIR" />
+            <Button fx:id="btnSair" onAction="#onactionSair" prefWidth="100" style="-fx-background-color: #dc3545; -fx-text-fill: white;" text="SAIR" />
+            </HBox>
+
+            <!-- TABELA DE CURSOS -->
+            <TableView fx:id="tabelaCursos" prefHeight="300" prefWidth="740">
+                <columns>
+                    <TableColumn fx:id="colIdCurso" prefWidth="150.0" text="ID" />
+                    <TableColumn fx:id="colNomeCurso" prefWidth="590.0" text="NOME" />
+                </columns>
+            </TableView>
+
+        </VBox>
+    </center>
+
+</BorderPane>

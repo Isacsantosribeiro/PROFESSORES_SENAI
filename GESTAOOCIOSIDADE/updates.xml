@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<updateDescriptor baseUrl="">
+  <entry targetMediaFileId="29" updatableVersionMin="" updatableVersionMax="" fileName="gestao_windows-x64_1__0_0.zip" newVersion="1..0.0" newMediaFileId="29" fileSize="64486648" md5Sum="a0171ffde0f2b0aecf685012646c8e07" sha256Sum="0d4cd45521f5d117ef934d3d4124561c6595551fa5910e3c6f4e9e2d2585d3ae" bundledJre="windows-amd64-21.0.7.tar.gz" jreMinVersion="21" jreMaxVersion="21" archive="true" singleBundle="false">
+    <comment language="en" />
+  </entry>
+</updateDescriptor>
